@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+
 public class MapController : MonoBehaviour
 {
     public GameObject[] levelNodes;      // man1, man2, man3...
@@ -10,7 +11,7 @@ public class MapController : MonoBehaviour
 
     void Start()
     {
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
         int unlocked = PlayerPrefs.GetInt("LevelUnlocked", 1);
 
         for (int i = 0; i < levelNodes.Length; i++)

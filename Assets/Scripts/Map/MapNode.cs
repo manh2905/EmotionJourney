@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
 
 public class MapNode : MonoBehaviour
 {
     public int level; // màn này là màn số mấy?
+    
 
     void OnMouseDown()
     {
@@ -16,10 +20,14 @@ public class MapNode : MonoBehaviour
             // Mở màn tiếp theo
             PlayerPrefs.SetInt("LevelUnlocked", unlocked + 1);
 
+            Debug.Log("Loading scene: Battle" + level);
+
+            SceneManager.LoadScene("Battle" + level);
+
             // Reload map để update UI
-            UnityEngine.SceneManagement.SceneManager.LoadScene(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
-            );
+            //UnityEngine.SceneManagement.SceneManager.LoadScene(
+            //    UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
+            //);
         }
         else
         {

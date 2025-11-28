@@ -168,6 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapNode
   level: 5
+  battleSceneName: 6
 --- !u!61 &77770551
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -986,6 +987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapNode
   level: 3
+  battleSceneName: 4
 --- !u!61 &541460405
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1612,6 +1614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapNode
   level: 1
+  battleSceneName: 2
 --- !u!212 &750175642
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1945,6 +1948,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapNode
   level: 4
+  battleSceneName: 5
 --- !u!61 &932536283
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3710,6 +3714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapNode
   level: 6
+  battleSceneName: 7
 --- !u!61 &1806161443
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3863,6 +3868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapNode
   level: 2
+  battleSceneName: 3
 --- !u!61 &1806374900
 BoxCollider2D:
   m_ObjectHideFlags: 0

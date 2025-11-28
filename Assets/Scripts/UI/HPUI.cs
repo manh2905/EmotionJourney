@@ -1,6 +1,11 @@
 using UnityEngine;
 
-public class HPUI
+
+public class HPUI : MonoBehaviour
 {
-    
+
+    public int heath;
+
+
+ 
 }

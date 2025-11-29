@@ -11,6 +11,9 @@ public class MonsterData : ScriptableObject
     public int mana; // Có thể dùng trong skill sau này
     public int specialAttackDamage;
 
+    [Header("Animation Settings")]
+    public float deathAnimationTime = 0.6f;
+
     //[Header("Rewards")]
     //public List<CardData> rewardCards;
 }

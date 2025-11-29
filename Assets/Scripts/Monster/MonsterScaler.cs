@@ -8,7 +8,6 @@ public static class MonsterScaler
         data.damage += level * 2;
         data.specialAttackDamage += level * 2;
         data.mana += level / 2;
-
-       
+      
     }
 }

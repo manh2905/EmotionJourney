@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Boss2Data
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   monsterName: Boss2
-  maxHP: 600
+  maxHP: 20
   damage: 15
   mana: 6
   specialAttackDamage: 20
+  deathAnimationTime: 1

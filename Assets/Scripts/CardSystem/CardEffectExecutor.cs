@@ -4,21 +4,21 @@ using UnityEngine;
 // Class tĩnh, chỉ chứa hàm thực thi hiệu ứng
 public static class CardEffectExecutor
 {
-    // Cần truyền các hệ thống ảnh hưởng
-    // Note: Cần thêm PlayerStats để xử lý HP/Dodge. Ta dùng Debug.Log tạm thời.
-    public static void ExecuteEffects(List<CardData> cards, EmometerSystem emometer, StaminaSystem stamina)
+    // Bổ sung PlayerStats để xử lý HP/Dodge. 
+    // Tham số này phải khớp với tham số trong BattleManager.ResolveCards()
+    public static void ExecuteEffects(List<CardData> cards, EmometerSystem emometer, StaminaSystem stamina, PlayerStats playerStats)
     {
         int cardsProcessed = 0;
         
         // Cần lưu trạng thái Sợ Hãi để xử lý rủi ro 2 lá sau
         bool fearActive = false;
         
-        // Bắt đầu thực thi từng lá bài theo thứ tự
+        // Bắt đầu thực thi từng lá bài theo thứ tự (từ trái sang phải)
         foreach (CardData card in cards)
         {
             Debug.Log($"Thực thi lá bài: {card.cardName} (Vị trí: {cardsProcessed + 1})");
             
-            // --- XỬ LÝ RỦI RO SỢ HÃI ---
+            // --- XỬ LÝ RỦI RO SỢ HÃI (Trang 8 GDD) ---
             if (fearActive && cardsProcessed > 0)
             {
                 // Nếu lá trước là Sợ Hãi, có 50% lá hiện tại bị lỗi
@@ -31,16 +31,12 @@ public static class CardEffectExecutor
             }
             fearActive = false; // Reset sau khi kiểm tra
             
-            // --- KIỂM TRA BURNOUT VÀ ÁP DỤNG HIỆU ỨNG CƠ BẢN ---
-            
-            // 1. Dịch chuyển Emometer (luôn áp dụng)
+            // --- BƯỚC 1: Dịch chuyển Emometer (luôn áp dụng) ---
             emometer.ShiftEmotion(card.emotionValue);
 
-            // 2. Áp dụng các hiệu ứng không liên quan đến Damage
-            // Giả định Player có một class PlayerStats để quản lý HP, Dodge, v.v.
-            
             bool isPositiveCard = card.emotionType == EmotionType.Funny || card.emotionType == EmotionType.Happy;
             
+            // --- KIỂM TRA BURNOUT (Trang 8 GDD) ---
             if (emometer.isBurnedOut)
             {
                 if (emometer.isPositiveBurnout && isPositiveCard)
@@ -50,30 +46,33 @@ public static class CardEffectExecutor
                 }
                 else if (!emometer.isPositiveBurnout && !isPositiveCard)
                 {
-                    // Burn out Tiêu cực: nhận x2 debuff (chỉ áp dụng cho debuff nếu có, ở đây ta dùng Debug)
+                    // Burn out Tiêu cực: nhận x2 debuff (chỉ là Debug trong logic này)
                     Debug.Log($"Burnout Tiêu cực: Debuff của {card.cardName} bị nhân đôi.");
                 }
-                // Damage giảm 50% đã được xử lý trong CardDamageCalculator
             }
             
-            // --- THỰC THI HIỆU ỨNG CỤ THỂ ---
+            // --- BƯỚC 2: THỰC THI HIỆU ỨNG CỤ THỂ ---
             switch (card.emotionType)
             {
-                case EmotionType.Funny: // Vui vẻ
-                    // Heal 10% máu tối đa nhân vật
-                    Debug.Log("Hiệu ứng Vui vẻ: [PLACEHOLDER] Tự hồi 10% HP.");
+                case EmotionType.Funny: // Vui vẻ: Heal 10% máu
+                    if (!emometer.isBurnedOut || !emometer.isPositiveBurnout)
+                    {
+                        playerStats.Heal(playerStats.maxHp * 0.10f);
+                    }
                     break;
-                case EmotionType.Angry: // Giận dữ
-                    // Mất 5% máu khi thi triển
-                    Debug.Log("Hiệu ứng Giận dữ: [PLACEHOLDER] Tự mất 5% HP.");
+                case EmotionType.Angry: // Giận dữ: Mất 5% máu
+                    // Mất máu (rủi ro) luôn xảy ra
+                    playerStats.TakeDamage(playerStats.maxHp * 0.05f);
                     break;
-                case EmotionType.Scared: // Sợ hãi
-                    // +50% khả năng né đòn của nhân vật
-                    Debug.Log("Hiệu ứng Sợ hãi: [PLACEHOLDER] +50% Né đòn trong lượt này.");
+                case EmotionType.Scared: // Sợ hãi: +50% Né đòn
+                    if (!emometer.isBurnedOut || !emometer.isPositiveBurnout)
+                    {
+                        playerStats.dodgeChance = 50f; 
+                    }
                     fearActive = true; // Kích hoạt rủi ro cho lá tiếp theo
                     break;
                 case EmotionType.Happy: // Hạnh phúc
-                    // Không mất stamina (Đã được xử lý trong DraftManager, không cần làm lại ở đây)
+                    // 0 stamina (Đã xử lý ở Draft)
                     break;
                 case EmotionType.Bored: // Buồn bã
                     // Debuff -15% sát thương (Đã được xử lý trong Damage Calculator)

@@ -44,7 +44,7 @@ public class MonsterBehaviour : MonoBehaviour
     }
 
     // Hàm tấn công chính
-    public int Attack()
+    public float Attack()
     {
         turnCounter++;
 
@@ -59,7 +59,7 @@ public class MonsterBehaviour : MonoBehaviour
     }
 
     // Đánh thường
-    private int NormalAttack()
+    private float NormalAttack()
     {
         currentMana += 1; // +1 mana mỗi lần đánh
 
@@ -71,7 +71,7 @@ public class MonsterBehaviour : MonoBehaviour
     }
 
     // Đòn đánh đặc biệt
-    private int SpecialAttack()
+    private float SpecialAttack()
     {
         animator.SetTrigger("attackTrigger");
         animator.SetTrigger("specialTrigger");

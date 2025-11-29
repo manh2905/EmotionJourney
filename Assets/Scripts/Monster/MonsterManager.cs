@@ -39,7 +39,7 @@ public class MonsterManager : MonoBehaviour
         }
     }
 
-    public int MonsterAttack()
+    public float MonsterAttack()
     {
         return monsterInstance.Attack();
     }

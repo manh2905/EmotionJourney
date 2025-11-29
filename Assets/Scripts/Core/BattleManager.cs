@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+// Đây là lớp điều phối chính, quản lý vòng lặp chiến đấu (turn-based)
 public class BattleManager : MonoBehaviour
 {
     // Cần phải gán các tham chiếu này trong Inspector
@@ -10,37 +11,51 @@ public class BattleManager : MonoBehaviour
     public EmometerSystem emometerSystem; 
     public DraftManager draftManager;
 
+    [Header("Combatants")]
+    public PlayerStats playerStats; // HP, Dodge của người chơi
+    public MonsterBehaviour currentMonster; // HP, ATK của quái vật
+
     private bool isPlayerTurn = false;
 
     void Start()
     {
-        // Khởi tạo các hệ thống (Đảm bảo các component đã được gán)
-        // Ví dụ:
-        // deckSystem.InitializeDeck();
-        // emometerSystem.Initialize();
+        // Kiểm tra các tham chiếu đã được gán chưa (rất quan trọng)
+        if (deckSystem == null || staminaSystem == null || emometerSystem == null || draftManager == null || playerStats == null || currentMonster == null)
+        {
+            Debug.LogError("LỖI KHỞI TẠO: Một số hệ thống cốt lõi hoặc Combatants (Player/Monster) chưa được gán trong Inspector của BattleManager.");
+            enabled = false; 
+            return;
+        }
 
-        // StartBattle(); // Bắt đầu trận đấu
+        StartBattle(); // Bắt đầu trận đấu
     }
 
     public void StartBattle()
     {
-        // ... (Logic khởi tạo trận đấu) ...
+        // Khởi tạo các hệ thống quan trọng
+        deckSystem.InitializeDeck();
+        emometerSystem.Initialize(); 
+        
         StartPlayerTurn();
     }
 
     public void StartPlayerTurn()
     {
+        // Kiểm tra điều kiện thắng/thua trước khi bắt đầu lượt mới
+        if (playerStats.GetCurrentHP() <= 0) return; 
+        if (currentMonster.IsDead()) return; 
+
         isPlayerTurn = true;
-        staminaSystem.ResetStamina(); // Hồi lại Stamina
+        staminaSystem.ResetStamina(); 
         
         // REVEAL: Rút bài (luôn đảm bảo 7 lá)
-        // deckSystem.RevealAndRefillHand();
+        deckSystem.RevealAndRefillHand();
 
-        draftManager.StartDraftPhase(); // Bắt đầu giai đoạn chọn bài
+        draftManager.StartDraftPhase(); 
         Debug.Log("Lượt của bạn. Hãy chọn 3 lá bài.");
     }
 
-    // PHƯƠNG THỨC MỚI ĐƯỢC GỌI TỪ DRAFTMANAGER (Giải quyết lỗi CS1061)
+    // Phương thức được gọi từ DraftManager sau khi người chơi CONFIRM DRAFT
     public void ProcessPlayerActions(List<CardData> usedCards)
     {
         if (!isPlayerTurn) return;
@@ -48,6 +63,13 @@ public class BattleManager : MonoBehaviour
         // BƯỚC RESOLVE
         ResolveCards(usedCards);
         
+        // Kiểm tra thắng ngay lập tức (trước khi Monster Attack)
+        if (currentMonster.IsDead())
+        {
+            EndBattle(true);
+            return;
+        }
+
         // Kết thúc lượt người chơi và chuyển sang lượt Monster
         EndPlayerTurn();
     }
@@ -56,14 +78,17 @@ public class BattleManager : MonoBehaviour
     {
         Debug.Log("--- RESOLVE PHASE (Thực thi) ---");
         
-        // 1. Áp dụng hiệu ứng Emometer và các hiệu ứng khác
-        CardEffectExecutor.ExecuteEffects(cards, emometerSystem, staminaSystem);
+        // 1. Áp dụng hiệu ứng Emometer và các hiệu ứng khác (Heal, Mất máu)
+        // Cần truyền PlayerStats để CardEffectExecutor xử lý HP
+        CardEffectExecutor.ExecuteEffects(cards, emometerSystem, staminaSystem, playerStats);
         
-        // 2. Tính toán Damage tổng
+        // 2. Tính toán Damage tổng 
         float totalDamage = CardDamageCalculator.CalculateTotalDamage(cards, emometerSystem);
 
         // 3. Gây sát thương lên Monster
-        // currentMonster.TakeDamage(totalDamage); 
+        currentMonster.TakeDamage(Mathf.RoundToInt(totalDamage));
+ 
+        Debug.Log($"Sát thương cuối cùng lên Monster: {totalDamage}");
 
         // 4. Dọn dẹp: Đưa các lá bài đã dùng vào Discard Pile
         deckSystem.DiscardUsedCards(cards); 
@@ -74,10 +99,45 @@ public class BattleManager : MonoBehaviour
         isPlayerTurn = false;
         Debug.Log("Kết thúc lượt người chơi. Chuyển sang lượt Monster.");
         
-        // Gọi Monster Attack (Sẽ làm ở bước sau)
-        // MonsterAttack();
+        // Gọi Monster Attack (D)
+        Attack();
         
-        // Sau khi Monster Attack xong, gọi lại StartPlayerTurn() để lặp lại vòng chiến đấu.
-        // StartPlayerTurn(); 
+        // Bắt đầu lại vòng chiến đấu nếu chưa kết thúc
+        if (!currentMonster.IsDead()
+        && playerStats.GetCurrentHP() > 0)
+        {
+            Debug.Log("--------------------------------------");
+            StartPlayerTurn(); 
+        }
+    }
+
+   private void Attack()
+{
+    Debug.Log("--- LƯỢT CỦA MONSTER ---");
+
+    float damage = currentMonster.Attack();     // Monster trả damage
+    playerStats.TakeDamage(damage);           // Player nhận damage
+
+    Debug.Log($"Monster gây {damage} sát thương lên Player!");
+
+    if (playerStats.GetCurrentHP() <= 0)
+    {
+        EndBattle(false);
+    }
+}
+
+
+    private void EndBattle(bool playerWon)
+    {
+        if (playerWon)
+        {
+            Debug.Log("--- CHIẾN THẮNG! (Monster đã bị đánh bại) ---");
+            // Logic nhận thưởng, chuyển Scene Map
+        }
+        else
+        {
+            Debug.Log("--- BẠN ĐÃ THUA CUỘC (HP = 0) ---");
+            // Logic Game Over
+        }
     }
 }

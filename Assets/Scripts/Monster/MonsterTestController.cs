@@ -3,14 +3,15 @@
 public class MonsterTestController : MonoBehaviour
 {
     public MonsterBehaviour monster;
-
+    public PlayerStats playerStats;
     private void Update()
     {
         // Nhấn A = Monster tấn công
         if (Input.GetKeyDown(KeyCode.A))
         {
-            int dmg = monster.Attack();
-            Debug.Log($"Monster Attack Damage: {dmg}");
+            float dmg = monster.Attack();
+            playerStats.TakeDamage(dmg);
+            Debug.Log($"Monster Attack Damage: {dmg}| Current HP {playerStats.GetCurrentHP()}");
         }
 
         // Nhấn H = Làm Monster bị đánh 10 damage

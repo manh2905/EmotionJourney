@@ -1,19 +1,16 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "MonsterData", menuName = "MonsterData/Monster")]
+[CreateAssetMenu(fileName = "NewMonsterData", menuName = "Monster System/Monster Data")]
 public class MonsterData : ScriptableObject
 {
+    public string monsterName = "Evil Emotion";
+    
     [Header("Stats")]
-    public string monsterName;
-    public int maxHP;
-    public int damage;
-    public int mana; // Có thể dùng trong skill sau này
-    public int specialAttackDamage;
-
-    [Header("Animation Settings")]
-    public float deathAnimationTime = 0.6f;
-
-    //[Header("Rewards")]
-    //public List<CardData> rewardCards;
+    public int maxHP = 50;
+    public float damage = 5f;
+    public int mana = 3; // Mana cần để dùng Special Attack
+    public float specialAttackDamage = 10f;
+    
+    [Header("Animation")]
+    public float deathAnimationTime = 2f;
 }

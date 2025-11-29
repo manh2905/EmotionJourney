@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5308242744174071309}
   - component: {fileID: 8485116360423250907}
   - component: {fileID: 3459164165609169232}
+  - component: {fileID: 8438674297253942779}
   m_Layer: 0
   m_Name: Boss5
   m_TagString: Untagged
@@ -113,3 +114,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8438674297253942779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6367005509685725155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7be4c0e57896eb0479d6e41f61437798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterBehaviour
+  data: {fileID: 11400000, guid: d1e3ce5acf52cdd449cb7e15db17c3e6, type: 2}
+  currentHP: 0
+  currentMana: 0
+  turnCounter: 0

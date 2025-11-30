@@ -177,12 +177,11 @@ public class UITester : MonoBehaviour
     {
         if (staminaSystem != null)
         {
-            // Manually increase stamina (need to add this to StaminaSystem if it doesn't exist)
             int currentStamina = staminaSystem.GetCurrentStamina();
             if (currentStamina < staminaSystem.maxStamina)
             {
-                // Since there's no AddStamina method, we'll just reset
-                Debug.Log("ℹ️ Use [7] to reset stamina to max");
+                staminaSystem.AddStamina(staminaChangeAmount);
+                Debug.Log($"✅ Stamina increased. Current: {staminaSystem.GetCurrentStamina()}/{staminaSystem.maxStamina}");
             }
             else
             {

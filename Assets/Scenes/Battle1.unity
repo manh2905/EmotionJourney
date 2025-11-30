@@ -306,6 +306,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBehaviour
   data: {fileID: 11400000, guid: a9f402cc0f72a6e40852a0a5833c7fb7, type: 2}
   animator: {fileID: 0}
+  OnHPChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &589969700 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5272030737595098972, guid: 730c5e7d42dbecb469bfbbd5d3f4c22f, type: 3}
@@ -734,13 +737,23 @@ GameObject:
   m_Component:
   - component: {fileID: 871174548}
   - component: {fileID: 871174547}
+  - component: {fileID: 871174554}
+  - component: {fileID: 871174553}
+  - component: {fileID: 871174552}
+  - component: {fileID: 871174551}
+  - component: {fileID: 871174550}
+  - component: {fileID: 871174549}
+  - component: {fileID: 871174555}
+  - component: {fileID: 871174558}
+  - component: {fileID: 871174557}
+  - component: {fileID: 871174556}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &871174547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -753,13 +766,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faaf696543bf16e489e27040816e4af4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
-  deckSystem: {fileID: 0}
-  staminaSystem: {fileID: 0}
-  emometerSystem: {fileID: 0}
-  draftManager: {fileID: 0}
-  playerStats: {fileID: 0}
-  currentMonster: {fileID: 0}
-  battleUI: {fileID: 0}
+  deckSystem: {fileID: 871174554}
+  staminaSystem: {fileID: 871174553}
+  emometerSystem: {fileID: 871174552}
+  draftManager: {fileID: 871174551}
+  playerStats: {fileID: 535218886}
+  currentMonster: {fileID: 589969700}
+  battleUI: {fileID: 871174555}
 --- !u!4 &871174548
 Transform:
   m_ObjectHideFlags: 0
@@ -775,6 +788,190 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &871174549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871174546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7be4c0e57896eb0479d6e41f61437798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterBehaviour
+  data: {fileID: 11400000, guid: b44ee53b58701544bb026743c69b2d7d, type: 2}
+  animator: {fileID: 0}
+  currentHP: 0
+  currentMana: 0
+  turnCounter: 0
+--- !u!114 &871174550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871174546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a439920fb3f152a4ca0dc2a39e69711b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerBehaviour
+  data: {fileID: 11400000, guid: a9f402cc0f72a6e40852a0a5833c7fb7, type: 2}
+  animator: {fileID: 0}
+  OnHPChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &871174551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871174546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a1a6f56e44fac64fb6889a65f0d7709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DraftManager
+  deckSystem: {fileID: 0}
+  staminaSystem: {fileID: 0}
+  battleManager: {fileID: 0}
+  selectedCards: []
+--- !u!114 &871174552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871174546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82b7fdf4511ab8c4e8336755fa0c6c3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EmometerSystem
+  isBurnedOut: 0
+  isPositiveBurnout: 0
+--- !u!114 &871174553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871174546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6faaa2d235564d54ea579347d8111ffd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StaminaSystem
+  maxStamina: 5
+--- !u!114 &871174554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871174546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8fca3f98d6f708419565429f1652fff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeckSystem
+  masterDeckList: []
+  hand: []
+--- !u!114 &871174555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871174546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83281f5617f635640a00ce6636a5435a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleUI
+  playerStats: {fileID: 535218886}
+  staminaSystem: {fileID: 871174553}
+  emometerSystem: {fileID: 871174552}
+  currentMonster: {fileID: 589969700}
+  playerHPUI: {fileID: 871174558}
+  monsterHPUI: {fileID: 0}
+  staminaUI: {fileID: 871174557}
+  emotionUI: {fileID: 871174556}
+  battlePanel: {fileID: 0}
+  victoryPanel: {fileID: 0}
+  defeatPanel: {fileID: 0}
+  draftPanel: {fileID: 0}
+  monsterNameText: {fileID: 0}
+  monsterSprite: {fileID: 0}
+  turnStatusText: {fileID: 0}
+--- !u!114 &871174556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871174546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a474d603d84e094ea22f8e7bd27c491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EmotionUI
+  useScaleMode: 1
+  arrowTransform: {fileID: 0}
+  scaleBackground: {fileID: 0}
+  minAngle: -90
+  maxAngle: 90
+  rotationSpeed: 5
+  valueText: {fileID: 0}
+  statusText: {fileID: 0}
+  burnoutWarningUI: {fileID: 0}
+  negativeColor: {r: 0.8, g: 0.2, b: 0.2, a: 1}
+  neutralColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  positiveColor: {r: 0.2, g: 0.8, b: 0.3, a: 1}
+  burnoutColor: {r: 1, g: 0.5, b: 0, a: 1}
+--- !u!114 &871174557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871174546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a73d5f3c6d87046a25e2c08a4cab00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StaminaUI
+  useIconMode: 0
+  staminaIconPrefab: {fileID: 0}
+  iconContainer: {fileID: 0}
+  fullStaminaSprite: {fileID: 0}
+  emptyStaminaSprite: {fileID: 0}
+  staminaSlider: {fileID: 0}
+  fillImage: {fileID: 0}
+  fullColor: {r: 0.3, g: 0.8, b: 1, a: 1}
+  emptyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  staminaText: {fileID: 0}
+--- !u!114 &871174558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871174546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55f4440a970897c42a82f7f274ce4837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HPUI
+  hpSlider: {fileID: 0}
+  fillImage: {fileID: 0}
+  hpText: {fileID: 0}
+  normalColor: {r: 0, g: 1, b: 0, a: 1}
+  warningColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  criticalColor: {r: 1, g: 0, b: 0, a: 1}
+  smoothSpeed: 5
 --- !u!114 &946798280 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6251765281990968982, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
@@ -967,6 +1164,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!224 &1240381499 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4103532152133969633, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
+  m_PrefabInstance: {fileID: 1442290368706617417}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1449592592
 GameObject:
   m_ObjectHideFlags: 0
@@ -1272,6 +1474,57 @@ MonoBehaviour:
   warningColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   criticalColor: {r: 1, g: 0, b: 0, a: 1}
   smoothSpeed: 5
+--- !u!114 &1710059328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710059325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_FillRect: {fileID: 1240381499}
+  m_HandleRect: {fileID: 0}
+  m_Direction: 0
+  m_MinValue: 0
+  m_MaxValue: 100
+  m_WholeNumbers: 0
+  m_Value: 100
+  m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1831230213 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2051382187878861922, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
@@ -1762,11 +2015,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4103532152133969633, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4103532152133969633, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4793168635370284403, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       propertyPath: m_Value
@@ -1792,12 +2045,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2051382187878861922, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1442290368706617422}
+    - targetCorrespondingSourceObject: {fileID: 2051382187878861922, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1442290368706617427}
     - targetCorrespondingSourceObject: {fileID: 1979818250057313306, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1605002666}
     - targetCorrespondingSourceObject: {fileID: 2383126147489768362, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1710059327}
+    - targetCorrespondingSourceObject: {fileID: 2383126147489768362, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1710059328}
     - targetCorrespondingSourceObject: {fileID: 4841985880544939260, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 31828317}
@@ -1809,15 +2068,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831230213}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83281f5617f635640a00ce6636a5435a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleUI
-  playerStats: {fileID: 0}
-  staminaSystem: {fileID: 0}
+  playerStats: {fileID: 535218886}
+  staminaSystem: {fileID: 1442290368706617427}
   emometerSystem: {fileID: 0}
-  currentMonster: {fileID: 0}
+  currentMonster: {fileID: 589969700}
   playerHPUI: {fileID: 1710059327}
   monsterHPUI: {fileID: 0}
   staminaUI: {fileID: 31828317}
@@ -1829,6 +2088,19 @@ MonoBehaviour:
   monsterNameText: {fileID: 0}
   monsterSprite: {fileID: 0}
   turnStatusText: {fileID: 0}
+--- !u!114 &1442290368706617427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831230213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6faaa2d235564d54ea579347d8111ffd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StaminaSystem
+  maxStamina: 5
 --- !u!1001 &8110728315164157670
 PrefabInstance:
   m_ObjectHideFlags: 0

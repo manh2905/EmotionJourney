@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -11,6 +12,14 @@ public class PlayerBehaviour : MonoBehaviour
 
     private float dodgeChance;        // giá trị runtime
     private bool isDead = false;
+
+    // ============================
+    // EVENTS - Để notify UI khi HP thay đổi
+    // ============================
+    [System.Serializable]
+    public class HPChangedEvent : UnityEvent<float, float> { } // (currentHP, maxHP)
+    
+    public HPChangedEvent OnHPChanged = new HPChangedEvent();
 
     private void Start()
     {
@@ -44,11 +53,15 @@ public class PlayerBehaviour : MonoBehaviour
         currentHp -= damage;
         Debug.Log($"Player nhận {damage} sát thương. HP còn lại: {currentHp}");
 
+        // Trigger event để update UI
+        OnHPChanged?.Invoke(currentHp, data.maxHP);
+
         StartCoroutine(delayAni("hitTrigger", data.deathAnimationTime));
 
         if (currentHp <= 0)
         {
             currentHp = 0;
+            OnHPChanged?.Invoke(currentHp, data.maxHP);
             Die();
         }
     }
@@ -127,8 +140,10 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         float totalDamage = data.baseDamage + bonusDamage;
+        data.maxStamina -= 1;
 
         Debug.Log($"Player Attack {randomAttack} gây {totalDamage} sát thương");
+        Debug.Log(data.maxStamina);
 
         // BattleManager sẽ xử lý Monster.TakeDamage(totalDamage)
     }
@@ -161,6 +176,9 @@ public class PlayerBehaviour : MonoBehaviour
         currentHp = Mathf.Clamp(currentHp, 0, data.maxHP);
 
         Debug.Log($"Player hồi {amount} HP. HP hiện tại: {currentHp}");
+        
+        // Trigger event để update UI
+        OnHPChanged?.Invoke(currentHp, data.maxHP);
     }
 
     private IEnumerator delayAni(string trigger, float delayTime)

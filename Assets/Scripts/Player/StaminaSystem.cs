@@ -37,4 +37,12 @@ public class StaminaSystem : MonoBehaviour
         Debug.Log("Stamina đã hồi đầy.");
         // Logic cập nhật UI Stamina sẽ được thêm vào sau
     }
+
+    // Thêm Stamina (for testing purposes)
+    public void AddStamina(int amount)
+    {
+        currentStamina = Mathf.Min(currentStamina + amount, maxStamina);
+        Debug.Log($"Đã thêm {amount} Stamina. Hiện tại: {currentStamina}/{maxStamina}");
+        // Logic cập nhật UI Stamina sẽ được thêm vào sau
+    }
 }

@@ -22,6 +22,7 @@ public class HPUI : MonoBehaviour
 
     void Start()
     {
+        hpSlider = GetComponent<Slider>();
         // Khởi tạo giá trị ban đầu
         if (hpSlider != null)
         {

@@ -306,81 +306,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBehaviour
   data: {fileID: 11400000, guid: a9f402cc0f72a6e40852a0a5833c7fb7, type: 2}
   animator: {fileID: 0}
---- !u!1 &570432911
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 570432912}
-  - component: {fileID: 570432914}
-  - component: {fileID: 570432913}
-  m_Layer: 5
-  m_Name: EmotionBar
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &570432912
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 570432911}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 55469501}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2, y: 0}
-  m_SizeDelta: {x: 144, y: 610}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &570432913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 570432911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 2021430454768574722, guid: b5c102d7a8931c348b5632fe73ba2b90, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &570432914
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 570432911}
-  m_CullTransparentMesh: 1
 --- !u!114 &589969700 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5272030737595098972, guid: 730c5e7d42dbecb469bfbbd5d3f4c22f, type: 3}
@@ -815,7 +740,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &871174547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1149,11 +1074,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a474d603d84e094ea22f8e7bd27c491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EmotionUI
-  emotionSlider: {fileID: 0}
-  fillImage: {fileID: 0}
+  useScaleMode: 1
+  arrowTransform: {fileID: 0}
+  scaleBackground: {fileID: 0}
+  minAngle: -90
+  maxAngle: 90
+  rotationSpeed: 5
   valueText: {fileID: 0}
   statusText: {fileID: 0}
-  safeZoneIndicator: {fileID: 0}
   burnoutWarningUI: {fileID: 0}
   negativeColor: {r: 0.8, g: 0.2, b: 0.2, a: 1}
   neutralColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
@@ -1816,6 +1744,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Battle_Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2051382187878861922, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2162663158806799934, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1877,7 +1809,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831230213}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83281f5617f635640a00ce6636a5435a, type: 3}
   m_Name: 

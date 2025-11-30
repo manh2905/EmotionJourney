@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+
 // Đây là lớp điều phối chính, quản lý vòng lặp chiến đấu (turn-based)
 public class BattleManager : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class BattleManager : MonoBehaviour
     [Header("Combatants")]
     public PlayerStats playerStats; // HP, Dodge của người chơi
     public MonsterBehaviour currentMonster; // HP, ATK của quái vật
+
+    [Header("UI")]
+    public BattleUI battleUI; // UI Controller
 
     private bool isPlayerTurn = false;
 
@@ -36,6 +40,12 @@ public class BattleManager : MonoBehaviour
         deckSystem.InitializeDeck();
         emometerSystem.Initialize(); 
         
+        // Khởi tạo UI
+        if (battleUI != null)
+        {
+            battleUI.Initialize();
+        }
+        
         StartPlayerTurn();
     }
 
@@ -51,7 +61,15 @@ public class BattleManager : MonoBehaviour
         // REVEAL: Rút bài (luôn đảm bảo 7 lá)
         deckSystem.RevealAndRefillHand();
 
-        draftManager.StartDraftPhase(); 
+        draftManager.StartDraftPhase();
+        
+        // Update UI
+        if (battleUI != null)
+        {
+            battleUI.ShowTurnStatus("Lượt của bạn - Chọn 3 lá bài");
+            battleUI.ShowDraftPanel(true);
+        }
+        
         Debug.Log("Lượt của bạn. Hãy chọn 3 lá bài.");
     }
 
@@ -114,9 +132,21 @@ public class BattleManager : MonoBehaviour
    private void Attack()
 {
     Debug.Log("--- LƯỢT CỦA MONSTER ---");
+    
+    // Update UI
+    if (battleUI != null)
+    {
+        battleUI.ShowTurnStatus("Lượt của Monster...");
+    }
 
     float damage = currentMonster.Attack();     // Monster trả damage
     playerStats.TakeDamage(damage);           // Player nhận damage
+    
+    // Show damage effect
+    if (battleUI != null)
+    {
+        battleUI.ShowPlayerDamageEffect();
+    }
 
     Debug.Log($"Monster gây {damage} sát thương lên Player!");
 
@@ -132,11 +162,25 @@ public class BattleManager : MonoBehaviour
         if (playerWon)
         {
             Debug.Log("--- CHIẾN THẮNG! (Monster đã bị đánh bại) ---");
+            
+            // Show Victory UI
+            if (battleUI != null)
+            {
+                battleUI.ShowVictory();
+            }
+            
             // Logic nhận thưởng, chuyển Scene Map
         }
         else
         {
             Debug.Log("--- BẠN ĐÃ THUA CUỘC (HP = 0) ---");
+            
+            // Show Defeat UI
+            if (battleUI != null)
+            {
+                battleUI.ShowDefeat();
+            }
+            
             // Logic Game Over
         }
     }

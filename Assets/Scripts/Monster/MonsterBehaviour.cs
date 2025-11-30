@@ -43,6 +43,35 @@ public class MonsterBehaviour : MonoBehaviour
         return currentHP <= 0;
     }
 
+    // ============ PUBLIC GETTERS FOR UI SYSTEM ============
+    
+    /// <summary>
+    /// Lấy HP hiện tại của Monster (cho UI)
+    /// </summary>
+    public float GetCurrentHP()
+    {
+        return currentHP;
+    }
+
+    /// <summary>
+    /// Lấy Max HP của Monster (cho UI)
+    /// </summary>
+    public float GetMaxHP()
+    {
+        return data != null ? data.maxHP : 0;
+    }
+
+    /// <summary>
+    /// Lấy tên Monster (cho UI)
+    /// </summary>
+    public string monsterName
+    {
+        get { return data != null ? data.monsterName : "Unknown Monster"; }
+    }
+
+    // ========================================================
+
+
     // Hàm tấn công chính
     public float Attack()
     {

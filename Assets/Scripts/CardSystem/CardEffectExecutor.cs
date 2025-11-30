@@ -6,7 +6,7 @@ public static class CardEffectExecutor
 {
     // Bổ sung PlayerStats để xử lý HP/Dodge. 
     // Tham số này phải khớp với tham số trong BattleManager.ResolveCards()
-    public static void ExecuteEffects(List<CardData> cards, EmometerSystem emometer, StaminaSystem stamina, PlayerStats playerStats)
+    public static void ExecuteEffects(List<CardData> cards, EmometerSystem emometer, StaminaSystem stamina, PlayerBehaviour playerStats)
     {
         int cardsProcessed = 0;
         
@@ -57,17 +57,17 @@ public static class CardEffectExecutor
                 case EmotionType.Funny: // Vui vẻ: Heal 10% máu
                     if (!emometer.isBurnedOut || !emometer.isPositiveBurnout)
                     {
-                        playerStats.Heal(playerStats.maxHp * 0.10f);
+                        playerStats.Heal(playerStats.data.maxHP * 0.10f);
                     }
                     break;
                 case EmotionType.Angry: // Giận dữ: Mất 5% máu
                     // Mất máu (rủi ro) luôn xảy ra
-                    playerStats.TakeDamage(playerStats.maxHp * 0.05f);
+                    playerStats.TakeDamage(playerStats.data.maxHP * 0.05f);
                     break;
                 case EmotionType.Scared: // Sợ hãi: +50% Né đòn
                     if (!emometer.isBurnedOut || !emometer.isPositiveBurnout)
                     {
-                        playerStats.dodgeChance = 50f; 
+                        playerStats.data.defaultDodgeChance = 50f; 
                     }
                     fearActive = true; // Kích hoạt rủi ro cho lá tiếp theo
                     break;

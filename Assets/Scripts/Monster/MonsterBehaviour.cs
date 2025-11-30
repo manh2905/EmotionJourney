@@ -6,7 +6,7 @@ public class MonsterBehaviour : MonoBehaviour
 {
     public MonsterData data;
     public Animator animator;
-    public int currentHP;
+    public float currentHP;
     public int currentMana;
     public int turnCounter;
 
@@ -18,7 +18,7 @@ public class MonsterBehaviour : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         currentHP -= amount;
         if (currentHP < 0) currentHP = 0;

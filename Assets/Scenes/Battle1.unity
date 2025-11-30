@@ -534,7 +534,6 @@ GameObject:
   m_Component:
   - component: {fileID: 494672883}
   - component: {fileID: 494672882}
-  - component: {fileID: 494672884}
   m_Layer: 0
   m_Name: MonsterTest
   m_TagString: Untagged
@@ -555,7 +554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterTestController
   monster: {fileID: 589969700}
-  playerStats: {fileID: 494672884}
+  player: {fileID: 535218886}
 --- !u!4 &494672883
 Transform:
   m_ObjectHideFlags: 0
@@ -571,20 +570,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &494672884
+--- !u!1 &535218882 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7740405736576064537, guid: 07b19141cc39be841996949eb4b29b83, type: 3}
+  m_PrefabInstance: {fileID: 1059870777}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &535218886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 494672881}
+  m_GameObject: {fileID: 535218882}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a439920fb3f152a4ca0dc2a39e69711b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  maxHp: 100
-  dodgeChance: 0
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerBehaviour
+  data: {fileID: 11400000, guid: a9f402cc0f72a6e40852a0a5833c7fb7, type: 2}
+  animator: {fileID: 0}
 --- !u!1 &570432911
 GameObject:
   m_ObjectHideFlags: 0
@@ -1371,7 +1375,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7740405736576064537, guid: 07b19141cc39be841996949eb4b29b83, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 535218886}
   m_SourcePrefab: {fileID: 100100000, guid: 07b19141cc39be841996949eb4b29b83, type: 3}
 --- !u!1 &1156062116
 GameObject:

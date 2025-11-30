@@ -13,7 +13,7 @@ public class BattleManager : MonoBehaviour
     public DraftManager draftManager;
 
     [Header("Combatants")]
-    public PlayerStats playerStats; // HP, Dodge của người chơi
+    public PlayerBehaviour playerStats; // HP, Dodge của người chơi
     public MonsterBehaviour currentMonster; // HP, ATK của quái vật
 
     [Header("UI")]

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ea27a458fec372d4d9277ca6963d6778
+guid: fcfb78a9358f52240bbb21fc6bc761c5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4953550157719380928
-    second: CardPlot_0
+      213: -4182037829479670109
+    second: Card_Border (2)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CardPlot_0
+      name: Card_Border (2)_0
       rect:
         serializedVersion: 2
-        x: 408
-        y: 13
-        width: 464
-        height: 635
+        x: 73
+        y: 125
+        width: 712
+        height: 1045
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0c3a1f79f9b8eb440800000000000000
-      internalID: 4953550157719380928
+      spriteID: 3ae5e9060ca66f5c0800000000000000
+      internalID: -4182037829479670109
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      CardPlot_0: 4953550157719380928
+      Card_Border (2)_0: -4182037829479670109
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

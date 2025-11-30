@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5ebbe6eaf32da0847b477dc8ed045a7d
+guid: 246160fb6a1e82a41a5abb6e8369f852
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 336080012529805899
-    second: Mui_Ten_0
+      213: -8077937469415537309
+    second: confirm_btn_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Mui_Ten_0
+      name: confirm_btn_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 2
-        width: 17
-        height: 15
+        x: 72
+        y: 77
+        width: 1136
+        height: 540
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b4aa2f2adfef9a400800000000000000
-      internalID: 336080012529805899
+      spriteID: 3654ba99ba665ef80800000000000000
+      internalID: -8077937469415537309
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Mui_Ten_0: 336080012529805899
+      confirm_btn_0: -8077937469415537309
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

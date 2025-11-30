@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5ebbe6eaf32da0847b477dc8ed045a7d
+guid: 17492ca26cf29264f8bf4b0b7775fce6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 336080012529805899
-    second: Mui_Ten_0
+      213: -2006832326255548219
+    second: Card_Border_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Mui_Ten_0
+      name: Card_Border_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 2
-        width: 17
-        height: 15
+        x: 24
+        y: 19
+        width: 1232
+        height: 656
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b4aa2f2adfef9a400800000000000000
-      internalID: 336080012529805899
+      spriteID: 5c864c5c1ac4624e0800000000000000
+      internalID: -2006832326255548219
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Mui_Ten_0: 336080012529805899
+      Card_Border_0: -2006832326255548219
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

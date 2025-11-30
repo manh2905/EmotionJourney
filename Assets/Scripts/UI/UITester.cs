@@ -9,7 +9,7 @@ public class UITester : MonoBehaviour
 {
     [Header("References - Assign in Inspector")]
     public BattleUI battleUI;
-    public PlayerStats playerStats;
+    public PlayerBehaviour playerStats;
     public StaminaSystem staminaSystem;
     public EmometerSystem emometerSystem;
     public MonsterBehaviour currentMonster;
@@ -122,7 +122,7 @@ public class UITester : MonoBehaviour
         if (playerStats != null)
         {
             playerStats.TakeDamage(damageAmount);
-            Debug.Log($"✅ Player took {damageAmount} damage. HP: {playerStats.GetCurrentHP()}/{playerStats.maxHp}");
+            Debug.Log($"✅ Player took {damageAmount} damage. HP: {playerStats.GetCurrentHP()}/{playerStats.data.maxHP}");
             
             if (battleUI != null)
             {
@@ -140,7 +140,7 @@ public class UITester : MonoBehaviour
         if (playerStats != null)
         {
             playerStats.Heal(damageAmount);
-            Debug.Log($"✅ Player healed {damageAmount} HP. HP: {playerStats.GetCurrentHP()}/{playerStats.maxHp}");
+            Debug.Log($"✅ Player healed {damageAmount} HP. HP: {playerStats.GetCurrentHP()}/{playerStats.data.maxHP}");
         }
         else
         {

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 public class BattleUI : MonoBehaviour
 {
     [Header("Game Systems References")]
-    public PlayerStats playerStats;
+    public PlayerBehaviour playerStats;
     public StaminaSystem staminaSystem;
     public EmometerSystem emometerSystem;
     public MonsterBehaviour currentMonster;
@@ -79,8 +79,8 @@ public class BattleUI : MonoBehaviour
     {
         if (playerHPUI != null && playerStats != null)
         {
-            playerHPUI.SetMaxHP(playerStats.maxHp);
-            playerHPUI.UpdateHP(playerStats.GetCurrentHP(), playerStats.maxHp);
+            playerHPUI.SetMaxHP(playerStats.data.maxHP);
+            playerHPUI.UpdateHP(playerStats.GetCurrentHP(), playerStats.data.maxHP);
         }
     }
 
@@ -144,7 +144,7 @@ public class BattleUI : MonoBehaviour
         // Update Player HP
         if (playerHPUI != null && playerStats != null)
         {
-            playerHPUI.UpdateHP(playerStats.GetCurrentHP(), playerStats.maxHp);
+            playerHPUI.UpdateHP(playerStats.GetCurrentHP(), playerStats.data.maxHP);
         }
 
         // Update Stamina

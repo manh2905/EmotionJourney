@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &44475010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +175,10 @@ MonoBehaviour:
   staminaSystem: {fileID: 44475013}
   emometerSystem: {fileID: 44475016}
   draftManager: {fileID: 44475012}
+  level: 0
+  playerStats: {fileID: 0}
+  currentMonster: {fileID: 0}
+  battleUI: {fileID: 0}
 --- !u!114 &44475012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +208,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaminaSystem
   maxStamina: 5
+  OnStaminaChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &44475014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,6 +305,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EmometerSystem
   isBurnedOut: 0
   isPositiveBurnout: 0
+  OnEmotionChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &44475017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,8 +320,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a439920fb3f152a4ca0dc2a39e69711b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  maxHp: 100
-  dodgeChance: 0
+  data: {fileID: 0}
+  animator: {fileID: 0}
+  OnHPChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &77770548
 GameObject:
   m_ObjectHideFlags: 0

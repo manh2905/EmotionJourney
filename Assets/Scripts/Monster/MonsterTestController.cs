@@ -1,62 +1,82 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MonsterTestController : MonoBehaviour
 {
-    public MonsterBehaviour monster;      // Kéo Monster từ Scene vào đây
-    public PlayerBehaviour player;        // Kéo Player từ Scene vào đây
+    public MonsterBehaviour monster;
+    public PlayerBehaviour player;
 
     private void Update()
     {
-        // ============================
-        // 1. MONSTER ATTACK PLAYER (A)
-        // ============================
+        // MONSTER ATTACK PLAYER (A)
         if (Input.GetKeyDown(KeyCode.A))
         {
             float dmg = monster.Attack();
-
-            Debug.Log("<color=red>[MONSTER ATTACK]</color>");
             Debug.Log($"Monster gây {dmg} damage");
 
             player.TakeDamage(dmg);
-
             Debug.Log($"Player HP: {player.GetCurrentHP()}");
+
+            CheckEndBattle();
         }
 
-        // ============================
-        // 2. PLAYER ATTACK MONSTER (J)
-        // ============================
+        // PLAYER ATTACK MONSTER (J)
         if (Input.GetKeyDown(KeyCode.J))
         {
-            Debug.Log("<color=green>[PLAYER ATTACK]</color>");
-
-            // Player chọn 1 animation attack ngẫu nhiên
             player.Attack();
 
-            // Damage cơ bản (có thể mở rộng với card bonus)
             float dmg = player.data.baseDamage;
-
-            monster.TakeDamage((float)dmg);
+            monster.TakeDamage(dmg);
 
             Debug.Log($"Player gây {dmg} damage");
             Debug.Log($"Monster HP: {monster.currentHP}");
+
+            CheckEndBattle();
         }
 
-        // ============================
-        // 3. PLAYER BUFF NÉ ĐÒN (K)
-        // ============================
+        // BUFF DODGE (K)
         if (Input.GetKeyDown(KeyCode.K))
         {
-            player.SetDodgeChance(100f); // buff né 50%
-            Debug.Log("<color=yellow>Player được buff 50% né đòn!</color>");
+            player.SetDodgeChance(100f);
+            Debug.Log("Player buff né 100%");
+        }
+    }
+
+    // ============================
+    // KIỂM TRA KẾT THÚC TRẬN ĐẤU
+    // ============================
+    private void CheckEndBattle()
+    {
+        // PLAYER DIE
+        if (player.GetCurrentHP() <= 0)
+        {
+            Debug.Log("<color=red>PLAYER DIE → THUA CUỘC</color>");
+            EndBattle(false);
         }
 
-        // ============================
-        // 4. MONSTER BỊ ĐÁNH TEST (H)
-        // ============================
-        //if (Input.GetKeyDown(KeyCode.H))
-        //{
-        //    monster.TakeDamage(10);
-        //    Debug.Log($"Monster bị đánh 10 damage | HP: {monster.currentHP}");
-        //}
+        // MONSTER DIE
+        if (monster.IsDead())
+        {
+            Debug.Log("<color=green>MONSTER DIE → CHIẾN THẮNG</color>");
+            EndBattle(true);
+        }
+    }
+
+    // ============================
+    // END BATTLE (WIN / LOSE)
+    // ============================
+    private void EndBattle(bool playerWon)
+    {
+        if (playerWon)
+        {
+            // MỞ KHÓA MÀN TIẾP THEO
+            MapController.UnlockNextLevel(BattleLoader.currentLevel);
+
+            Debug.Log("<color=yellow>ĐÃ MỞ KHÓA MÀN TIẾP THEO!</color>");
+        }
+
+        // Load lại Map Scene
+        Debug.Log("<color=cyan>Quay lại Map...</color>");
+        SceneManager.LoadScene("Map");
     }
 }

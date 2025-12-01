@@ -9,7 +9,7 @@ public class PlayerData : ScriptableObject
     public float baseDamage = 10;
 
     [Header("Stamina Settings")]
-    public int maxStamina = 3;
+    public int maxStamina = 5;
 
     [Header("Dodge Settings")]
     public float defaultDodgeChance = 0f;

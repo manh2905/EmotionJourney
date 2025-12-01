@@ -103,12 +103,16 @@ public class StaminaUI : MonoBehaviour
     /// </summary>
     private void UpdateStaminaDisplay()
     {
+        Debug.Log($"📊 UpdateStaminaDisplay called - Mode: {(useIconMode ? "ICON" : "SLIDER")}, Current: {currentStamina}/{maxStamina}");
+        
         if (useIconMode)
         {
+            Debug.Log($"   Icon Mode - Icons count: {staminaIcons.Count}");
             UpdateIconDisplay();
         }
         else
         {
+            Debug.Log($"   Slider Mode - Slider: {(staminaSlider != null ? "OK" : "NULL")}");
             UpdateSliderDisplay();
         }
 

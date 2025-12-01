@@ -146,11 +146,27 @@ MonoBehaviour:
   iconContainer: {fileID: 0}
   fullStaminaSprite: {fileID: 0}
   emptyStaminaSprite: {fileID: 0}
-  staminaSlider: {fileID: 0}
+  staminaSlider: {fileID: 31828318}
   fillImage: {fileID: 946798280}
   fullColor: {r: 0.36078432, g: 0.12941177, b: 0.7058824, a: 1}
   emptyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   staminaText: {fileID: 2064366739}
+--- !u!114 &31828318 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8077277390914196334, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
+  m_PrefabInstance: {fileID: 1442290368706617417}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31828313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
+--- !u!224 &240488302 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4352265826880367404, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
+  m_PrefabInstance: {fileID: 1442290368706617417}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &244359735
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,6 +653,17 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &763154867 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5697871063651029237, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
+  m_PrefabInstance: {fileID: 1442290368706617417}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &837895235
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,6 +774,7 @@ GameObject:
   - component: {fileID: 871174558}
   - component: {fileID: 871174557}
   - component: {fileID: 871174556}
+  - component: {fileID: 871174559}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -852,6 +880,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EmometerSystem
   isBurnedOut: 0
   isPositiveBurnout: 0
+  OnEmotionChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &871174553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -865,6 +896,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaminaSystem
   maxStamina: 5
+  OnStaminaChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &871174554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -891,14 +925,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83281f5617f635640a00ce6636a5435a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleUI
-  playerStats: {fileID: 535218886}
+  playerStats: {fileID: 871174550}
   staminaSystem: {fileID: 871174553}
   emometerSystem: {fileID: 871174552}
   currentMonster: {fileID: 589969700}
-  playerHPUI: {fileID: 871174558}
+  playerHPUI: {fileID: 1710059327}
   monsterHPUI: {fileID: 0}
-  staminaUI: {fileID: 871174557}
-  emotionUI: {fileID: 871174556}
+  staminaUI: {fileID: 31828317}
+  emotionUI: {fileID: 1605002666}
   battlePanel: {fileID: 0}
   victoryPanel: {fileID: 0}
   defeatPanel: {fileID: 0}
@@ -921,9 +955,9 @@ MonoBehaviour:
   useScaleMode: 1
   arrowTransform: {fileID: 0}
   scaleBackground: {fileID: 0}
-  minAngle: -90
-  maxAngle: 90
-  rotationSpeed: 5
+  minYPosition: -100
+  maxYPosition: 100
+  moveSpeed: 5
   valueText: {fileID: 0}
   statusText: {fileID: 0}
   burnoutWarningUI: {fileID: 0}
@@ -972,6 +1006,27 @@ MonoBehaviour:
   warningColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   criticalColor: {r: 1, g: 0, b: 0, a: 1}
   smoothSpeed: 5
+--- !u!114 &871174559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871174546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4fde033fa586394b8ebccdf5c4d5059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UITester
+  battleUI: {fileID: 871174555}
+  playerStats: {fileID: 535218886}
+  staminaSystem: {fileID: 871174553}
+  emometerSystem: {fileID: 871174552}
+  currentMonster: {fileID: 589969700}
+  damageAmount: 10
+  staminaChangeAmount: 1
+  emotionChangeAmount: 1
+  instructionText: {fileID: 0}
 --- !u!114 &946798280 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6251765281990968982, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
@@ -1277,18 +1332,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EmotionUI
   useScaleMode: 1
-  arrowTransform: {fileID: 0}
-  scaleBackground: {fileID: 0}
-  minAngle: -90
-  maxAngle: 90
-  rotationSpeed: 5
+  arrowTransform: {fileID: 240488302}
+  scaleBackground: {fileID: 763154867}
+  minYPosition: -100
+  maxYPosition: 100
+  moveSpeed: 5
   valueText: {fileID: 0}
   statusText: {fileID: 0}
   burnoutWarningUI: {fileID: 0}
-  negativeColor: {r: 0.8, g: 0.2, b: 0.2, a: 1}
-  neutralColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  positiveColor: {r: 0.2, g: 0.8, b: 0.3, a: 1}
-  burnoutColor: {r: 1, g: 0.5, b: 0, a: 1}
+  negativeColor: {r: 1, g: 1, b: 1, a: 1}
+  neutralColor: {r: 1, g: 1, b: 1, a: 1}
+  positiveColor: {r: 1, g: 1, b: 1, a: 1}
+  burnoutColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &1666920631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2029,6 +2084,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Draft_Zone
       objectReference: {fileID: 0}
+    - target: {fileID: 8077277390914196334, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
+      propertyPath: m_Value
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1794730849355853122, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
     - {fileID: 4793168635370284403, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
@@ -2101,6 +2160,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaminaSystem
   maxStamina: 5
+  OnStaminaChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &8110728315164157670
 PrefabInstance:
   m_ObjectHideFlags: 0

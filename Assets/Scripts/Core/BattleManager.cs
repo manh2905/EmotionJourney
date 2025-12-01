@@ -22,7 +22,7 @@ public class BattleManager : MonoBehaviour
 
     private bool isPlayerTurn = false;
 
-    void Start()
+    void Start() 
     {
         // Kiểm tra các tham chiếu đã được gán chưa (rất quan trọng)
         if (deckSystem == null || staminaSystem == null || emometerSystem == null || draftManager == null || playerStats == null || currentMonster == null)

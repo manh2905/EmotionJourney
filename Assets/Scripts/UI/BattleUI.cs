@@ -143,11 +143,27 @@ public class BattleUI : MonoBehaviour
         {
             staminaUI.Initialize(staminaSystem.maxStamina);
             staminaUI.UpdateStamina(staminaSystem.GetCurrentStamina(), staminaSystem.maxStamina);
+            
+            // Subscribe to Stamina change event để tự động update UI
+            staminaSystem.OnStaminaChanged.AddListener(OnStaminaChanged);
+            
             Debug.Log("✅ Stamina UI initialized");
         }
         else
         {
             Debug.LogWarning($"⚠️ Stamina UI not initialized. StaminaUI: {staminaUI != null}, StaminaSystem: {staminaSystem != null}");
+        }
+    }
+    
+    /// <summary>
+    /// Callback khi Stamina thay đổi
+    /// </summary>
+    private void OnStaminaChanged(int currentStamina, int maxStamina)
+    {
+        if (staminaUI != null)
+        {
+            staminaUI.UpdateStamina(currentStamina, maxStamina);
+            Debug.Log($"🔄 Stamina UI updated: {currentStamina}/{maxStamina}");
         }
     }
 
@@ -163,11 +179,27 @@ public class BattleUI : MonoBehaviour
                 emometerSystem.isBurnedOut,
                 emometerSystem.isPositiveBurnout
             );
+            
+            // Subscribe to Emotion change event để tự động update UI
+            emometerSystem.OnEmotionChanged.AddListener(OnEmotionChanged);
+            
             Debug.Log("✅ Emotion UI initialized");
         }
         else
         {
             Debug.LogWarning($"⚠️ Emotion UI not initialized. EmotionUI: {emotionUI != null}, EmometerSystem: {emometerSystem != null}");
+        }
+    }
+    
+    /// <summary>
+    /// Callback khi Emotion thay đổi
+    /// </summary>
+    private void OnEmotionChanged(int currentEmotion, bool isBurnedOut, bool isPositiveBurnout)
+    {
+        if (emotionUI != null)
+        {
+            emotionUI.UpdateEmotion(currentEmotion, isBurnedOut, isPositiveBurnout);
+            Debug.Log($"🔄 Emotion UI updated: {currentEmotion} | Burnout: {isBurnedOut}");
         }
     }
 
@@ -207,22 +239,8 @@ public class BattleUI : MonoBehaviour
         if (!isInitialized) return;
 
         // Player HP - Đã dùng Event, không cần poll nữa! ✅
-
-        // Update Stamina (TODO: Convert to event)
-        if (staminaUI != null && staminaSystem != null)
-        {
-            staminaUI.UpdateStamina(staminaSystem.GetCurrentStamina(), staminaSystem.maxStamina);
-        }
-
-        // Update Emotion (TODO: Convert to event)
-        if (emotionUI != null && emometerSystem != null)
-        {
-            emotionUI.UpdateEmotion(
-                emometerSystem.CurrentEmotion,
-                emometerSystem.isBurnedOut,
-                emometerSystem.isPositiveBurnout
-            );
-        }
+        // Stamina - Đã dùng Event, không cần poll nữa! ✅
+        // Emotion - Đã dùng Event, không cần poll nữa! ✅
 
         // Update Monster HP (TODO: Convert to event)
         if (monsterHPUI != null && currentMonster != null)

@@ -100,7 +100,10 @@ public class PlayerBehaviour : MonoBehaviour
         if (isDead) return;
 
         isDead = true;
-        animator.SetTrigger("dieTrigger");
+        if (animator != null)
+        {
+            animator.SetTrigger("dieTrigger");
+        }
 
         Debug.Log("<color=red>PLAYER DEAD</color>");
         StartCoroutine(DieRoutine());
@@ -124,19 +127,22 @@ public class PlayerBehaviour : MonoBehaviour
 
         int randomAttack = Random.Range(1, 4); // 1 – 3
 
-        switch (randomAttack)
+        if (animator != null)
         {
-            case 1:
-                animator.SetTrigger("attack1Trigger");
-                break;
+            switch (randomAttack)
+            {
+                case 1:
+                    animator.SetTrigger("attack1Trigger");
+                    break;
 
-            case 2:
-                animator.SetTrigger("attack2Trigger");
-                break;
+                case 2:
+                    animator.SetTrigger("attack2Trigger");
+                    break;
 
-            case 3:
-                animator.SetTrigger("attack3Trigger");
-                break;
+                case 3:
+                    animator.SetTrigger("attack3Trigger");
+                    break;
+            }
         }
 
         float totalDamage = data.baseDamage + bonusDamage;
@@ -184,9 +190,10 @@ public class PlayerBehaviour : MonoBehaviour
     private IEnumerator delayAni(string trigger, float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
-        animator.SetTrigger(trigger);
-        
-        
+        if (animator != null)
+        {
+            animator.SetTrigger(trigger);
+        }
     }
 
     

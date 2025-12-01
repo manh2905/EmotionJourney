@@ -14,11 +14,11 @@ public class EmotionUI : MonoBehaviour
     public bool useScaleMode = true;            // true = dùng cân với mũi tên, false = slider
 
     [Header("Scale Mode - Components")]
-    public Transform arrowTransform;            // Transform của mũi tên (sẽ rotate)
-    public Image scaleBackground;               // Image của cái cân (background)
-    public float minAngle = -90f;               // Góc tương ứng với -10 (tiêu cực max)
-    public float maxAngle = 90f;                // Góc tương ứng với +10 (tích cực max)
-    public float rotationSpeed = 5f;            // Tốc độ smooth rotation
+    public RectTransform arrowTransform;        // Transform của mũi tên (sẽ di chuyển lên xuống)
+    public Image scaleBackground;               // Image của thanh cảm xúc (background)
+    public float minYPosition = -100f;          // Vị trí Y tương ứng với -10 (tiêu cực max, dưới cùng)
+    public float maxYPosition = 100f;           // Vị trí Y tương ứng với +10 (tích cực max, trên cùng)
+    public float moveSpeed = 5f;                // Tốc độ smooth movement
 
     [Header("Common Components")]
     public TextMeshProUGUI valueText;          // Text hiển thị giá trị (-5, 0, +7...)
@@ -33,18 +33,20 @@ public class EmotionUI : MonoBehaviour
 
     private const int MIN_EMOTION = -10;
     private const int MAX_EMOTION = 10;
-    private float targetAngle;                  // Target rotation angle (scale mode)
+    private float targetYPosition;              // Target Y position (scale mode)
     private int currentValue = 0;
 
     void Start()
     {
         if (useScaleMode)
         {
-            // Initialize scale mode
-            targetAngle = 0f; // Start at neutral (0 degrees)
+            // Initialize scale mode - start at neutral (0 = middle)
+            targetYPosition = 0f;
             if (arrowTransform != null)
             {
-                arrowTransform.localRotation = Quaternion.Euler(0, 0, 0);
+                Vector2 pos = arrowTransform.anchoredPosition;
+                pos.y = 0f;
+                arrowTransform.anchoredPosition = pos;
             }
         }
         
@@ -56,15 +58,12 @@ public class EmotionUI : MonoBehaviour
 
     void Update()
     {
-        // Smooth rotation for scale mode
+        // Smooth movement for scale mode
         if (useScaleMode && arrowTransform != null)
         {
-            Quaternion targetRotation = Quaternion.Euler(0, 0, targetAngle);
-            arrowTransform.localRotation = Quaternion.Lerp(
-                arrowTransform.localRotation, 
-                targetRotation, 
-                Time.deltaTime * rotationSpeed
-            );
+            Vector2 currentPos = arrowTransform.anchoredPosition;
+            float newY = Mathf.Lerp(currentPos.y, targetYPosition, Time.deltaTime * moveSpeed);
+            arrowTransform.anchoredPosition = new Vector2(currentPos.x, newY);
         }
     }
 
@@ -77,8 +76,11 @@ public class EmotionUI : MonoBehaviour
         value = Mathf.Clamp(value, MIN_EMOTION, MAX_EMOTION);
         currentValue = value;
 
+        Debug.Log($"📊 EmotionUI.UpdateEmotion called - Value: {value}, Mode: {(useScaleMode ? "SCALE" : "SLIDER")}");
+
         if (useScaleMode)
         {
+            Debug.Log($"   Scale Mode - Arrow: {(arrowTransform != null ? "OK" : "NULL")}, Background: {(scaleBackground != null ? "OK" : "NULL")}");
             UpdateScaleMode(value, isBurnedOut);
         }
 
@@ -97,17 +99,19 @@ public class EmotionUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Update cho Scale Mode (mũi tên quay)
+    /// Update cho Scale Mode (mũi tên di chuyển lên xuống)
     /// </summary>
     private void UpdateScaleMode(int value, bool isBurnedOut)
     {
-        // Chuyển đổi emotion value (-10 to +10) sang góc quay
-        // -10 -> minAngle (ví dụ: -90°)
-        //   0 -> 0°
-        // +10 -> maxAngle (ví dụ: +90°)
+        // Chuyển đổi emotion value (-10 to +10) sang vị trí Y
+        // -10 -> minYPosition (ví dụ: -100, dưới cùng)
+        //   0 -> 0 (giữa)
+        // +10 -> maxYPosition (ví dụ: +100, trên cùng)
         
         float normalizedValue = (float)(value - MIN_EMOTION) / (MAX_EMOTION - MIN_EMOTION); // 0 to 1
-        targetAngle = Mathf.Lerp(minAngle, maxAngle, normalizedValue);
+        targetYPosition = Mathf.Lerp(minYPosition, maxYPosition, normalizedValue);
+
+        Debug.Log($"   Emotion {value} -> Target Y: {targetYPosition} (range: {minYPosition} to {maxYPosition})");
 
         // Update arrow color (nếu có Image component)
         if (arrowTransform != null)

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class EmometerSystem : MonoBehaviour
 {
@@ -13,12 +14,23 @@ public class EmometerSystem : MonoBehaviour
     public int CurrentEmotion => currentEmotion; // Getter công khai cho UI và logic khác
     public bool IsInSafetyZone => currentEmotion > -5 && currentEmotion < 5; // Dữ liệu tham khảo
 
+    // ============================
+    // EVENTS - Để notify UI khi Emotion thay đổi
+    // ============================
+    [System.Serializable]
+    public class EmotionChangedEvent : UnityEvent<int, bool, bool> { } // (currentEmotion, isBurnedOut, isPositiveBurnout)
+    
+    public EmotionChangedEvent OnEmotionChanged = new EmotionChangedEvent();
+
     public void Initialize()
     {
         currentEmotion = 0;
         isBurnedOut = false;
         isPositiveBurnout = false;
         Debug.Log("Emometer đã được khởi tạo: 0.");
+        
+        // Trigger initial event
+        OnEmotionChanged?.Invoke(currentEmotion, isBurnedOut, isPositiveBurnout);
     }
 
     // Thay đổi cảm xúc mỗi khi dùng bài (được gọi từ CardEffectExecutor)
@@ -30,6 +42,9 @@ public class EmometerSystem : MonoBehaviour
 
         CheckBurnoutStatus();
         Debug.Log($"Emotion Shift: {currentEmotion}. Burnout Active: {isBurnedOut}");
+        
+        // Trigger event để update UI
+        OnEmotionChanged?.Invoke(currentEmotion, isBurnedOut, isPositiveBurnout);
     }
 
     // Kiểm tra và kích hoạt/thoát khỏi Burnout

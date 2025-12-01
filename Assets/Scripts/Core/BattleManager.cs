@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 // Đây là lớp điều phối chính, quản lý vòng lặp chiến đấu (turn-based)
@@ -9,7 +10,7 @@ public class BattleManager : MonoBehaviour
     [Header("Core Systems")]
     public DeckSystem deckSystem;
     public StaminaSystem staminaSystem;
-    public EmometerSystem emometerSystem; 
+    public EmometerSystem emometerSystem;
     public DraftManager draftManager;
 
     [Header("Combatants")]
@@ -162,14 +163,15 @@ public class BattleManager : MonoBehaviour
         if (playerWon)
         {
             Debug.Log("--- CHIẾN THẮNG! (Monster đã bị đánh bại) ---");
-            
+            MapController.UnlockNextLevel(BattleLoader.currentLevel);
             // Show Victory UI
             if (battleUI != null)
             {
                 battleUI.ShowVictory();
             }
-            
+
             // Logic nhận thưởng, chuyển Scene Map
+            SceneManager.LoadScene("Map");
         }
         else
         {

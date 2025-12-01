@@ -13,25 +13,15 @@ public class MapNode : MonoBehaviour
         int unlocked = PlayerPrefs.GetInt("LevelUnlocked", 1);
 
         // Chỉ khi nhấn đúng màn hiện tại mới được tính
-        if (level == unlocked)
+        if (level <= unlocked)
         {
-            Debug.Log("Hoàn thành màn: " + level);
-
-            // Mở màn tiếp theo
-            PlayerPrefs.SetInt("LevelUnlocked", unlocked + 1);
-
-            Debug.Log("Loading scene: Battle" + level);
-
-            SceneManager.LoadScene("Battle" + level);
-
-            // Reload map để update UI
-            //UnityEngine.SceneManagement.SceneManager.LoadScene(
-            //    UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
-            //);
+            Debug.Log("Vào màn: " + level);
+            BattleLoader.currentLevel = level;
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Battle"+level);
         }
         else
         {
-            Debug.Log("Chưa thể hoàn thành màn này! Hiện đang ở màn: " + unlocked);
+            Debug.Log("Màn này chưa mở khóa!");
         }
     }
 

@@ -82,7 +82,7 @@ public class BattleCardManager : MonoBehaviour
     {
         GameObject cardObj = Instantiate(cardPrefab, handZone);
         CardUI cardUI = cardObj.GetComponent<CardUI>();
-        Debug.Log("Da vao Spawn");
+        
         if (cardUI != null)
         {
             cardUI.Initialize(entry.data, entry.art);
@@ -92,7 +92,6 @@ public class BattleCardManager : MonoBehaviour
         {
             Debug.LogError("❌ CardUI component not found on spawned card!");
         }
-        
     }
 
     public void OnCardClicked(CardUI card)
@@ -110,17 +109,46 @@ public class BattleCardManager : MonoBehaviour
     }
 
     private void TryMoveCardToSlot(CardUI card)
-    {   
+    {
+        // Detailed debug logging
+        Debug.Log($"🔍 TryMoveCardToSlot: cardSlots={cardSlots}, null?={cardSlots == null}");
+        
+        if (cardSlots == null)
+        {
+            Debug.LogError("❌ cardSlots is NULL! Inspector setup missing!");
+            return;
+        }
+        
+        Debug.Log($"🔍 cardSlots.Count = {cardSlots.Count}");
+        
         CardSlot emptySlot = null;
         
-        foreach (var slot in cardSlots)
+        for (int i = 0; i < cardSlots.Count; i++)
         {
+            var slot = cardSlots[i];
+            Debug.Log($"🔍 Slot[{i}]: null?={slot == null}");
             
-            if (slot.IsEmpty)
+            if (slot == null)
             {
-                Debug.Log("Tét");
-                emptySlot = slot;
-                break;
+                Debug.LogError($"❌ Slot[{i}] is NULL in list!");
+                continue;
+            }
+            
+            try
+            {
+                bool isEmpty = slot.IsEmpty;
+                Debug.Log($"🔍 Slot[{i}].IsEmpty = {isEmpty}");
+                
+                if (isEmpty)
+                {
+                    emptySlot = slot;
+                    Debug.Log($"✅ Found empty slot at index {i}");
+                    break;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"❌ Exception checking Slot[{i}].IsEmpty: {ex.Message}");
             }
         }
         
@@ -128,22 +156,25 @@ public class BattleCardManager : MonoBehaviour
         {
             emptySlot.AssignCard(card);
             card.MoveToSlot(emptySlot);
-            Debug.Log($"➡️ Card moved to slot {emptySlot.slotIndex}");
+            Debug.Log($"➡️ Card moved to slot!");
         }
         else
         {
-            Debug.Log("📦 Không còn slot trống!");
+            Debug.Log("📦 No empty slots!");
         }
     }
 
     private void ReturnCardToHand(CardUI card)
     {
-        foreach (var slot in cardSlots)
+        if (cardSlots != null)
         {
-            if (slot.currentCard == card)
+            foreach (var slot in cardSlots)
             {
-                slot.ClearCard();
-                break;
+                if (slot != null && slot.currentCard == card)
+                {
+                    slot.ClearCard();
+                    break;
+                }
             }
         }
         
@@ -159,13 +190,18 @@ public class BattleCardManager : MonoBehaviour
     private int GetCardsInSlotsCount()
     {
         int count = 0;
-        foreach (var slot in cardSlots)
+        
+        if (cardSlots != null)
         {
-            if (!slot.IsEmpty)
+            foreach (var slot in cardSlots)
             {
-                count++;
+                if (slot != null && !slot.IsEmpty)
+                {
+                    count++;
+                }
             }
         }
+        
         return count;
     }
     
@@ -182,7 +218,7 @@ public class BattleCardManager : MonoBehaviour
                 buttonText.text = $"Confirm ({cardsInSlots}/{MAX_DRAFT_SLOTS})";
             }
             
-            Debug.Log($"🔘 Button state: Cards={cardsInSlots}, Interactable={confirmButton.interactable}");
+            Debug.Log($"🔘 Button: Cards={cardsInSlots}, Interactable={confirmButton.interactable}");
         }
     }
     
@@ -192,11 +228,14 @@ public class BattleCardManager : MonoBehaviour
         
         List<CardData> selectedCards = new List<CardData>();
         
-        foreach (var slot in cardSlots)
+        if (cardSlots != null)
         {
-            if (!slot.IsEmpty && slot.currentCard != null)
+            foreach (var slot in cardSlots)
             {
-                selectedCards.Add(slot.currentCard.cardData);
+                if (slot != null && !slot.IsEmpty && slot.currentCard != null)
+                {
+                    selectedCards.Add(slot.currentCard.cardData);
+                }
             }
         }
         
@@ -231,26 +270,29 @@ public class BattleCardManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("❌ Validation thất bại! Không đủ stamina hoặc vi phạm game rules.");
+                Debug.LogWarning("❌ Validation thất bại!");
             }
         }
         else
         {
-            Debug.LogError("🚨 DraftManager chưa được gán trong Inspector!");
+            Debug.LogError("🚨 DraftManager chưa được gán!");
         }
     }
     
     private void ClearAllSlots()
     {
-        foreach (var slot in cardSlots)
+        if (cardSlots != null)
         {
-            if (!slot.IsEmpty)
+            foreach (var slot in cardSlots)
             {
-                if (slot.currentCard != null)
+                if (slot != null && !slot.IsEmpty)
                 {
-                    Destroy(slot.currentCard.gameObject);
+                    if (slot.currentCard != null)
+                    {
+                        Destroy(slot.currentCard.gameObject);
+                    }
+                    slot.ClearCard();
                 }
-                slot.ClearCard();
             }
         }
         

@@ -77,7 +77,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnCardClicked()
     {
         if (isDisabled) return;
-
+        Debug.Log(this);
         // Delegate to BattleCardManager
         if (BattleCardManager.Instance != null)
         {

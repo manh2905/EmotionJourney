@@ -21,29 +21,25 @@ public class DraftManager : MonoBehaviour
         // Giả định rằng DeckSystem.RevealAndRefillHand() đã được gọi trước đó bởi BattleManager
     }
 
-    // Phương thức chính được gọi khi người chơi nhấp vào một lá bài (hoặc gọi qua UI)
+    /// <summary>
+    /// Phương thức chính được gọi khi người chơi nhấp vào một lá bài (hoặc gọi qua UI)
+    /// Được gọi từ BattleCardManager.OnConfirmButtonClicked()
+    /// </summary>
     public bool TrySelectCard(CardData cardToSelect)
     {
         // 1. Kiểm tra giới hạn 3 lá
         if (selectedCards.Count >= MAX_SELECTION)
         {
-            Debug.Log("Lỗi: Đã chọn đủ 3 lá bài. Vui lòng xác nhận.");
+            Debug.Log("Lỗi: Đã chọn đủ 3 lá bài.");
             return false;
         }
         
-        // Tránh chọn lại lá bài đã có trong danh sách 3 lá (nếu cần)
-        if (selectedCards.Contains(cardToSelect))
-        {
-             // Thường thì nên có hàm Deselect để hủy chọn
-             Debug.Log("Lỗi: Lá bài đã được chọn.");
-             return false;
-        }
+        // Note: Không cần check duplicate vì BattleCardManager đảm bảo mỗi slot chỉ có 1 card
 
         // 2. TÍCH HỢP STAMINA: Kiểm tra chi phí
         if (!staminaSystem.CanUseCard(cardToSelect.staminaCost))
         {
-            Debug.Log($"Thất bại: Không đủ Stamina ({staminaSystem.GetCurrentStamina()}) để dùng lá bài {cardToSelect.cardName} (Cost: {cardToSelect.staminaCost}).");
-            // Đây là nơi UI cần làm xám (disable) lá bài.
+            Debug.Log($"❌ Không đủ Stamina! Hiện tại: {staminaSystem.GetCurrentStamina()}, Cần: {cardToSelect.staminaCost} cho {cardToSelect.cardName}");
             return false;
         }
 
@@ -51,28 +47,42 @@ public class DraftManager : MonoBehaviour
         selectedCards.Add(cardToSelect);
         staminaSystem.ConsumeStamina(cardToSelect.staminaCost); 
 
-        // 4. Cần có logic để hiển thị lá bài đã chọn trên UI (Card Selected Zone)
-
-        Debug.Log($"Đã chọn lá {cardToSelect.cardName}. Đã chọn {selectedCards.Count}/{MAX_SELECTION}.");
+        Debug.Log($"✅ Đã chọn {cardToSelect.cardName} (Cost: {cardToSelect.staminaCost}). Tổng: {selectedCards.Count}/{MAX_SELECTION}. Stamina còn: {staminaSystem.GetCurrentStamina()}");
         return true;
     }
     
-    // Phương thức được gọi khi người chơi nhấn nút "Xác nhận/Confirm"
+    /// <summary>
+    /// Hoàn lại stamina khi player return card về hand
+    /// Được gọi từ BattleCardManager.ReturnCardToHand()
+    /// </summary>
+    public void RefundCardStamina(CardData card)
+    {
+        if (selectedCards.Contains(card))
+        {
+            selectedCards.Remove(card);
+            staminaSystem.RefundStamina(card.staminaCost);
+            Debug.Log($"♻️ Hoàn lại {card.staminaCost} stamina cho {card.cardName}. Stamina hiện tại: {staminaSystem.GetCurrentStamina()}");
+        }
+    }
+    
+    /// <summary>
+    /// Phương thức được gọi khi người chơi nhấn nút "Xác nhận/Confirm"
+    /// Được gọi từ BattleCardManager.OnConfirmButtonClicked()
+    /// </summary>
     public void ConfirmDraft()
     {
         if (selectedCards.Count == 0)
         {
-            Debug.Log("Lỗi: Vui lòng chọn ít nhất một lá bài.");
+            Debug.LogWarning("⚠️ Không có card nào được chọn!");
             return;
         }
         
-        Debug.Log($"Xác nhận Draft với {selectedCards.Count} lá. Chuyển sang Resolve.");
+        Debug.Log($"🎯 Xác nhận Draft với {selectedCards.Count} lá bài. Chuyển sang Resolve Phase...");
 
         // Chuyển quyền điều khiển lại cho Battle Manager để xử lý Resolve
-        // Gửi danh sách các lá bài đã chọn để xử lý
         battleManager.ProcessPlayerActions(selectedCards);
 
-        // Sau khi gửi đi, DraftManager tự xóa danh sách để chuẩn bị cho lượt sau
-        // selectedCards.Clear() sẽ được gọi khi BattleManager kết thúc resolve/cleanup.
+        // Clear danh sách để chuẩn bị cho lượt sau
+        selectedCards.Clear();
     }
 }

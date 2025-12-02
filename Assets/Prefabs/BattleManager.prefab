@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6053107533150497729
+--- !u!1 &3445482895067656374
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,19 +8,20 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 52001895541411452}
-  - component: {fileID: 2026078350648852711}
-  - component: {fileID: 4327576110820936984}
-  - component: {fileID: 4295420584770930223}
-  - component: {fileID: 5618240374296043889}
-  - component: {fileID: 6078347501774297347}
-  - component: {fileID: 4780845754267774769}
-  - component: {fileID: 3192381579775717737}
-  - component: {fileID: 547837319363363270}
-  - component: {fileID: 8045441597705797989}
-  - component: {fileID: 8741874579371395904}
-  - component: {fileID: 6356469277696469419}
-  - component: {fileID: 4066748157903554721}
+  - component: {fileID: 6475142679332540543}
+  - component: {fileID: 7992846646418956870}
+  - component: {fileID: 8395223963359338736}
+  - component: {fileID: 998939582813919981}
+  - component: {fileID: 8346625895011263597}
+  - component: {fileID: 1377406502300210006}
+  - component: {fileID: 6522727769341640489}
+  - component: {fileID: 1581563165329901274}
+  - component: {fileID: 3653240951380859970}
+  - component: {fileID: 2466934050279600121}
+  - component: {fileID: 7130998039685636543}
+  - component: {fileID: 4143230555970146828}
+  - component: {fileID: 8549480380106308009}
+  - component: {fileID: 748424401050416693}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -28,13 +29,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &52001895541411452
+--- !u!4 &6475142679332540543
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6053107533150497729}
+  m_GameObject: {fileID: 3445482895067656374}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.42383, y: 0.23338, z: 0}
@@ -43,47 +44,46 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2026078350648852711
+--- !u!114 &7992846646418956870
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6053107533150497729}
+  m_GameObject: {fileID: 3445482895067656374}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: faaf696543bf16e489e27040816e4af4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
-  deckSystem: {fileID: 4327576110820936984}
-  staminaSystem: {fileID: 4295420584770930223}
-  emometerSystem: {fileID: 5618240374296043889}
-  draftManager: {fileID: 6078347501774297347}
+  deckSystem: {fileID: 8395223963359338736}
+  staminaSystem: {fileID: 0}
+  emometerSystem: {fileID: 0}
+  draftManager: {fileID: 1377406502300210006}
   playerStats: {fileID: 0}
   currentMonster: {fileID: 0}
-  battleUI: {fileID: 547837319363363270}
---- !u!114 &4327576110820936984
+  battleUI: {fileID: 0}
+--- !u!114 &8395223963359338736
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6053107533150497729}
+  m_GameObject: {fileID: 3445482895067656374}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8fca3f98d6f708419565429f1652fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeckSystem
-  masterDeckList:
-  - {fileID: 0}
+  masterDeckList: []
   hand: []
---- !u!114 &4295420584770930223
+--- !u!114 &998939582813919981
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6053107533150497729}
+  m_GameObject: {fileID: 3445482895067656374}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6faaa2d235564d54ea579347d8111ffd, type: 3}
@@ -93,13 +93,13 @@ MonoBehaviour:
   OnStaminaChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5618240374296043889
+--- !u!114 &8346625895011263597
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6053107533150497729}
+  m_GameObject: {fileID: 3445482895067656374}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82b7fdf4511ab8c4e8336755fa0c6c3a, type: 3}
@@ -110,13 +110,13 @@ MonoBehaviour:
   OnEmotionChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6078347501774297347
+--- !u!114 &1377406502300210006
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6053107533150497729}
+  m_GameObject: {fileID: 3445482895067656374}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a1a6f56e44fac64fb6889a65f0d7709, type: 3}
@@ -125,18 +125,14 @@ MonoBehaviour:
   deckSystem: {fileID: 0}
   staminaSystem: {fileID: 0}
   battleManager: {fileID: 0}
-  draftZoneSlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   selectedCards: []
---- !u!114 &4780845754267774769
+--- !u!114 &6522727769341640489
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6053107533150497729}
+  m_GameObject: {fileID: 3445482895067656374}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a439920fb3f152a4ca0dc2a39e69711b, type: 3}
@@ -147,13 +143,13 @@ MonoBehaviour:
   OnHPChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3192381579775717737
+--- !u!114 &1581563165329901274
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6053107533150497729}
+  m_GameObject: {fileID: 3445482895067656374}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7be4c0e57896eb0479d6e41f61437798, type: 3}
@@ -164,21 +160,21 @@ MonoBehaviour:
   currentHP: 0
   currentMana: 0
   turnCounter: 0
---- !u!114 &547837319363363270
+--- !u!114 &3653240951380859970
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6053107533150497729}
+  m_GameObject: {fileID: 3445482895067656374}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83281f5617f635640a00ce6636a5435a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleUI
-  playerStats: {fileID: 4780845754267774769}
-  staminaSystem: {fileID: 4295420584770930223}
-  emometerSystem: {fileID: 5618240374296043889}
+  playerStats: {fileID: 6522727769341640489}
+  staminaSystem: {fileID: 998939582813919981}
+  emometerSystem: {fileID: 8346625895011263597}
   currentMonster: {fileID: 0}
   playerHPUI: {fileID: 0}
   monsterHPUI: {fileID: 0}
@@ -191,13 +187,13 @@ MonoBehaviour:
   monsterNameText: {fileID: 0}
   monsterSprite: {fileID: 0}
   turnStatusText: {fileID: 0}
---- !u!114 &8045441597705797989
+--- !u!114 &2466934050279600121
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6053107533150497729}
+  m_GameObject: {fileID: 3445482895067656374}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55f4440a970897c42a82f7f274ce4837, type: 3}
@@ -210,13 +206,13 @@ MonoBehaviour:
   warningColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   criticalColor: {r: 1, g: 0, b: 0, a: 1}
   smoothSpeed: 5
---- !u!114 &8741874579371395904
+--- !u!114 &7130998039685636543
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6053107533150497729}
+  m_GameObject: {fileID: 3445482895067656374}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1a73d5f3c6d87046a25e2c08a4cab00, type: 3}
@@ -232,13 +228,13 @@ MonoBehaviour:
   fullColor: {r: 0.3, g: 0.8, b: 1, a: 1}
   emptyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   staminaText: {fileID: 0}
---- !u!114 &6356469277696469419
+--- !u!114 &4143230555970146828
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6053107533150497729}
+  m_GameObject: {fileID: 3445482895067656374}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a474d603d84e094ea22f8e7bd27c491, type: 3}
@@ -257,24 +253,45 @@ MonoBehaviour:
   neutralColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   positiveColor: {r: 0.2, g: 0.8, b: 0.3, a: 1}
   burnoutColor: {r: 1, g: 0.5, b: 0, a: 1}
---- !u!114 &4066748157903554721
+--- !u!114 &8549480380106308009
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6053107533150497729}
+  m_GameObject: {fileID: 3445482895067656374}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4fde033fa586394b8ebccdf5c4d5059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UITester
-  battleUI: {fileID: 547837319363363270}
+  battleUI: {fileID: 3653240951380859970}
   playerStats: {fileID: 0}
-  staminaSystem: {fileID: 4295420584770930223}
-  emometerSystem: {fileID: 5618240374296043889}
+  staminaSystem: {fileID: 998939582813919981}
+  emometerSystem: {fileID: 8346625895011263597}
   currentMonster: {fileID: 0}
   damageAmount: 10
   staminaChangeAmount: 1
   emotionChangeAmount: 1
   instructionText: {fileID: 0}
+--- !u!114 &748424401050416693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3445482895067656374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 656d5ee48bf314548b304afb328c22d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleCardManager
+  handZone: {fileID: 0}
+  cardSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  cardPrefab: {fileID: 2784101133211220543, guid: 97f3f31e6462d7840b3dc90a39c2d6b3, type: 3}
+  cardDatabase: {fileID: 11400000, guid: 9fbea4cfc077ff74d9817e3185ef8a82, type: 2}
+  draftManager: {fileID: 1377406502300210006}
+  confirmButton: {fileID: 0}

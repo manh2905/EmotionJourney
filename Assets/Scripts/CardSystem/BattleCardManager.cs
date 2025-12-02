@@ -39,21 +39,24 @@ public class BattleCardManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("🎮 BattleCardManager.Start() called");
-        
+        foreach (var slot in cardSlots)
+        {
+            if (slot != null)
+            {
+                slot.ClearCard();  // 🔥 Reset hard !
+            }
+        }
+
         RefillHand();
-        
+
         if (confirmButton != null)
         {
             confirmButton.onClick.AddListener(OnConfirmButtonClicked);
             UpdateConfirmButton();
-            Debug.Log("✅ Confirm button setup complete");
-        }
-        else
-        {
-            Debug.LogError("❌ Confirm button is NULL!");
         }
     }
+
+
 
     public void RefillHand()
     {
@@ -110,59 +113,35 @@ public class BattleCardManager : MonoBehaviour
 
     private void TryMoveCardToSlot(CardUI card)
     {
-        // Detailed debug logging
-        Debug.Log($"🔍 TryMoveCardToSlot: cardSlots={cardSlots}, null?={cardSlots == null}");
-        
-        if (cardSlots == null)
-        {
-            Debug.LogError("❌ cardSlots is NULL! Inspector setup missing!");
-            return;
-        }
-        
-        Debug.Log($"🔍 cardSlots.Count = {cardSlots.Count}");
-        
         CardSlot emptySlot = null;
-        
-        for (int i = 0; i < cardSlots.Count; i++)
+
+
+        Debug.Log(cardSlots[0].IsEmpty);
+        foreach (var slot in cardSlots)
         {
-            var slot = cardSlots[i];
-            Debug.Log($"🔍 Slot[{i}]: null?={slot == null}");
-            
-            if (slot == null)
+            Debug.Log(slot.IsEmpty);
+            if (slot != null && slot.IsEmpty)
             {
-                Debug.LogError($"❌ Slot[{i}] is NULL in list!");
-                continue;
+
+                emptySlot = slot;
+
+                break;
             }
-            
-            try
-            {
-                bool isEmpty = slot.IsEmpty;
-                Debug.Log($"🔍 Slot[{i}].IsEmpty = {isEmpty}");
-                
-                if (isEmpty)
-                {
-                    emptySlot = slot;
-                    Debug.Log($"✅ Found empty slot at index {i}");
-                    break;
-                }
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogError($"❌ Exception checking Slot[{i}].IsEmpty: {ex.Message}");
-            }
+        }
+
+        if (emptySlot == null)
+        {
+            Debug.Log("No empty slots available!");
+            return;   // 🔥 FIX LỖI CRASH
         }
         
-        if (emptySlot != null)
-        {
-            emptySlot.AssignCard(card);
-            card.MoveToSlot(emptySlot);
-            Debug.Log($"➡️ Card moved to slot!");
-        }
-        else
-        {
-            Debug.Log("📦 No empty slots!");
-        }
+
+
+        emptySlot.AssignCard(card);
+        card.MoveToSlot(emptySlot);
     }
+
+
 
     private void ReturnCardToHand(CardUI card)
     {

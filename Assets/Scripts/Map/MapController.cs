@@ -22,9 +22,6 @@ public class MapController : MonoBehaviour
             // Xicon (vẫn giữ nguyên)
             completeIcons[i].SetActive(isCompleted);
 
-            // ------------------------
-            // HANDLE LOCK (QUAN TRỌNG)
-            // ------------------------
 
             // Nếu đây là node VỪA mới mở (ví dụ màn 2 khi unlocked=2)
             if (i == unlocked - 1 && isUnlocked)

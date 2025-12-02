@@ -110,6 +110,14 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             layoutElement = gameObject.AddComponent<LayoutElement>();
         }
+
+        // Auto-wire Button click
+        Button btn = GetComponent<Button>();
+        if (btn != null)
+        {
+            btn.onClick.RemoveListener(OnCardClicked); // Avoid duplicates
+            btn.onClick.AddListener(OnCardClicked);
+        }
     }
 
     public void MoveToSlot(CardSlot slot)

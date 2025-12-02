@@ -39,11 +39,13 @@ public class BattleCardManager : MonoBehaviour
 
     private void Start()
     {
+        ValidateSlots(); // Ensure slots are valid first
+
         foreach (var slot in cardSlots)
         {
             if (slot != null)
             {
-                slot.ClearCard();  // 🔥 Reset hard !
+                slot.ClearCard();
             }
         }
 
@@ -56,7 +58,17 @@ public class BattleCardManager : MonoBehaviour
         }
     }
 
-
+    private void ValidateSlots()
+    {
+        if (cardSlots == null) cardSlots = new List<CardSlot>();
+        cardSlots.RemoveAll(s => s == null);
+        
+        if (cardSlots.Count == 0)
+        {
+            var found = GetComponentsInChildren<CardSlot>();
+            if (found.Length > 0) cardSlots.AddRange(found);
+        }
+    }
 
     public void RefillHand()
     {
@@ -113,35 +125,28 @@ public class BattleCardManager : MonoBehaviour
 
     private void TryMoveCardToSlot(CardUI card)
     {
+        if (cardSlots == null || cardSlots.Count == 0) return;
+
         CardSlot emptySlot = null;
-
-
-        Debug.Log(cardSlots[0].IsEmpty);
         foreach (var slot in cardSlots)
         {
-            Debug.Log(slot.IsEmpty);
             if (slot != null && slot.IsEmpty)
             {
-
                 emptySlot = slot;
-
                 break;
             }
         }
 
-        if (emptySlot == null)
+        if (emptySlot != null)
         {
-            Debug.Log("No empty slots available!");
-            return;   // 🔥 FIX LỖI CRASH
+            emptySlot.AssignCard(card);
+            card.MoveToSlot(emptySlot);
         }
-        
-
-
-        emptySlot.AssignCard(card);
-        card.MoveToSlot(emptySlot);
+        else
+        {
+            Debug.Log("⚠️ No empty slots available!");
+        }
     }
-
-
 
     private void ReturnCardToHand(CardUI card)
     {

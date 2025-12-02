@@ -13,25 +13,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public CardData cardData;                   // Dữ liệu của lá bài này
 
     [Header("UI Components")]
-    public TextMeshProUGUI cardNameText;        // Tên lá bài
-    public TextMeshProUGUI damageText;          // Sát thương
-    public TextMeshProUGUI staminaCostText;     // Chi phí stamina
-    public TextMeshProUGUI emotionValueText;    // Giá trị emotion shift (+2, -3...)
-    public Image cardBackground;                // Background image
-    public Image emotionIcon;                   // Icon cảm xúc (Funny, Angry...)
-    
-    [Header("Visual States")]
-    public Color normalColor = Color.white;
-    public Color selectedColor = Color.yellow;
-    public Color disabledColor = Color.gray;
-    public Color hoverColor = new Color(1f, 1f, 0.8f);
-
-    [Header("Emotion Colors")]
-    public Color funnyColor = new Color(1f, 0.9f, 0.3f);     // Vàng
-    public Color boredColor = new Color(0.5f, 0.5f, 0.5f);   // Xám
-    public Color scaredColor = new Color(0.6f, 0.4f, 0.8f);  // Tím
-    public Color happyColor = new Color(0.3f, 1f, 0.5f);     // Xanh lá
-    public Color angryColor = new Color(1f, 0.3f, 0.3f);     // Đỏ
+    public Image cardImage;
 
     // State
     private bool isSelected = false;
@@ -39,98 +21,14 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private bool isHovered = false;
 
     /// <summary>
-    /// Khởi tạo UI với CardData
+    /// Khởi tạo UI với CardData và Image
     /// </summary>
-    public void SetCardData(CardData data)
+    public void Initialize(CardData data, Sprite art)
     {
         cardData = data;
-        UpdateVisuals();
-    }
-
-    /// <summary>
-    /// Cập nhật tất cả UI elements
-    /// </summary>
-    private void UpdateVisuals()
-    {
-        if (cardData == null)
+        if (cardImage != null && art != null)
         {
-            Debug.LogWarning("CardData is null!");
-            return;
-        }
-
-        // Card Name
-        if (cardNameText != null)
-        {
-            cardNameText.text = cardData.cardName;
-        }
-
-        // Damage
-        if (damageText != null)
-        {
-            damageText.text = cardData.damageValue.ToString();
-        }
-
-        // Stamina Cost
-        if (staminaCostText != null)
-        {
-            staminaCostText.text = cardData.staminaCost.ToString();
-        }
-
-        // Emotion Value (với dấu +/-)
-        if (emotionValueText != null)
-        {
-            string sign = cardData.emotionValue > 0 ? "+" : "";
-            emotionValueText.text = $"{sign}{cardData.emotionValue}";
-        }
-
-        // Background color theo emotion type
-        UpdateEmotionColor();
-    }
-
-    /// <summary>
-    /// Cập nhật màu background theo emotion type
-    /// </summary>
-    private void UpdateEmotionColor()
-    {
-        if (cardBackground == null || cardData == null) return;
-
-        Color emotionColor = normalColor;
-
-        switch (cardData.emotionType)
-        {
-            case EmotionType.Funny:
-                emotionColor = funnyColor;
-                break;
-            case EmotionType.Bored:
-                emotionColor = boredColor;
-                break;
-            case EmotionType.Scared:
-                emotionColor = scaredColor;
-                break;
-            case EmotionType.Happy:
-                emotionColor = happyColor;
-                break;
-            case EmotionType.Angry:
-                emotionColor = angryColor;
-                break;
-        }
-
-        // Áp dụng màu với state modifiers
-        if (isDisabled)
-        {
-            cardBackground.color = disabledColor;
-        }
-        else if (isSelected)
-        {
-            cardBackground.color = selectedColor;
-        }
-        else if (isHovered)
-        {
-            cardBackground.color = Color.Lerp(emotionColor, hoverColor, 0.5f);
-        }
-        else
-        {
-            cardBackground.color = emotionColor;
+            cardImage.sprite = art;
         }
     }
 
@@ -140,7 +38,6 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void SetSelected(bool selected)
     {
         isSelected = selected;
-        UpdateEmotionColor();
     }
 
     /// <summary>
@@ -149,7 +46,6 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void SetDisabled(bool disabled)
     {
         isDisabled = disabled;
-        UpdateEmotionColor();
     }
 
     /// <summary>
@@ -160,8 +56,6 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (!isDisabled)
         {
             isHovered = true;
-            UpdateEmotionColor();
-            
             // Optional: Scale up effect
             transform.localScale = Vector3.one * 1.1f;
         }
@@ -173,8 +67,6 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerExit(PointerEventData eventData)
     {
         isHovered = false;
-        UpdateEmotionColor();
-        
         // Reset scale
         transform.localScale = Vector3.one;
     }
@@ -185,12 +77,131 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnCardClicked()
     {
         if (isDisabled) return;
+        Debug.Log(this);
+        // Delegate to BattleCardManager
+        if (BattleCardManager.Instance != null)
+        {
+            BattleCardManager.Instance.OnCardClicked(this);
+        }
+        else
+        {
+            // Fallback old behavior if Manager not present
+            SetSelected(!isSelected);
+            Debug.Log($"Card clicked: {cardData.cardName}, Selected: {isSelected}");
+        }
+    }
 
-        // Toggle selected state
-        SetSelected(!isSelected);
+    // ============ MOVEMENT LOGIC ============
+    
+    public bool isInSlot = false;
+    private bool isMoving = false;
+    private bool isReturning = false;
+    private Vector3 targetPosition;
+    private float moveSpeed = 10f;
+    
+    private int originalSiblingIndex;
+    private GameObject placeholder;
+    private LayoutElement layoutElement;
+
+    private void Awake()
+    {
+        layoutElement = GetComponent<LayoutElement>();
+        if (layoutElement == null)
+        {
+            layoutElement = gameObject.AddComponent<LayoutElement>();
+        }
+
+        // Auto-wire Button click
+        Button btn = GetComponent<Button>();
+        if (btn != null)
+        {
+            btn.onClick.RemoveListener(OnCardClicked); // Avoid duplicates
+            btn.onClick.AddListener(OnCardClicked);
+        }
+    }
+
+    public void MoveToSlot(CardSlot slot)
+    {
+        if (!isInSlot)
+        {
+            originalSiblingIndex = transform.GetSiblingIndex();
+        }
+
+        isInSlot = true;
+        isMoving = true;
+        isReturning = false;
+        targetPosition = slot.transform.position;
+        transform.SetParent(slot.transform); // Optional: reparent to slot
         
-        Debug.Log($"Card clicked: {cardData.cardName}, Selected: {isSelected}");
+        // Reset rotation/scale if needed
+        //transform.rotation = Quaternion.identity;
+    }
+
+    public void ReturnToHand(RectTransform handZone)
+    {
+        isInSlot = false;
+        isMoving = true;
+        isReturning = true;
+
+        // Create placeholder to reserve space in layout
+        CreatePlaceholder(handZone);
+
+        transform.SetParent(handZone);
+        layoutElement.ignoreLayout = true;
         
-        // TODO: Notify DraftManager về việc select/deselect
+        // Reset rotation/scale if needed
+        transform.rotation = Quaternion.identity;
+    }
+
+    private void CreatePlaceholder(RectTransform handZone)
+    {
+        if (placeholder != null) Destroy(placeholder);
+
+        placeholder = new GameObject("CardPlaceholder");
+        placeholder.transform.SetParent(handZone);
+        placeholder.transform.SetSiblingIndex(originalSiblingIndex);
+        
+        // Copy layout properties
+        LayoutElement placeholderLE = placeholder.AddComponent<LayoutElement>();
+        placeholderLE.preferredWidth = layoutElement.preferredWidth;
+        placeholderLE.preferredHeight = layoutElement.preferredHeight;
+        placeholderLE.flexibleWidth = layoutElement.flexibleWidth;
+        placeholderLE.flexibleHeight = layoutElement.flexibleHeight;
+    }
+
+    private void Update()
+    {
+        if (isMoving)
+        {
+            if (isReturning && placeholder != null)
+            {
+                targetPosition = placeholder.transform.position;
+            }
+
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed);
+            
+            if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
+            {
+                transform.position = targetPosition;
+                isMoving = false;
+                
+                if (isReturning)
+                {
+                    OnReturnedToHand();
+                }
+            }
+        }
+    }
+
+    private void OnReturnedToHand()
+    {
+        isReturning = false;
+        layoutElement.ignoreLayout = false;
+        transform.SetSiblingIndex(originalSiblingIndex);
+        
+        if (placeholder != null)
+        {
+            Destroy(placeholder);
+        }
     }
 }

@@ -62,4 +62,16 @@ public class StaminaSystem : MonoBehaviour
         // Trigger event để update UI
         OnStaminaChanged?.Invoke(currentStamina, maxStamina);
     }
+    
+    /// <summary>
+    /// Hoàn lại Stamina khi player return card về hand
+    /// </summary>
+    public void RefundStamina(int amount)
+    {
+        currentStamina = Mathf.Min(currentStamina + amount, maxStamina);
+        Debug.Log($"♻️ Hoàn lại {amount} Stamina. Hiện tại: {currentStamina}/{maxStamina}");
+        
+        // Trigger event để update UI
+        OnStaminaChanged?.Invoke(currentStamina, maxStamina);
+    }
 }

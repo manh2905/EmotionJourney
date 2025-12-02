@@ -111,7 +111,7 @@ public class BattleCardManager : MonoBehaviour
 
     public void OnCardClicked(CardUI card)
     {
-        if (card.isInSlot)
+        if (IsCardInAnySlot(card))
         {
             ReturnCardToHand(card);
         }
@@ -126,6 +126,8 @@ public class BattleCardManager : MonoBehaviour
     private void TryMoveCardToSlot(CardUI card)
     {
         if (cardSlots == null || cardSlots.Count == 0) return;
+
+        ClearCardFromAllSlots(card);
 
         CardSlot emptySlot = null;
         foreach (var slot in cardSlots)
@@ -150,18 +152,18 @@ public class BattleCardManager : MonoBehaviour
 
     private void ReturnCardToHand(CardUI card)
     {
-        if (cardSlots != null)
-        {
-            foreach (var slot in cardSlots)
-            {
-                if (slot != null && slot.currentCard == card)
-                {
-                    slot.ClearCard();
-                    break;
-                }
-            }
-        }
-        
+        //if (cardSlots != null)
+        //{
+        //    foreach (var slot in cardSlots)
+        //    {
+        //        if (slot != null && slot.currentCard == card)
+        //        {
+        //            slot.ClearCard();
+        //            break;
+        //        }
+        //    }
+        //}
+        ClearCardFromAllSlots(card);
         if (draftManager != null && card.cardData != null)
         {
             draftManager.RefundCardStamina(card.cardData);
@@ -262,7 +264,37 @@ public class BattleCardManager : MonoBehaviour
             Debug.LogError("🚨 DraftManager chưa được gán!");
         }
     }
-    
+
+    private bool IsCardInAnySlot(CardUI card)
+    {
+        if (cardSlots == null) return false;
+
+        foreach (var slot in cardSlots)
+        {
+            if (slot != null && slot.currentCard == card)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void ClearCardFromAllSlots(CardUI card)
+    {
+        if (cardSlots == null) return;
+
+        foreach (var slot in cardSlots)
+        {
+            if (slot != null && slot.currentCard == card)
+            {
+                slot.ClearCard();
+            }
+        }
+
+        card.isInSlot = false;
+    }
+
     private void ClearAllSlots()
     {
         if (cardSlots != null)

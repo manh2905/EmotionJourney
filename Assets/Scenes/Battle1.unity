@@ -252,7 +252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardSlot
   slotIndex: 2
   currentCard: {fileID: 0}
-  rectTransform: {fileID: 0}
+  rectTransform: {fileID: 191114519}
 --- !u!224 &240488302 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4352265826880367404, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
@@ -348,7 +348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardSlot
   slotIndex: 1
   currentCard: {fileID: 0}
-  rectTransform: {fileID: 0}
+  rectTransform: {fileID: 476862963}
 --- !u!1 &494672881
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,6 +647,28 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1058388728 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8346625895011263597, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+  m_PrefabInstance: {fileID: 2093472611097093373}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82b7fdf4511ab8c4e8336755fa0c6c3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EmometerSystem
+--- !u!114 &1058388742 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 998939582813919981, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+  m_PrefabInstance: {fileID: 2093472611097093373}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6faaa2d235564d54ea579347d8111ffd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StaminaSystem
 --- !u!1001 &1059870777
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1303,7 +1325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardSlot
   slotIndex: 0
   currentCard: {fileID: 0}
-  rectTransform: {fileID: 0}
+  rectTransform: {fileID: 1960507063}
 --- !u!1 &1976899340
 GameObject:
   m_ObjectHideFlags: 0
@@ -1733,6 +1755,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2109779158534738491, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2162663158806799934, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1763,6 +1789,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4103532152133969633, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4781529622543880036, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
+      propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4793168635370284403, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
@@ -1873,12 +1903,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2051382187878861922, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1442290368706617422}
-    - targetCorrespondingSourceObject: {fileID: 2051382187878861922, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1442290368706617427}
-    - targetCorrespondingSourceObject: {fileID: 2051382187878861922, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1442290368706617432}
     - targetCorrespondingSourceObject: {fileID: 1979818250057313306, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1605002666}
@@ -1908,8 +1932,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleUI
   playerStats: {fileID: 535218886}
-  staminaSystem: {fileID: 1442290368706617427}
-  emometerSystem: {fileID: 1442290368706617432}
+  staminaSystem: {fileID: 1058388742}
+  emometerSystem: {fileID: 1058388728}
   currentMonster: {fileID: 589969700}
   playerHPUI: {fileID: 1710059327}
   monsterHPUI: {fileID: 0}
@@ -1922,39 +1946,6 @@ MonoBehaviour:
   monsterNameText: {fileID: 0}
   monsterSprite: {fileID: 0}
   turnStatusText: {fileID: 0}
---- !u!114 &1442290368706617427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1831230213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6faaa2d235564d54ea579347d8111ffd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StaminaSystem
-  maxStamina: 5
-  OnStaminaChanged:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &1442290368706617432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1831230213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82b7fdf4511ab8c4e8336755fa0c6c3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EmometerSystem
-  isBurnedOut: 0
-  isPositiveBurnout: 0
-  OnEmotionChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!224 &1442290368706617433 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2017205168296807863, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
@@ -2057,17 +2048,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 535218886}
     - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
-      propertyPath: staminaSystem
-      value: 
-      objectReference: {fileID: 1442290368706617427}
-    - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
       propertyPath: currentMonster
       value: 
       objectReference: {fileID: 589969700}
-    - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
-      propertyPath: emometerSystem
-      value: 
-      objectReference: {fileID: 1442290368706617432}
     - target: {fileID: 8549480380106308009, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
       propertyPath: playerStats
       value: 
@@ -2246,6 +2229,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 730553453}
+  - {fileID: 2093472611097093373}
   - {fileID: 1059870777}
   - {fileID: 1666920631}
   - {fileID: 1449592594}
@@ -2253,4 +2237,3 @@ SceneRoots:
   - {fileID: 1672645236}
   - {fileID: 1442290368706617417}
   - {fileID: 8110728315164157670}
-  - {fileID: 2093472611097093373}

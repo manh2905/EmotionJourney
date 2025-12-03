@@ -57,8 +57,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleManager
   deckSystem: {fileID: 8395223963359338736}
-  staminaSystem: {fileID: 0}
-  emometerSystem: {fileID: 0}
+  staminaSystem: {fileID: 998939582813919981}
+  emometerSystem: {fileID: 8346625895011263597}
   draftManager: {fileID: 1377406502300210006}
   playerStats: {fileID: 0}
   currentMonster: {fileID: 0}
@@ -122,9 +122,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a1a6f56e44fac64fb6889a65f0d7709, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraftManager
-  deckSystem: {fileID: 0}
-  staminaSystem: {fileID: 0}
-  battleManager: {fileID: 0}
+  deckSystem: {fileID: 8395223963359338736}
+  staminaSystem: {fileID: 998939582813919981}
+  battleManager: {fileID: 7992846646418956870}
   selectedCards: []
 --- !u!114 &6522727769341640489
 MonoBehaviour:
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3445482895067656374}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55f4440a970897c42a82f7f274ce4837, type: 3}
   m_Name: 
@@ -213,7 +213,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3445482895067656374}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1a73d5f3c6d87046a25e2c08a4cab00, type: 3}
   m_Name: 

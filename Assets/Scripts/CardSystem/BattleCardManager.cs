@@ -143,7 +143,10 @@ public class BattleCardManager : MonoBehaviour
 
     public void OnCardClicked(CardUI card)
     {
-        
+        if (SoundManager.Instance != null && cardClickSound != null)
+        {
+            SoundManager.Instance.PlaySFX(cardClickSound);
+        }
         if (IsCardInAnySlot(card))
         {
             ReturnCardToHand(card);

@@ -40,7 +40,7 @@ public class BattleManager : MonoBehaviour
         Debug.Log("🔥 BattleManager AWAKE CALLED");
     }
 
-    private bool ValidateReferences()
+    private bool  ValidateReferences()
     {
         if (deckSystem == null ||
             staminaSystem == null ||
@@ -60,6 +60,8 @@ public class BattleManager : MonoBehaviour
         {
             SoundManager.Instance.PlayMusic(backgroundMusic);
         }
+        return true;
+
     }
 
     // ==========================
@@ -187,22 +189,17 @@ public class BattleManager : MonoBehaviour
         StartPlayerTurn();
     }
 
-    float damage = currentMonster.Attack();     // Monster trả damage
-
-    if (SoundManager.Instance != null && monsterAttackSound != null)
-    {
-        SoundManager.Instance.PlaySFX(monsterAttackSound);
-    }
-    playerStats.TakeDamage(damage);           // Player nhận damage
-    
-    // Show damage effect
-    if (battleUI != null)
     // ==========================
     // MONSTER ATTACK (with delay)
     // ==========================
     private IEnumerator MonsterAttackCoroutine()
     {
-        Debug.Log("=== MONSTER TURN ===");
+        if (SoundManager.Instance != null && monsterAttackSound != null)
+        {
+            SoundManager.Instance.PlaySFX(monsterAttackSound);
+        }
+
+            Debug.Log("=== MONSTER TURN ===");
         battleUI?.ShowTurnStatus("Monster đang tấn công!");
 
         // Delay nhỏ để UI update

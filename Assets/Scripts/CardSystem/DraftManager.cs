@@ -15,9 +15,7 @@ public class DraftManager : MonoBehaviour
 
     public void StartDraftPhase()
     {
-        Debug.Log("DraftManager Awake: " + GetInstanceID());
-
-        Debug.Log("Draft stamina object: " + staminaSystem.gameObject.name);
+        
         selectedCards.Clear();
     }
 

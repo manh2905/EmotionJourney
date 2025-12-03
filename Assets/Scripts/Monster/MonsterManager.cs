@@ -28,21 +28,7 @@ public class MonsterManager : MonoBehaviour
         monsterInstance.data = monsterData;
     }
 
-    public void DealDamageToMonster(int dmg)
-    {
-        monsterInstance.TakeDamage(dmg);
-
-        if (monsterInstance.IsDead())
-        {
-            //RewardPlayer();
-            Debug.Log("win");
-        }
-    }
-
-    public float MonsterAttack()
-    {
-        return monsterInstance.Attack();
-    }
+    
 
     //private void RewardPlayer()
     //{

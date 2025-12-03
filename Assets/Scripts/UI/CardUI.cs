@@ -138,10 +138,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void ReturnToHand(RectTransform handZone)
     {
-        if (handZone != null)
-        {
-            Debug.Log("handZone null!");
-        }
+       
         isInSlot = false;
         isMoving = true;
         isReturning = true;

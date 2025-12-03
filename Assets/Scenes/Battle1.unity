@@ -563,7 +563,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 135
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -2023,6 +2023,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2113696371101486164, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 42.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113696371101486164, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 20.46
+      objectReference: {fileID: 0}
     - target: {fileID: 2162663158806799934, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2054,6 +2062,14 @@ PrefabInstance:
     - target: {fileID: 4103532152133969633, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103532152133969633, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 41.915
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103532152133969633, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 20.963
       objectReference: {fileID: 0}
     - target: {fileID: 4781529622543880036, guid: b42fb4804b523b0479be7cf19fd765eb, type: 3}
       propertyPath: m_RaycastTarget
@@ -2342,11 +2358,11 @@ PrefabInstance:
     - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
       propertyPath: emometerSystem
       value: 
-      objectReference: {fileID: 1442290368706617432}
+      objectReference: {fileID: 1058388728}
     - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
       propertyPath: backgroundMusic
       value: 
-      objectReference: {fileID: 8300000, guid: 54a5764d07e71f14fa5abcef80eddb4a, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 8549480380106308009, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
       propertyPath: playerStats
       value: 
@@ -2533,5 +2549,4 @@ SceneRoots:
   - {fileID: 1672645236}
   - {fileID: 1442290368706617417}
   - {fileID: 8110728315164157670}
-  - {fileID: 2093472611097093373}
   - {fileID: 621929749}

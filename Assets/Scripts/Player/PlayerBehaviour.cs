@@ -40,6 +40,7 @@ public class PlayerBehaviour : MonoBehaviour
     public void TakeDamage(float damage)
     {
         if (isDead) return;
+        Debug.Log($"tỷ lệ né đòn là {dodgeChance}");
 
         // Kiểm tra né đòn
         if (TryDodge())
@@ -74,6 +75,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (dodgeChance <= 0) return false;
 
         float rnd = Random.Range(0f, 100f);
+        Debug.Log($"random được số {rnd}");
 
         if (rnd < dodgeChance)
         {
@@ -132,14 +134,17 @@ public class PlayerBehaviour : MonoBehaviour
             switch (randomAttack)
             {
                 case 1:
+                    Debug.Log("tấn công 1");
                     animator.SetTrigger("attack1Trigger");
                     break;
 
                 case 2:
+                    Debug.Log("tấn công 2");
                     animator.SetTrigger("attack2Trigger");
                     break;
 
                 case 3:
+                    Debug.Log("tấn công 3");
                     animator.SetTrigger("attack3Trigger");
                     break;
             }
@@ -147,8 +152,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         float totalDamage = data.baseDamage + bonusDamage;
 
-        Debug.Log($"Player Attack {randomAttack} gây {totalDamage} sát thương");
-        Debug.Log(data.maxStamina);
+       
 
         // BattleManager sẽ xử lý Monster.TakeDamage(totalDamage)
     }

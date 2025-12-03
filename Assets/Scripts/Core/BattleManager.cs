@@ -31,16 +31,16 @@ public class BattleManager : MonoBehaviour
     // ==========================
     void Start()
     {
-        Debug.Log("🔥 BattleManager START CALLED!");
+        Debug.Log(" BattleManager START CALLED!");
         if (!ValidateReferences()) return;
         StartBattle();
     }
     void Awake()
     {
-        Debug.Log("🔥 BattleManager AWAKE CALLED");
+        Debug.Log(" BattleManager AWAKE CALLED");
     }
 
-    private bool  ValidateReferences()
+    private bool ValidateReferences()
     {
         if (deckSystem == null ||
             staminaSystem == null ||
@@ -87,7 +87,8 @@ public class BattleManager : MonoBehaviour
         Debug.Log("───▶ START PLAYER TURN");
 
         isPlayerTurn = true;
-
+        playerStats.SetDodgeChance(0f);
+        Debug.Log(playerStats.data.defaultDodgeChance);
         // 1️⃣ Reset Stamina
         staminaSystem.ResetStamina();
 
@@ -135,26 +136,23 @@ public class BattleManager : MonoBehaviour
     private void ResolveCards(List<CardData> cards)
     {
         // Effects (heal, emotion…)
-        CardEffectExecutor.ExecuteEffects(cards, emometerSystem, staminaSystem, playerStats);
+        CardEffectExecutor.ExecuteEffects(cards, emometerSystem, staminaSystem, playerStats, currentMonster);
 
         // Damage calculation
-        float totalDamage = CardDamageCalculator.CalculateTotalDamage(cards, emometerSystem);
+        //float totalDamage = CardDamageCalculator.CalculateTotalDamage(cards, emometerSystem);
 
-        playerStats.Attack(Mathf.RoundToInt(totalDamage));
+        //playerStats.Attack(Mathf.RoundToInt(totalDamage));
 
 
-        // Apply damage
-        // Apply damage
-        currentMonster.TakeDamage(Mathf.RoundToInt(totalDamage));
+        
+        //// Apply damage
+        //currentMonster.TakeDamage(Mathf.RoundToInt(totalDamage));
 
         if (SoundManager.Instance != null && playerAttackSound != null)
         {
             SoundManager.Instance.PlaySFX(playerAttackSound);
         }
- 
-        Debug.Log($"Sát thương cuối cùng lên Monster: {totalDamage}");
 
-        Debug.Log($"💥 Player gây {totalDamage} damage lên quái!");
 
         // Discard cards
         deckSystem.DiscardUsedCards(cards);
@@ -170,7 +168,7 @@ public class BattleManager : MonoBehaviour
         Debug.Log("───▶ END PLAYER TURN");
 
         // Delay trước khi quái tấn công
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
         // Monster Attack
         yield return StartCoroutine(MonsterAttackCoroutine());
@@ -199,7 +197,7 @@ public class BattleManager : MonoBehaviour
             SoundManager.Instance.PlaySFX(monsterAttackSound);
         }
 
-            Debug.Log("=== MONSTER TURN ===");
+        Debug.Log("=== MONSTER TURN ===");
         battleUI?.ShowTurnStatus("Monster đang tấn công!");
 
         // Delay nhỏ để UI update
@@ -210,7 +208,7 @@ public class BattleManager : MonoBehaviour
 
         battleUI?.ShowPlayerDamageEffect();
 
-        Debug.Log($"👹 Monster gây {dmg} damage!");
+        Debug.Log($" Monster gây {dmg} damage!");
 
         // THUA TRẬN
         if (playerStats.GetCurrentHP() <= 0)
@@ -223,20 +221,35 @@ public class BattleManager : MonoBehaviour
     // ==========================
     // END BATTLE
     // ==========================
-    private void EndBattle(bool playerWon)
+    private IEnumerator EndBattleRoutine(bool playerWon)
     {
         if (playerWon)
         {
-            Debug.Log("🎉 Bạn đã thắng!");
+            Debug.Log("Bạn đã thắng!");
             battleUI?.ShowVictory();
 
             MapController.UnlockNextLevel(BattleLoader.currentLevel);
+
+            yield return new WaitForSeconds(1.5f);   // Delay 1.5 giây
+
             SceneManager.LoadScene("Map");
         }
         else
         {
-            Debug.Log("💀 Bạn đã thua!");
+            Debug.Log("Bạn đã thua!");
             battleUI?.ShowDefeat();
+
+            yield return new WaitForSeconds(1.5f);   // Delay 1.5 giây (nếu muốn)
+
+            // Nếu thua thì có thể restart hoặc mở UI thua
+            // SceneManager.LoadScene("Map");
         }
     }
+
+    public void EndBattle(bool playerWon)
+    {
+        StartCoroutine(EndBattleRoutine(playerWon));
+    }
+
+
 }

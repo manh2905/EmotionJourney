@@ -171,9 +171,7 @@ public class BattleCardManager : MonoBehaviour
     /// </summary>
     private void TryMoveCardToSlot(CardUI card)
     {
-        Debug.Log("DEBUG >>> TryMoveCardToSlot START");
-        Debug.Log("INSTANCE DM: " + draftManager.GetInstanceID());
-        Debug.Log("INSTANCE SS: " + (draftManager.staminaSystem != null ? draftManager.staminaSystem.GetInstanceID() : -1));
+        
 
 
         if (cardSlots == null || cardSlots.Count == 0)
@@ -200,25 +198,53 @@ public class BattleCardManager : MonoBehaviour
             return;
         }
 
-        Debug.Log("DEBUG >>> TrySelectCard OK, stamina consumed");
+        
         // Clear slot
-        Debug.Log("DEBUG >>> Clearing previous slot");
+        
         ClearCardFromAllSlots(card);
 
-        Debug.Log("DEBUG >>> Finding empty slot");
+
 
         CardSlot emptySlot = null;
-        foreach (var slot in cardSlots)
+
+        // Nếu là lá SỢ HÃI → CHỈ CHO PHÉP slot đầu tiên (index 0)
+        if (card.cardData.emotionType == EmotionType.Scared)
         {
-            if (slot != null && slot.IsEmpty)
+            CardSlot firstSlot = cardSlots[0]; // slot đầu
+
+            if (firstSlot.IsEmpty)
             {
-
-                emptySlot = slot;
-                break;
+                emptySlot = firstSlot;
             }
-
-            
+            else
+            {
+                Debug.LogWarning("❌ Lá Sợ Hãi chỉ được đặt tại vị trí đầu tiên!");
+                draftManager.RefundCardStamina(card.cardData);
+                card.ReturnToHand(handZone);
+                return;
+            }
         }
+        else
+        {
+            // Các lá bình thường → tìm slot trống bất kỳ
+            foreach (var slot in cardSlots)
+            {
+                if (slot != null && slot.IsEmpty)
+                {
+                    emptySlot = slot;
+                    break;
+                }
+            }
+        }
+
+        // Không tìm thấy slot
+        if (emptySlot == null)
+        {
+            Debug.LogWarning("⚠ Không tìm thấy slot phù hợp!");
+            draftManager.RefundCardStamina(card.cardData);
+            return;
+        }
+
 
         if (emptySlot != null)
         {

@@ -22,7 +22,8 @@ public class MonsterBehaviour : MonoBehaviour
     {
         currentHP -= amount;
         if (currentHP < 0) currentHP = 0;
-        Debug.Log(currentHP);
+        Debug.Log($"<color=red>HP của quái: {currentHP}</color>");
+
 
         animator.SetTrigger("hitTrigger");
 

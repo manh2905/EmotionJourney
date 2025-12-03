@@ -18,6 +18,9 @@ public class BattleCardManager : MonoBehaviour
     public DraftManager draftManager;
     public UnityEngine.UI.Button confirmButton;
 
+    [Header("Audio")]
+    public AudioClip cardClickSound;
+    
     private const int MAX_HAND_SIZE = 7;
     private const int MAX_DRAFT_SLOTS = 3;
 
@@ -29,7 +32,8 @@ public class BattleCardManager : MonoBehaviour
 
     private void Start()
     {
-        ValidateSlots();
+        InitializeReferences();
+        ValidateSlots(); 
 
         foreach (var slot in cardSlots)
         {
@@ -40,8 +44,49 @@ public class BattleCardManager : MonoBehaviour
 
         if (confirmButton != null)
         {
+            confirmButton.onClick.RemoveListener(OnConfirmButtonClicked);
             confirmButton.onClick.AddListener(OnConfirmButtonClicked);
             UpdateConfirmButton();
+        }
+    }
+
+    private void InitializeReferences()
+    {
+        
+        if (handZone == null)
+        {
+            GameObject handCanvas = GameObject.Find("HandZone_Canvas");
+            if (handCanvas != null)
+            {
+                Debug.Log("HandZone_Canvas found!");
+                handZone = handCanvas.GetComponent<RectTransform>();
+            }
+        }
+
+        // Auto-find CardSlots if missing
+        if (cardSlots == null || cardSlots.Count == 0)
+        {
+            GameObject slotContainer = GameObject.Find("CardSlot"); // The parent container
+            if (slotContainer != null)
+            {
+                var slots = slotContainer.GetComponentsInChildren<CardSlot>();
+                if (slots != null && slots.Length > 0)
+                {
+                    cardSlots = new List<CardSlot>(slots);
+                }
+            }
+            
+            // Fallback: Find all in scene
+            if (cardSlots == null || cardSlots.Count == 0)
+            {
+                cardSlots = new List<CardSlot>(FindObjectsOfType<CardSlot>());
+            }
+            
+            // Sort by sibling index to ensure order
+            if (cardSlots != null)
+            {
+                cardSlots.Sort((a, b) => a.transform.GetSiblingIndex().CompareTo(b.transform.GetSiblingIndex()));
+            }
         }
     }
 
@@ -210,7 +255,6 @@ public class BattleCardManager : MonoBehaviour
         }
 
         card.ReturnToHand(handZone);
-        Debug.Log($"⬅️ Card returned to hand");
     }
 
     private int GetCardsInSlotsCount()

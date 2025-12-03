@@ -19,6 +19,11 @@ public class BattleManager : MonoBehaviour
     [Header("UI")]
     public BattleUI battleUI;
 
+    [Header("Audio")]
+    public AudioClip backgroundMusic;
+    public AudioClip playerAttackSound;
+    public AudioClip monsterAttackSound;
+
     private bool isPlayerTurn = false;
 
     // ==========================
@@ -48,7 +53,13 @@ public class BattleManager : MonoBehaviour
             enabled = false;
             return false;
         }
-        return true;
+
+        StartBattle(); // Bắt đầu trận đấu
+
+        if (SoundManager.Instance != null && backgroundMusic != null)
+        {
+            SoundManager.Instance.PlayMusic(backgroundMusic);
+        }
     }
 
     // ==========================
@@ -134,6 +145,13 @@ public class BattleManager : MonoBehaviour
         // Apply damage
         currentMonster.TakeDamage(Mathf.RoundToInt(totalDamage));
 
+        if (SoundManager.Instance != null && playerAttackSound != null)
+        {
+            SoundManager.Instance.PlaySFX(playerAttackSound);
+        }
+ 
+        Debug.Log($"Sát thương cuối cùng lên Monster: {totalDamage}");
+
         Debug.Log($"💥 Player gây {totalDamage} damage lên quái!");
 
         // Discard cards
@@ -169,6 +187,16 @@ public class BattleManager : MonoBehaviour
         StartPlayerTurn();
     }
 
+    float damage = currentMonster.Attack();     // Monster trả damage
+
+    if (SoundManager.Instance != null && monsterAttackSound != null)
+    {
+        SoundManager.Instance.PlaySFX(monsterAttackSound);
+    }
+    playerStats.TakeDamage(damage);           // Player nhận damage
+    
+    // Show damage effect
+    if (battleUI != null)
     // ==========================
     // MONSTER ATTACK (with delay)
     // ==========================

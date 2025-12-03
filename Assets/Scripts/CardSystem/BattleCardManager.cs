@@ -2,10 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-/// <summary>
-/// Quản lý tương tác bài trong Battle (Hand <-> Slots)
-/// Kết nối UI với DraftManager để xử lý logic
-/// </summary>
 public class BattleCardManager : MonoBehaviour
 {
     public static BattleCardManager Instance { get; private set; }
@@ -17,36 +13,27 @@ public class BattleCardManager : MonoBehaviour
     [Header("Setup")]
     public GameObject cardPrefab;
     public CardDatabase cardDatabase;
-    
+
     [Header("Logic Connection")]
     public DraftManager draftManager;
     public UnityEngine.UI.Button confirmButton;
-    
+
     private const int MAX_HAND_SIZE = 7;
     private const int MAX_DRAFT_SLOTS = 3;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
     private void Start()
     {
-        ValidateSlots(); // Ensure slots are valid first
+        ValidateSlots();
 
         foreach (var slot in cardSlots)
         {
-            if (slot != null)
-            {
-                slot.ClearCard();
-            }
+            if (slot != null) slot.ClearCard();
         }
 
         RefillHand();
@@ -62,7 +49,7 @@ public class BattleCardManager : MonoBehaviour
     {
         if (cardSlots == null) cardSlots = new List<CardSlot>();
         cardSlots.RemoveAll(s => s == null);
-        
+
         if (cardSlots.Count == 0)
         {
             var found = GetComponentsInChildren<CardSlot>();
@@ -97,7 +84,7 @@ public class BattleCardManager : MonoBehaviour
     {
         GameObject cardObj = Instantiate(cardPrefab, handZone);
         CardUI cardUI = cardObj.GetComponent<CardUI>();
-        
+
         if (cardUI != null)
         {
             cardUI.Initialize(entry.data, entry.art);
@@ -111,72 +98,125 @@ public class BattleCardManager : MonoBehaviour
 
     public void OnCardClicked(CardUI card)
     {
+        
         if (IsCardInAnySlot(card))
         {
             ReturnCardToHand(card);
+        }
+        else if (!draftManager.staminaSystem.CanUseCard(card.cardData.staminaCost))
+        {
+            Debug.LogWarning($"❌ Không đủ Stamina để dùng: {card.cardData.cardName} (Cần {card.cardData.staminaCost})");
+            //battleUI?.ShowInsufficientStaminaWarning(); // Nếu có
+            return;
+            
         }
         else
         {
             TryMoveCardToSlot(card);
         }
-        
+
         UpdateConfirmButton();
     }
 
+    /// <summary>
+    /// CHỌN CARD → trừ stamina ngay thông qua DraftManager.TrySelectCard
+    /// </summary>
     private void TryMoveCardToSlot(CardUI card)
     {
-        if (cardSlots == null || cardSlots.Count == 0) return;
+        Debug.Log("DEBUG >>> TryMoveCardToSlot START");
+        Debug.Log("INSTANCE DM: " + draftManager.GetInstanceID());
+        Debug.Log("INSTANCE SS: " + (draftManager.staminaSystem != null ? draftManager.staminaSystem.GetInstanceID() : -1));
 
+
+        if (cardSlots == null || cardSlots.Count == 0)
+        {
+            Debug.LogError("❌ card == NULL");
+            return;
+        }
+
+        if (card.cardData == null)
+        {
+            Debug.LogError("❌ card.cardData == NULL (Prefab chưa có CardData)");
+            return;
+        }
+
+        if (draftManager == null)
+        {
+            Debug.LogError("❌ draftManager == NULL");
+            return;
+        }
+
+        if (draftManager.staminaSystem == null)
+        {
+            Debug.LogError("❌ draftManager.staminaSystem == NULL !!!");
+            return;
+        }
+
+        Debug.Log("DEBUG >>> TrySelectCard OK, stamina consumed");
+        // Clear slot
+        Debug.Log("DEBUG >>> Clearing previous slot");
         ClearCardFromAllSlots(card);
+
+        Debug.Log("DEBUG >>> Finding empty slot");
 
         CardSlot emptySlot = null;
         foreach (var slot in cardSlots)
         {
             if (slot != null && slot.IsEmpty)
             {
+
                 emptySlot = slot;
                 break;
             }
+
+            
         }
 
         if (emptySlot != null)
         {
+            Debug.Log("DEBUG >>> AssignCard");
             emptySlot.AssignCard(card);
+
+            Debug.Log("DEBUG >>> MoveToSlot");
             card.MoveToSlot(emptySlot);
+            draftManager.TrySelectCard(card.cardData);
         }
         else
         {
-            Debug.Log("⚠️ No empty slots available!");
+            Debug.LogWarning("⚠ No Empty Slot");
+            draftManager.RefundCardStamina(card.cardData);
+            return;
         }
+        
+
+        
     }
 
+
+    // Nếu tới đây là stamina đã trừ và Không crash
+    // → crash nằm SAU ĐOẠN NÀY
+
+
+    /// <summary>
+    /// Bỏ chọn card → remove khỏi slot + Refund stamina qua DraftManager
+    /// </summary>
     private void ReturnCardToHand(CardUI card)
     {
-        //if (cardSlots != null)
-        //{
-        //    foreach (var slot in cardSlots)
-        //    {
-        //        if (slot != null && slot.currentCard == card)
-        //        {
-        //            slot.ClearCard();
-        //            break;
-        //        }
-        //    }
-        //}
         ClearCardFromAllSlots(card);
+
         if (draftManager != null && card.cardData != null)
         {
             draftManager.RefundCardStamina(card.cardData);
         }
-        
+
         card.ReturnToHand(handZone);
         Debug.Log($"⬅️ Card returned to hand");
     }
-    
+
     private int GetCardsInSlotsCount()
     {
         int count = 0;
-        
+
         if (cardSlots != null)
         {
             foreach (var slot in cardSlots)
@@ -187,82 +227,52 @@ public class BattleCardManager : MonoBehaviour
                 }
             }
         }
-        
+
         return count;
     }
-    
+
     private void UpdateConfirmButton()
     {
         if (confirmButton != null)
         {
             int cardsInSlots = GetCardsInSlotsCount();
             confirmButton.interactable = cardsInSlots > 0;
-            
+
             var buttonText = confirmButton.GetComponentInChildren<TextMeshProUGUI>();
             if (buttonText != null)
             {
                 buttonText.text = $"Confirm ({cardsInSlots}/{MAX_DRAFT_SLOTS})";
             }
-            
+
             Debug.Log($"🔘 Button: Cards={cardsInSlots}, Interactable={confirmButton.interactable}");
         }
     }
-    
+
+    /// <summary>
+    /// CONFIRM: chỉ gọi DraftManager.ConfirmDraft() để gây damage.
+    /// KHÔNG gọi lại TrySelectCard nữa (tránh trừ stamina 2 lần và NullRef).
+    /// </summary>
     private void OnConfirmButtonClicked()
     {
         Debug.Log("🎯 CONFIRM BUTTON CLICKED!");
-        
-        List<CardData> selectedCards = new List<CardData>();
-        
-        if (cardSlots != null)
-        {
-            foreach (var slot in cardSlots)
-            {
-                if (slot != null && !slot.IsEmpty && slot.currentCard != null)
-                {
-                    selectedCards.Add(slot.currentCard.cardData);
-                }
-            }
-        }
-        
-        if (selectedCards.Count == 0)
-        {
-            Debug.LogWarning("⚠️ Không có card nào được chọn!");
-            return;
-        }
-        
-        if (draftManager != null)
-        {
-            bool allValid = true;
-            List<CardData> validatedCards = new List<CardData>();
-            
-            foreach (var cardData in selectedCards)
-            {
-                if (draftManager.TrySelectCard(cardData))
-                {
-                    validatedCards.Add(cardData);
-                }
-                else
-                {
-                    allValid = false;
-                    break;
-                }
-            }
-            
-            if (allValid && validatedCards.Count > 0)
-            {
-                draftManager.ConfirmDraft();
-                ClearAllSlots();
-            }
-            else
-            {
-                Debug.LogWarning("❌ Validation thất bại!");
-            }
-        }
-        else
+
+        if (draftManager == null)
         {
             Debug.LogError("🚨 DraftManager chưa được gán!");
+            
         }
+
+        if (draftManager.selectedCards.Count == 0)
+        {
+            Debug.LogWarning("⚠️ Không có card nào được chọn!");
+            
+        }
+
+        // Gây damage + Resolve thông qua DraftManager + BattleManager
+        draftManager.ConfirmDraft();
+
+        // Xoá card khỏi slot (UI)
+        ClearAllSlots();
     }
 
     private bool IsCardInAnySlot(CardUI card)
@@ -311,7 +321,7 @@ public class BattleCardManager : MonoBehaviour
                 }
             }
         }
-        
+
         UpdateConfirmButton();
     }
 }

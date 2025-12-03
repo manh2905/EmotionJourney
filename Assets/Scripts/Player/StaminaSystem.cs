@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 // Đảm bảo kế thừa từ MonoBehaviour để gắn vào Game Object
 public class StaminaSystem : MonoBehaviour
-{
+{   
     public int maxStamina = 5; // Ví dụ: Max Stamina là 5
     private int currentStamina;
 

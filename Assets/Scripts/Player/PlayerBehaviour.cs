@@ -146,7 +146,6 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         float totalDamage = data.baseDamage + bonusDamage;
-        data.maxStamina -= 1;
 
         Debug.Log($"Player Attack {randomAttack} gây {totalDamage} sát thương");
         Debug.Log(data.maxStamina);

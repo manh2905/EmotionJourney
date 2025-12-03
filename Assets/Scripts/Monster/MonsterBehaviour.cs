@@ -22,6 +22,7 @@ public class MonsterBehaviour : MonoBehaviour
     {
         currentHP -= amount;
         if (currentHP < 0) currentHP = 0;
+        Debug.Log(currentHP);
 
         animator.SetTrigger("hitTrigger");
 
@@ -73,10 +74,10 @@ public class MonsterBehaviour : MonoBehaviour
 
 
     // Hàm tấn công chính
-    public float Attack()
+    public float  Attack()
     {
         turnCounter++;
-
+         
         // Nếu đủ mana -> dùng Skill đặc biệt
         if (currentMana >= data.mana)
         {

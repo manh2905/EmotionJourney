@@ -25,10 +25,10 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// </summary>
     public void Initialize(CardData data, Sprite art)
     {
-        cardData = data;
+        this.cardData = data;
         if (cardImage != null && art != null)
         {
-            cardImage.sprite = art;
+            this.cardImage.sprite = art;
         }
     }
 

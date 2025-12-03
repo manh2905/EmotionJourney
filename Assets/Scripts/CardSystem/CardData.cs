@@ -19,6 +19,7 @@ public class CardData : ScriptableObject
 
     // Cần thêm các trường khác cho hiệu ứng đặc biệt nếu cần
     // public CardEffectType effectType; 
+
 }
 
 // Enum để phân loại cảm xúc

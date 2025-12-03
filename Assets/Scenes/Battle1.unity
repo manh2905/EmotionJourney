@@ -658,6 +658,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b7fdf4511ab8c4e8336755fa0c6c3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EmometerSystem
+--- !u!114 &1058388732 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 748424401050416693, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+  m_PrefabInstance: {fileID: 2093472611097093373}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 656d5ee48bf314548b304afb328c22d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleCardManager
 --- !u!114 &1058388742 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 998939582813919981, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
@@ -669,6 +680,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6faaa2d235564d54ea579347d8111ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaminaSystem
+--- !u!114 &1058388754 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+  m_PrefabInstance: {fileID: 2093472611097093373}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faaf696543bf16e489e27040816e4af4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleManager
 --- !u!1001 &1059870777
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1979,6 +2001,14 @@ PrefabInstance:
       propertyPath: 'cardSlots.Array.data[2]'
       value: 
       objectReference: {fileID: 191114522}
+    - target: {fileID: 1377406502300210006, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: battleManager
+      value: 
+      objectReference: {fileID: 1058388754}
+    - target: {fileID: 1581563165329901274, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3445482895067656374, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
       propertyPath: m_Name
       value: BattleManager
@@ -2039,10 +2069,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6522727769341640489, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
       propertyPath: battleUI
       value: 
       objectReference: {fileID: 1442290368706617422}
+    - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: cardManager
+      value: 
+      objectReference: {fileID: 1058388732}
     - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
       propertyPath: playerStats
       value: 

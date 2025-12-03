@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,7 @@ public class BattleManager : MonoBehaviour
     public StaminaSystem staminaSystem;
     public EmometerSystem emometerSystem;
     public DraftManager draftManager;
+    public BattleCardManager cardManager;
 
     [Header("Combatants")]
     public PlayerBehaviour playerStats;
@@ -24,8 +26,13 @@ public class BattleManager : MonoBehaviour
     // ==========================
     void Start()
     {
+        Debug.Log("🔥 BattleManager START CALLED!");
         if (!ValidateReferences()) return;
         StartBattle();
+    }
+    void Awake()
+    {
+        Debug.Log("🔥 BattleManager AWAKE CALLED");
     }
 
     private bool ValidateReferences()
@@ -71,11 +78,15 @@ public class BattleManager : MonoBehaviour
         // 1️⃣ Reset Stamina
         staminaSystem.ResetStamina();
 
-        // 2️⃣ Rút bài / refill hand
+        cardManager.RefillHand();
+
+        // 2️⃣ Fill hand to 7 cards
         deckSystem.RevealAndRefillHand();
 
-        // 3️⃣ Bắt đầu giai đoạn chọn bài
+        // 3️⃣ Reset draft
         draftManager.StartDraftPhase();
+
+
 
         // 4️⃣ UI
         battleUI?.ShowDraftPanel(true);
@@ -83,7 +94,7 @@ public class BattleManager : MonoBehaviour
     }
 
     // ==========================
-    // XỬ LÝ SAU KHI BẤM CONFIRM
+    // SAU KHI NHẤN CONFIRM
     // ==========================
     public void ProcessPlayerActions(List<CardData> usedCards)
     {
@@ -91,94 +102,107 @@ public class BattleManager : MonoBehaviour
 
         Debug.Log("=== PLAYER RESOLVE PHASE ===");
 
-        // 1️⃣ Resolve effects lên player
+        // 1. Player resolve effects & damage
         ResolveCards(usedCards);
 
-        // 2️⃣ Check monster chết chưa
+        // 2. Check monster death
         if (currentMonster.IsDead())
         {
             EndBattle(true);
             return;
         }
 
-        // 3️⃣ Kết thúc lượt player → Monster Attack
-        EndPlayerTurn();
+        // 3. Kết thúc lượt player (có delay)
+        StartCoroutine(EndPlayerTurnCoroutine());
     }
 
     // ==========================
-    // PLAYER RESOLVE
+    // RESOLVE PLAYER ACTIONS
     // ==========================
     private void ResolveCards(List<CardData> cards)
     {
-        // 1) Resolve effect: heal, buff, emotion…
+        // Effects (heal, emotion…)
         CardEffectExecutor.ExecuteEffects(cards, emometerSystem, staminaSystem, playerStats);
 
-        // 2) Calculate Damage
+        // Damage calculation
         float totalDamage = CardDamageCalculator.CalculateTotalDamage(cards, emometerSystem);
 
-        playerStats.Attack(totalDamage);
+        playerStats.Attack(Mathf.RoundToInt(totalDamage));
 
-        // 3) Apply damage to monster
+
+        // Apply damage
+        // Apply damage
         currentMonster.TakeDamage(Mathf.RoundToInt(totalDamage));
 
-        Debug.Log($"💥 Player gây {totalDamage} damage!");
+        Debug.Log($"💥 Player gây {totalDamage} damage lên quái!");
 
-        // 4) Discard used cards
+        // Discard cards
         deckSystem.DiscardUsedCards(cards);
     }
 
     // ==========================
-    // KẾT THÚC LƯỢT PLAYER
+    // END PLAYER TURN + DELAY
     // ==========================
-    private void EndPlayerTurn()
+    private IEnumerator EndPlayerTurnCoroutine()
     {
         isPlayerTurn = false;
 
-        Debug.Log("───▶ END PLAYER TURN → MONSTER ATTACK");
-        MonsterAttack();
+        Debug.Log("───▶ END PLAYER TURN");
 
+        // Delay trước khi quái tấn công
+        yield return new WaitForSeconds(1f);
+
+        // Monster Attack
+        yield return StartCoroutine(MonsterAttackCoroutine());
+
+        // Player chết?
         if (playerStats.GetCurrentHP() <= 0)
         {
             EndBattle(false);
-            return;
+            yield break;
         }
 
-        if (!currentMonster.IsDead())
-        {
-            StartPlayerTurn(); // turn mới
-        }
+        // Delay trước turn mới
+        yield return new WaitForSeconds(1f);
+
+        // Start next turn
+        StartPlayerTurn();
     }
 
     // ==========================
-    // MONSTER ATTACK
+    // MONSTER ATTACK (with delay)
     // ==========================
-    private void MonsterAttack()
+    private IEnumerator MonsterAttackCoroutine()
     {
         Debug.Log("=== MONSTER TURN ===");
+        battleUI?.ShowTurnStatus("Monster đang tấn công!");
 
-        battleUI?.ShowTurnStatus("Lượt của Monster!");
+        // Delay nhỏ để UI update
+        yield return new WaitForSeconds(0.7f);
 
         float dmg = currentMonster.Attack();
         playerStats.TakeDamage(dmg);
 
         battleUI?.ShowPlayerDamageEffect();
 
-        Debug.Log($"👹 Monster gây {dmg} damage lên người chơi!");
+        Debug.Log($"👹 Monster gây {dmg} damage!");
 
+        // THUA TRẬN
         if (playerStats.GetCurrentHP() <= 0)
         {
             EndBattle(false);
+            yield break;
         }
     }
 
     // ==========================
-    // KẾT THÚC TRẬN ĐẤU
+    // END BATTLE
     // ==========================
     private void EndBattle(bool playerWon)
     {
         if (playerWon)
         {
-            Debug.Log("🎉 Chiến thắng!");
+            Debug.Log("🎉 Bạn đã thắng!");
             battleUI?.ShowVictory();
 
             MapController.UnlockNextLevel(BattleLoader.currentLevel);
@@ -186,7 +210,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("💀 Thất bại!");
+            Debug.Log("💀 Bạn đã thua!");
             battleUI?.ShowDefeat();
         }
     }

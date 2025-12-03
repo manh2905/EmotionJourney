@@ -98,9 +98,17 @@ public class BattleCardManager : MonoBehaviour
 
     public void OnCardClicked(CardUI card)
     {
+        
         if (IsCardInAnySlot(card))
         {
             ReturnCardToHand(card);
+        }
+        else if (!draftManager.staminaSystem.CanUseCard(card.cardData.staminaCost))
+        {
+            Debug.LogWarning($"❌ Không đủ Stamina để dùng: {card.cardData.cardName} (Cần {card.cardData.staminaCost})");
+            //battleUI?.ShowInsufficientStaminaWarning(); // Nếu có
+            return;
+            
         }
         else
         {

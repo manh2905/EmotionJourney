@@ -20,6 +20,11 @@ public class BattleManager : MonoBehaviour
     [Header("UI")]
     public BattleUI battleUI; // UI Controller
 
+    [Header("Audio")]
+    public AudioClip backgroundMusic;
+    public AudioClip playerAttackSound;
+    public AudioClip monsterAttackSound;
+
     private bool isPlayerTurn = false;
 
     void Start() 
@@ -33,6 +38,11 @@ public class BattleManager : MonoBehaviour
         }
 
         StartBattle(); // Bắt đầu trận đấu
+
+        if (SoundManager.Instance != null && backgroundMusic != null)
+        {
+            SoundManager.Instance.PlayMusic(backgroundMusic);
+        }
     }
 
     public void StartBattle()
@@ -106,6 +116,11 @@ public class BattleManager : MonoBehaviour
 
         // 3. Gây sát thương lên Monster
         currentMonster.TakeDamage(Mathf.RoundToInt(totalDamage));
+
+        if (SoundManager.Instance != null && playerAttackSound != null)
+        {
+            SoundManager.Instance.PlaySFX(playerAttackSound);
+        }
  
         Debug.Log($"Sát thương cuối cùng lên Monster: {totalDamage}");
 
@@ -141,6 +156,11 @@ public class BattleManager : MonoBehaviour
     }
 
     float damage = currentMonster.Attack();     // Monster trả damage
+
+    if (SoundManager.Instance != null && monsterAttackSound != null)
+    {
+        SoundManager.Instance.PlaySFX(monsterAttackSound);
+    }
     playerStats.TakeDamage(damage);           // Player nhận damage
     
     // Show damage effect

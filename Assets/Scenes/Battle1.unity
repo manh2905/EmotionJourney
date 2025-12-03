@@ -2093,6 +2093,10 @@ PrefabInstance:
       propertyPath: currentMonster
       value: 
       objectReference: {fileID: 589969700}
+    - target: {fileID: 8395223963359338736, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8549480380106308009, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
       propertyPath: playerStats
       value: 

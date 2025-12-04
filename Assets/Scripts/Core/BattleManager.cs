@@ -11,6 +11,8 @@ public class BattleManager : MonoBehaviour
     public EmometerSystem emometerSystem;
     public DraftManager draftManager;
     public BattleCardManager cardManager;
+    public List<RewardData> levelRewards;
+    public CardDatabase cardDB; // nếu cần lookup
 
     [Header("Combatants")]
     public PlayerBehaviour playerStats;
@@ -69,7 +71,7 @@ public class BattleManager : MonoBehaviour
     // ==========================
     public void StartBattle()
     {
-        deckSystem.InitializeDeck();
+        //deckSystem.InitializeDeck();
         emometerSystem.Initialize();
         battleUI?.Initialize();
 
@@ -95,7 +97,7 @@ public class BattleManager : MonoBehaviour
         cardManager.RefillHand();
 
         // 2️⃣ Fill hand to 7 cards
-        deckSystem.RevealAndRefillHand();
+        //deckSystem.RevealAndRefillHand();
 
         // 3️⃣ Reset draft
         draftManager.StartDraftPhase();
@@ -138,15 +140,6 @@ public class BattleManager : MonoBehaviour
         // Effects (heal, emotion…)
         CardEffectExecutor.ExecuteEffects(cards, emometerSystem, staminaSystem, playerStats, currentMonster);
 
-        // Damage calculation
-        //float totalDamage = CardDamageCalculator.CalculateTotalDamage(cards, emometerSystem);
-
-        //playerStats.Attack(Mathf.RoundToInt(totalDamage));
-
-
-        
-        //// Apply damage
-        //currentMonster.TakeDamage(Mathf.RoundToInt(totalDamage));
 
         if (SoundManager.Instance != null && playerAttackSound != null)
         {
@@ -155,7 +148,7 @@ public class BattleManager : MonoBehaviour
 
 
         // Discard cards
-        deckSystem.DiscardUsedCards(cards);
+        //deckSystem.DiscardUsedCards(cards);
     }
 
     // ==========================
@@ -225,10 +218,20 @@ public class BattleManager : MonoBehaviour
     {
         if (playerWon)
         {
+            int level = BattleLoader.currentLevel;  // level hiện tại
+            RewardData reward = GetRewardForLevel(level);
+
+            if (reward != null)
+            {
+                CardUnlockManager.Instance.UnlockCards(reward.rewardCards);
+
+                Debug.Log($"<color=cyan>Mở khóa {reward.rewardCards.Count} lá cho Level {level}</color>");
+            }
             Debug.Log("Bạn đã thắng!");
-            
-            // Unlock next level
-            MapController.UnlockNextLevel(BattleLoader.currentLevel);
+
+            battleUI?.ShowVictory();
+
+            MapController.UnlockNextLevel(level);
 
             // Show victory screen (VictoryScreenUI will handle transition to Map)
             Debug.Log("🔵 BattleManager: Calling battleUI.ShowVictory()...");
@@ -259,6 +262,20 @@ public class BattleManager : MonoBehaviour
     public void EndBattle(bool playerWon)
     {
         StartCoroutine(EndBattleRoutine(playerWon));
+    }
+
+
+    // lấy danh sách phần thưởng
+    private RewardData GetRewardForLevel(int level)
+    {
+        foreach (var reward in levelRewards)
+        {
+            if (reward.level == level)
+                return reward;
+        }
+
+        Debug.LogWarning("⚠ Không tìm thấy phần thưởng cho Level: " + level);
+        return null;
     }
 
 

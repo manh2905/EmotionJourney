@@ -66,6 +66,26 @@ public class PlayerBehaviour : MonoBehaviour
             Die();
         }
     }
+    public void TakeDamageByAngry(float damage)
+    {
+        
+
+        // Nhận damage thật sự
+        currentHp -= damage;
+        Debug.Log($"Player nhận {damage} sát thương. HP còn lại: {currentHp}");
+
+        // Trigger event để update UI
+        OnHPChanged?.Invoke(currentHp, data.maxHP);
+
+        StartCoroutine(delayAni("hitTrigger", data.deathAnimationTime));
+
+        if (currentHp <= 0)
+        {
+            currentHp = 0;
+            OnHPChanged?.Invoke(currentHp, data.maxHP);
+            Die();
+        }
+    }
 
     // ============================
     // 2. NÉ ĐÒN

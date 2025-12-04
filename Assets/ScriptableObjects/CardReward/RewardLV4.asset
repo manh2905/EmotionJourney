@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a037dd85c8dad45af78d33a39129ef, type: 3}
+  m_Name: RewardLV4
+  m_EditorClassIdentifier: Assembly-CSharp::RewardData
+  level: 2
+  rewardCards:
+  - {fileID: 11400000, guid: 410fd19dee8c98645833a8775225a209, type: 2}
+  - {fileID: 11400000, guid: 1a26b59a1e7df3046ab32ffc2611761a, type: 2}
+  - {fileID: 11400000, guid: 2ab489c3bfe0d444f86bfe02d17b8b92, type: 2}
+  - {fileID: 11400000, guid: 441de6fbc6caa1547a31c6cc8131f726, type: 2}
+  - {fileID: 11400000, guid: 3f627c3d897748047aa3cd15abcec353, type: 2}

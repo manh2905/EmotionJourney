@@ -6,12 +6,40 @@ public class MapController : MonoBehaviour
     public GameObject[] levelNodes;      // man1, man2, man3...
     public GameObject[] lockIcons;       // lock1, lock2, lock3...
     public GameObject[] completeIcons;   // xicon1, xicon2...
-
+   
     public Animator[] lockAnimators;     // Animator của từng lock
+    public CardDatabase cardDB;
 
     void Start()
     {
         //PlayerPrefs.DeleteAll();
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("a1"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("a2"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("a3"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("a4"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("a5"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("h1"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("h2"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("h3"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("h4"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("h5"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("b1"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("b2"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("b3"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("b4"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("b5"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("s1"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("s2"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("s3"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("s4"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("s5"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("f1"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("f2"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("f3"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("f4"));
+        CardUnlockManager.Instance.UnlockCard(cardDB.GetCardByID("f5"));
+
+
         int unlocked = PlayerPrefs.GetInt("LevelUnlocked", 1);
 
         for (int i = 0; i < levelNodes.Length; i++)

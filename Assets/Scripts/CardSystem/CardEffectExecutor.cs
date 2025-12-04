@@ -12,6 +12,7 @@ public static class CardEffectExecutor
         MonsterBehaviour currentMonster)
     {
         int fearRiskLeft = 0;
+        int discardCard = 0;
         float totalDamage = 0f;
         float damageMultiplier = 1f; // Bored → ×0.85
         int cardIndex = 0;
@@ -20,6 +21,11 @@ public static class CardEffectExecutor
         {
             Debug.Log($"<color=yellow>▶ Xử lý lá: {card.cardName} (slot {cardIndex + 1})</color>");
 
+            if( discardCard != 0 )
+            {
+                discardCard--;
+                continue;
+            }
             
             if (fearRiskLeft > 0)
             {
@@ -80,18 +86,41 @@ public static class CardEffectExecutor
 
                 // SCARED — +50% dodge + rủi ro 2 lá sau
                 case EmotionType.Scared:
-                    if (negativeBurnout)
                     {
-                        Debug.Log("<color=red>Burnout -10 → Debuff Scared x2!</color>");
-                        // Nếu Scared có debuff riêng thì nhân đôi ở đây
+                        if (negativeBurnout)
+                        {
+                            Debug.Log("<color=red>Burnout -10 → Scared debuff mạnh</color>");
+                            if (Random.value < 0.5f)
+                            {
+                                // Né tăng 100% thay vì 50%
+                                playerStats.SetDodgeChance(100f);
+                                Debug.Log("<color=cyan>Scared (Burnout) → +100% Dodge</color>");
+                            }
+                            else
+                            {
+                                // Rủi ro bỏ qua luôn 2 lá sau
+                                discardCard = 2;
+                                Debug.Log("<color=red>Scared (Burnout) → 2 lá kế tiếp bị lỗi</color>");
+                            }
+                        }
+                        else
+                        {
+                            // CHẾ ĐỘ BÌNH THƯỜNG → 50% né hoặc 50% rủi ro 2 lá
+                            if (Random.value < 0.5f)
+                            {
+                                playerStats.SetDodgeChance(50f);
+                                Debug.Log("<color=cyan>Scared → +50% Dodge</color>");
+                            }
+                            else
+                            {
+                                fearRiskLeft = 2;
+                                Debug.Log("<color=red>Scared → 2 lá kế tiếp có thể bị lỗi</color>");
+                            }
+                        }
+
+                        break;
                     }
-                    else
-                    {
-                        playerStats.SetDodgeChance(50f);
-                        Debug.Log("<color=cyan>+50% Dodge</color>");
-                    }
-                    fearRiskLeft = 2;
-                    break;
+
 
                 // HAPPY — 0 stamina +2 positive
                 case EmotionType.Happy:
@@ -100,11 +129,23 @@ public static class CardEffectExecutor
 
                 // ANGRY — damage ×1.5 + mất 5% HP
                 case EmotionType.Angry:
-                    dmg *= 1.5f;
-                    float hpLoss = playerStats.data.maxHP * 0.05f;
-                    playerStats.TakeDamage(hpLoss);
-                    Debug.Log($"<color=red>Angry → damage ×1.5, mất {hpLoss} HP</color>");
-                    break;
+                    if (negativeBurnout)
+                    {
+                        dmg *= 1.5f;
+                        float hpLoss = playerStats.data.maxHP * 0.1f;
+                        playerStats.TakeDamageByAngry(hpLoss);
+                        Debug.Log($"<color=red>Angry → damage ×1.5, mất {hpLoss} HP</color>");
+                        break;
+                    }
+                    else
+                    {
+                        dmg *= 1.5f;
+                        float hpLoss = playerStats.data.maxHP * 0.05f;
+                        playerStats.TakeDamageByAngry(hpLoss);
+                        Debug.Log($"<color=red>Angry → damage ×1.5, mất {hpLoss} HP</color>");
+                        break;
+                    }
+                    
             }
 
             // BURNOUT GIẢM DAMAGE
@@ -125,7 +166,7 @@ public static class CardEffectExecutor
         
         float finalDamage = totalDamage * damageMultiplier;
 
-        Debug.Log($"<color=lime> Tổng damage = ({totalDamage}) × {damageMultiplier} = {finalDamage}</color>");
+        Debug.Log($"<color=lime> Tổng damage = ({totalDamage}) × {damageMultiplier} = {Mathf.RoundToInt(finalDamage)}</color>");
 
         playerStats.Attack(Mathf.RoundToInt(totalDamage));
 

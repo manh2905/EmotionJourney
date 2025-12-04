@@ -233,9 +233,19 @@ public class BattleManager : MonoBehaviour
 
             MapController.UnlockNextLevel(level);
 
-            yield return new WaitForSeconds(1.5f);   // Delay 1.5 giây
-
-            SceneManager.LoadScene("Map");
+            // Show victory screen (VictoryScreenUI will handle transition to Map)
+            Debug.Log("🔵 BattleManager: Calling battleUI.ShowVictory()...");
+            if (battleUI == null)
+            {
+                Debug.LogError("❌❌❌ BattleUI is NULL in BattleManager!");
+            }
+            else
+            {
+                battleUI.ShowVictory();
+            }
+            
+            // REMOVED: Auto-transition to Map
+            // Victory screen now handles this via Continue button
         }
         else
         {

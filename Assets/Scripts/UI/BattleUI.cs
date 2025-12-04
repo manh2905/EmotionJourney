@@ -26,6 +26,8 @@ public class BattleUI : MonoBehaviour
     public GameObject victoryPanel;             // Victory screen
     public GameObject defeatPanel;              // Defeat screen
     public GameObject draftPanel;               // Draft phase panel
+    public VictoryScreenUI victoryScreenUI;     // Victory screen controller
+    public DefeatScreenUI defeatScreenUI;       // Defeat screen controller
 
     [Header("Monster Info")]
     public TextMeshProUGUI monsterNameText;
@@ -82,11 +84,10 @@ public class BattleUI : MonoBehaviour
         InitializeEmotionUI();
         InitializeMonsterUI();
 
-        // Hide victory/defeat panels
-        if (victoryPanel != null) victoryPanel.SetActive(false);
+        // Hide defeat panel
         if (defeatPanel != null) defeatPanel.SetActive(false);
 
-        // Show battle panel
+        // Show battle panel (if exists)
         if (battlePanel != null) battlePanel.SetActive(true);
 
         isInitialized = true;
@@ -278,8 +279,53 @@ public class BattleUI : MonoBehaviour
     /// </summary>
     public void ShowVictory()
     {
-        if (victoryPanel != null) victoryPanel.SetActive(true);
-        if (battlePanel != null) battlePanel.SetActive(false);
+        // Hide Battle_Canvas by finding it and disabling
+        Canvas battleCanvas = GameObject.Find("Battle_Canvas")?.GetComponent<Canvas>();
+        if (battleCanvas != null)
+        {
+            battleCanvas.gameObject.SetActive(false);
+            Debug.Log("✅ Battle_Canvas hidden");
+        }
+        
+        // Hide HandZone_Canvas (cards)
+        Canvas handZoneCanvas = GameObject.Find("HandZone_Canvas")?.GetComponent<Canvas>();
+        if (handZoneCanvas != null)
+        {
+            handZoneCanvas.gameObject.SetActive(false);
+            Debug.Log("✅ HandZone_Canvas hidden");
+        }
+        
+        // Hide Player sprite
+        GameObject player = GameObject.Find("Player");
+        if (player != null)
+        {
+            player.SetActive(false);
+            Debug.Log("✅ Player hidden");
+        }
+        
+        // Hide Monster if still visible (try multiple possible names)
+        string[] monsterNames = { "Monster", "MonsterTest", "Boss", "Enemy" };
+        foreach (string monsterName in monsterNames)
+        {
+            GameObject monster = GameObject.Find(monsterName);
+            if (monster != null)
+            {
+                monster.SetActive(false);
+                Debug.Log($"✅ {monsterName} hidden");
+                break;
+            }
+        }
+        
+        // Show victory screen with rewards
+        if (victoryScreenUI != null)
+        {
+            string rewardMsg = VictoryScreenUI.GenerateRewardMessage(BattleLoader.currentLevel);
+            victoryScreenUI.ShowVictoryScreen(rewardMsg);
+        }
+        else
+        {
+            Debug.LogError("❌ VictoryScreenUI is NULL!");
+        }
     }
 
     /// <summary>
@@ -287,8 +333,52 @@ public class BattleUI : MonoBehaviour
     /// </summary>
     public void ShowDefeat()
     {
-        if (defeatPanel != null) defeatPanel.SetActive(true);
-        if (battlePanel != null) battlePanel.SetActive(false);
+        // Hide Battle_Canvas by finding it and disabling
+        Canvas battleCanvas = GameObject.Find("Battle_Canvas")?.GetComponent<Canvas>();
+        if (battleCanvas != null)
+        {
+            battleCanvas.gameObject.SetActive(false);
+            Debug.Log("✅ Battle_Canvas hidden");
+        }
+        
+        // Hide HandZone_Canvas (cards)
+        Canvas handZoneCanvas = GameObject.Find("HandZone_Canvas")?.GetComponent<Canvas>();
+        if (handZoneCanvas != null)
+        {
+            handZoneCanvas.gameObject.SetActive(false);
+            Debug.Log("✅ HandZone_Canvas hidden");
+        }
+        
+        // Hide Player sprite
+        GameObject player = GameObject.Find("Player");
+        if (player != null)
+        {
+            player.SetActive(false);
+            Debug.Log("✅ Player hidden");
+        }
+        
+        // Hide Monster if still visible (try multiple possible names)
+        string[] monsterNames = { "Monster", "MonsterTest", "Boss", "Enemy" };
+        foreach (string monsterName in monsterNames)
+        {
+            GameObject monster = GameObject.Find(monsterName);
+            if (monster != null)
+            {
+                monster.SetActive(false);
+                Debug.Log($"✅ {monsterName} hidden");
+                break;
+            }
+        }
+        
+        // Show defeat screen
+        if (defeatScreenUI != null)
+        {
+            defeatScreenUI.ShowDefeatScreen();
+        }
+        else
+        {
+            Debug.LogError("❌ DefeatScreenUI is NULL!");
+        }
     }
 
     /// <summary>

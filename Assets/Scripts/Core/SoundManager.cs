@@ -43,6 +43,24 @@ public class SoundManager : MonoBehaviour
     //    sfxSource.volume = volume;
     //}
 
+    /// <summary>
+    /// Mute tất cả âm thanh
+    /// </summary>
+    public void MuteAll()
+    {
+        if (musicSource != null) musicSource.mute = true;
+        if (sfxSource != null) sfxSource.mute = true;
+    }
+
+    /// <summary>
+    /// Unmute tất cả âm thanh
+    /// </summary>
+    public void UnmuteAll()
+    {
+        if (musicSource != null) musicSource.mute = false;
+        if (sfxSource != null) sfxSource.mute = false;
+    }
+
     public void StopMusic()
     {
         musicSource.Stop();

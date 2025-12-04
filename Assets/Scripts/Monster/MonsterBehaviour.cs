@@ -75,10 +75,10 @@ public class MonsterBehaviour : MonoBehaviour
 
 
     // Hàm tấn công chính
-    public float Attack()
+    public float  Attack()
     {
         turnCounter++;
-
+         
         // Nếu đủ mana -> dùng Skill đặc biệt
         if (currentMana >= data.mana)
         {

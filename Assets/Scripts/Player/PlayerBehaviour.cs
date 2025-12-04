@@ -154,17 +154,14 @@ public class PlayerBehaviour : MonoBehaviour
             switch (randomAttack)
             {
                 case 1:
-                    Debug.Log("tấn công 1");
                     animator.SetTrigger("attack1Trigger");
                     break;
 
                 case 2:
-                    Debug.Log("tấn công 2");
                     animator.SetTrigger("attack2Trigger");
                     break;
 
                 case 3:
-                    Debug.Log("tấn công 3");
                     animator.SetTrigger("attack3Trigger");
                     break;
             }

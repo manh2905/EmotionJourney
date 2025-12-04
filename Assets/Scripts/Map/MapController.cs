@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 
 public class MapController : MonoBehaviour
@@ -9,6 +10,8 @@ public class MapController : MonoBehaviour
    
     public Animator[] lockAnimators;     // Animator của từng lock
     public CardDatabase cardDB;
+    public List<RewardData> rewardList;
+    
 
     void Start()
     {
@@ -49,6 +52,19 @@ public class MapController : MonoBehaviour
 
             // Xicon (vẫn giữ nguyên)
             completeIcons[i].SetActive(isCompleted);
+
+
+            if (isCompleted)
+            {
+                RewardData data = rewardList.Find(r => r.level == i + 1);
+                // level = 1,2,3... nhưng i = 0,1,2 → phải +1
+
+                if (data != null)
+                {
+                    Debug.Log($"[MAP] Unlocking reward for LEVEL {i + 1}");
+                    CardUnlockManager.Instance.UnlockCards(data.rewardCards);
+                }
+            }
 
 
             // Nếu đây là node VỪA mới mở (ví dụ màn 2 khi unlocked=2)

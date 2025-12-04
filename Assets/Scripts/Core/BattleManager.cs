@@ -11,6 +11,8 @@ public class BattleManager : MonoBehaviour
     public EmometerSystem emometerSystem;
     public DraftManager draftManager;
     public BattleCardManager cardManager;
+    public List<RewardData> levelRewards;
+    public CardDatabase cardDB; // nếu cần lookup
 
     [Header("Combatants")]
     public PlayerBehaviour playerStats;
@@ -19,6 +21,11 @@ public class BattleManager : MonoBehaviour
     [Header("UI")]
     public BattleUI battleUI;
 
+    [Header("Audio")]
+    public AudioClip backgroundMusic;
+    public AudioClip playerAttackSound;
+    public AudioClip monsterAttackSound;
+
     private bool isPlayerTurn = false;
 
     // ==========================
@@ -26,13 +33,13 @@ public class BattleManager : MonoBehaviour
     // ==========================
     void Start()
     {
-        Debug.Log("🔥 BattleManager START CALLED!");
+        Debug.Log(" BattleManager START CALLED!");
         if (!ValidateReferences()) return;
         StartBattle();
     }
     void Awake()
     {
-        Debug.Log("🔥 BattleManager AWAKE CALLED");
+        Debug.Log(" BattleManager AWAKE CALLED");
     }
 
     private bool ValidateReferences()
@@ -48,7 +55,15 @@ public class BattleManager : MonoBehaviour
             enabled = false;
             return false;
         }
+
+        StartBattle(); // Bắt đầu trận đấu
+
+        if (SoundManager.Instance != null && backgroundMusic != null)
+        {
+            SoundManager.Instance.PlayMusic(backgroundMusic);
+        }
         return true;
+
     }
 
     // ==========================
@@ -56,7 +71,7 @@ public class BattleManager : MonoBehaviour
     // ==========================
     public void StartBattle()
     {
-        deckSystem.InitializeDeck();
+        //deckSystem.InitializeDeck();
         emometerSystem.Initialize();
         battleUI?.Initialize();
 
@@ -74,14 +89,15 @@ public class BattleManager : MonoBehaviour
         Debug.Log("───▶ START PLAYER TURN");
 
         isPlayerTurn = true;
-
+        playerStats.SetDodgeChance(0f);
+        Debug.Log(playerStats.data.defaultDodgeChance);
         // 1️⃣ Reset Stamina
         staminaSystem.ResetStamina();
 
         cardManager.RefillHand();
 
         // 2️⃣ Fill hand to 7 cards
-        deckSystem.RevealAndRefillHand();
+        //deckSystem.RevealAndRefillHand();
 
         // 3️⃣ Reset draft
         draftManager.StartDraftPhase();
@@ -122,22 +138,17 @@ public class BattleManager : MonoBehaviour
     private void ResolveCards(List<CardData> cards)
     {
         // Effects (heal, emotion…)
-        CardEffectExecutor.ExecuteEffects(cards, emometerSystem, staminaSystem, playerStats);
-
-        // Damage calculation
-        float totalDamage = CardDamageCalculator.CalculateTotalDamage(cards, emometerSystem);
-
-        playerStats.Attack(Mathf.RoundToInt(totalDamage));
+        CardEffectExecutor.ExecuteEffects(cards, emometerSystem, staminaSystem, playerStats, currentMonster);
 
 
-        // Apply damage
-        // Apply damage
-        currentMonster.TakeDamage(Mathf.RoundToInt(totalDamage));
+        if (SoundManager.Instance != null && playerAttackSound != null)
+        {
+            SoundManager.Instance.PlaySFX(playerAttackSound);
+        }
 
-        Debug.Log($"💥 Player gây {totalDamage} damage lên quái!");
 
         // Discard cards
-        deckSystem.DiscardUsedCards(cards);
+        //deckSystem.DiscardUsedCards(cards);
     }
 
     // ==========================
@@ -150,7 +161,7 @@ public class BattleManager : MonoBehaviour
         Debug.Log("───▶ END PLAYER TURN");
 
         // Delay trước khi quái tấn công
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
         // Monster Attack
         yield return StartCoroutine(MonsterAttackCoroutine());
@@ -174,6 +185,11 @@ public class BattleManager : MonoBehaviour
     // ==========================
     private IEnumerator MonsterAttackCoroutine()
     {
+        if (SoundManager.Instance != null && monsterAttackSound != null)
+        {
+            SoundManager.Instance.PlaySFX(monsterAttackSound);
+        }
+
         Debug.Log("=== MONSTER TURN ===");
         battleUI?.ShowTurnStatus("Monster đang tấn công!");
 
@@ -185,7 +201,7 @@ public class BattleManager : MonoBehaviour
 
         battleUI?.ShowPlayerDamageEffect();
 
-        Debug.Log($"👹 Monster gây {dmg} damage!");
+        Debug.Log($" Monster gây {dmg} damage!");
 
         // THUA TRẬN
         if (playerStats.GetCurrentHP() <= 0)
@@ -198,20 +214,59 @@ public class BattleManager : MonoBehaviour
     // ==========================
     // END BATTLE
     // ==========================
-    private void EndBattle(bool playerWon)
+    private IEnumerator EndBattleRoutine(bool playerWon)
     {
         if (playerWon)
         {
-            Debug.Log("🎉 Bạn đã thắng!");
+            int level = BattleLoader.currentLevel;  // level hiện tại
+            RewardData reward = GetRewardForLevel(level);
+
+            if (reward != null)
+            {
+                CardUnlockManager.Instance.UnlockCards(reward.rewardCards);
+
+                Debug.Log($"<color=cyan>Mở khóa {reward.rewardCards.Count} lá cho Level {level}</color>");
+            }
+            Debug.Log("Bạn đã thắng!");
+
             battleUI?.ShowVictory();
 
-            MapController.UnlockNextLevel(BattleLoader.currentLevel);
+            MapController.UnlockNextLevel(level);
+
+            yield return new WaitForSeconds(1.5f);   // Delay 1.5 giây
+
             SceneManager.LoadScene("Map");
         }
         else
         {
-            Debug.Log("💀 Bạn đã thua!");
+            Debug.Log("Bạn đã thua!");
             battleUI?.ShowDefeat();
+
+            yield return new WaitForSeconds(1.5f);   // Delay 1.5 giây (nếu muốn)
+
+            // Nếu thua thì có thể restart hoặc mở UI thua
+            // SceneManager.LoadScene("Map");
         }
     }
+
+    public void EndBattle(bool playerWon)
+    {
+        StartCoroutine(EndBattleRoutine(playerWon));
+    }
+
+
+    // lấy danh sách phần thưởng
+    private RewardData GetRewardForLevel(int level)
+    {
+        foreach (var reward in levelRewards)
+        {
+            if (reward.level == level)
+                return reward;
+        }
+
+        Debug.LogWarning("⚠ Không tìm thấy phần thưởng cho Level: " + level);
+        return null;
+    }
+
+
 }

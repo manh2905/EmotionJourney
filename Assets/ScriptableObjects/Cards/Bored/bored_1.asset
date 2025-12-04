@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: bored_1
   emotionType: 1
-  emotionValue: 2
+  emotionValue: -2
   damageValue: 1
   staminaCost: 1

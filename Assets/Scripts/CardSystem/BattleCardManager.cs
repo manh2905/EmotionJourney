@@ -18,6 +18,9 @@ public class BattleCardManager : MonoBehaviour
     public DraftManager draftManager;
     public UnityEngine.UI.Button confirmButton;
 
+    [Header("Audio")]
+    public AudioClip cardClickSound;
+    
     private const int MAX_HAND_SIZE = 7;
     private const int MAX_DRAFT_SLOTS = 3;
 
@@ -29,7 +32,8 @@ public class BattleCardManager : MonoBehaviour
 
     private void Start()
     {
-        ValidateSlots();
+        InitializeReferences();
+        ValidateSlots(); 
 
         foreach (var slot in cardSlots)
         {
@@ -40,8 +44,49 @@ public class BattleCardManager : MonoBehaviour
 
         if (confirmButton != null)
         {
+            confirmButton.onClick.RemoveListener(OnConfirmButtonClicked);
             confirmButton.onClick.AddListener(OnConfirmButtonClicked);
             UpdateConfirmButton();
+        }
+    }
+
+    private void InitializeReferences()
+    {
+        
+        if (handZone == null)
+        {
+            GameObject handCanvas = GameObject.Find("HandZone_Canvas");
+            if (handCanvas != null)
+            {
+                Debug.Log("HandZone_Canvas found!");
+                handZone = handCanvas.GetComponent<RectTransform>();
+            }
+        }
+
+        // Auto-find CardSlots if missing
+        if (cardSlots == null || cardSlots.Count == 0)
+        {
+            GameObject slotContainer = GameObject.Find("CardSlot"); // The parent container
+            if (slotContainer != null)
+            {
+                var slots = slotContainer.GetComponentsInChildren<CardSlot>();
+                if (slots != null && slots.Length > 0)
+                {
+                    cardSlots = new List<CardSlot>(slots);
+                }
+            }
+            
+            // Fallback: Find all in scene
+            if (cardSlots == null || cardSlots.Count == 0)
+            {
+                cardSlots = new List<CardSlot>(FindObjectsOfType<CardSlot>());
+            }
+            
+            // Sort by sibling index to ensure order
+            if (cardSlots != null)
+            {
+                cardSlots.Sort((a, b) => a.transform.GetSiblingIndex().CompareTo(b.transform.GetSiblingIndex()));
+            }
         }
     }
 
@@ -72,7 +117,7 @@ public class BattleCardManager : MonoBehaviour
 
         for (int i = 0; i < cardsNeeded; i++)
         {
-            var cardEntry = cardDatabase.GetRandomCard();
+            var cardEntry = cardDatabase.GetRandomUnlockedCard();
             if (cardEntry.data != null)
             {
                 SpawnCard(cardEntry);
@@ -98,7 +143,10 @@ public class BattleCardManager : MonoBehaviour
 
     public void OnCardClicked(CardUI card)
     {
-        
+        if (SoundManager.Instance != null && cardClickSound != null)
+        {
+            SoundManager.Instance.PlaySFX(cardClickSound);
+        }
         if (IsCardInAnySlot(card))
         {
             ReturnCardToHand(card);
@@ -123,9 +171,7 @@ public class BattleCardManager : MonoBehaviour
     /// </summary>
     private void TryMoveCardToSlot(CardUI card)
     {
-        Debug.Log("DEBUG >>> TryMoveCardToSlot START");
-        Debug.Log("INSTANCE DM: " + draftManager.GetInstanceID());
-        Debug.Log("INSTANCE SS: " + (draftManager.staminaSystem != null ? draftManager.staminaSystem.GetInstanceID() : -1));
+        
 
 
         if (cardSlots == null || cardSlots.Count == 0)
@@ -152,25 +198,53 @@ public class BattleCardManager : MonoBehaviour
             return;
         }
 
-        Debug.Log("DEBUG >>> TrySelectCard OK, stamina consumed");
+        
         // Clear slot
-        Debug.Log("DEBUG >>> Clearing previous slot");
+        
         ClearCardFromAllSlots(card);
 
-        Debug.Log("DEBUG >>> Finding empty slot");
+
 
         CardSlot emptySlot = null;
-        foreach (var slot in cardSlots)
+
+        // Nếu là lá SỢ HÃI → CHỈ CHO PHÉP slot đầu tiên (index 0)
+        if (card.cardData.emotionType == EmotionType.Scared)
         {
-            if (slot != null && slot.IsEmpty)
+            CardSlot firstSlot = cardSlots[0]; // slot đầu
+
+            if (firstSlot.IsEmpty)
             {
-
-                emptySlot = slot;
-                break;
+                emptySlot = firstSlot;
             }
-
-            
+            else
+            {
+                Debug.LogWarning("❌ Lá Sợ Hãi chỉ được đặt tại vị trí đầu tiên!");
+                draftManager.RefundCardStamina(card.cardData);
+                card.ReturnToHand(handZone);
+                return;
+            }
         }
+        else
+        {
+            // Các lá bình thường → tìm slot trống bất kỳ
+            foreach (var slot in cardSlots)
+            {
+                if (slot != null && slot.IsEmpty)
+                {
+                    emptySlot = slot;
+                    break;
+                }
+            }
+        }
+
+        // Không tìm thấy slot
+        if (emptySlot == null)
+        {
+            Debug.LogWarning("⚠ Không tìm thấy slot phù hợp!");
+            draftManager.RefundCardStamina(card.cardData);
+            return;
+        }
+
 
         if (emptySlot != null)
         {
@@ -210,7 +284,6 @@ public class BattleCardManager : MonoBehaviour
         }
 
         card.ReturnToHand(handZone);
-        Debug.Log($"⬅️ Card returned to hand");
     }
 
     private int GetCardsInSlotsCount()

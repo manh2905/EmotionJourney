@@ -131,14 +131,14 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         isMoving = true;
         isReturning = false;
         targetPosition = slot.transform.position;
-        transform.SetParent(slot.transform); // Optional: reparent to slot
+        transform.SetParent(slot.transform); 
         
-        // Reset rotation/scale if needed
-        //transform.rotation = Quaternion.identity;
+        Debug.Log($"Card {name} moving to slot. IsInSlot set to TRUE.");
     }
 
     public void ReturnToHand(RectTransform handZone)
     {
+       
         isInSlot = false;
         isMoving = true;
         isReturning = true;
@@ -149,8 +149,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         transform.SetParent(handZone);
         layoutElement.ignoreLayout = true;
         
-        // Reset rotation/scale if needed
-        transform.rotation = Quaternion.identity;
+        Debug.Log($"Card {name} returning to hand. IsInSlot set to FALSE.");
     }
 
     private void CreatePlaceholder(RectTransform handZone)
@@ -180,7 +179,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
             transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed);
             
-            if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
+            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
             {
                 transform.position = targetPosition;
                 isMoving = false;
@@ -203,5 +202,12 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             Destroy(placeholder);
         }
+        Debug.Log("Card returned to hand complete.");
+    }
+
+    private void OnDestroy()
+    {
+        // Debug logging to find out why/when it is destroyed
+        Debug.LogWarning($"CardUI {name} is being DESTROYED! Stack Trace: {System.Environment.StackTrace}");
     }
 }

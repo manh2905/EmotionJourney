@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: eee0004e4d0e06843a0a0b44cb5efdff
+guid: 0e579c386f7b3494eabda6cdc4cd5d13
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5458717620103883546
-    second: happy_4_0
+      213: -6821867674816730800
+    second: happy6_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: happy_4_0
+      name: happy6_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a1b257301c241cb40800000000000000
-      internalID: 5458717620103883546
+      spriteID: 05924d95e7bd351a0800000000000000
+      internalID: -6821867674816730800
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      happy_4_0: 5458717620103883546
+      happy6_0: -6821867674816730800
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

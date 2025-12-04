@@ -5,6 +5,8 @@ public class EmometerSystem : MonoBehaviour
 {
     private const int MIN_EMO = -10;
     private const int MAX_EMO = 10;
+    private const int MIN_ACTIVE_BURNOUT = -5;
+    private const int MAX_ACTIVE_BURNOUT = 5;
     // Mức an toàn được đề cập trong GDD là -5 đến +5, nhưng logic Burnout chỉ kích hoạt tại -10/+10.
 
     private int currentEmotion = 0; // Mức cân bằng là 0
@@ -50,13 +52,13 @@ public class EmometerSystem : MonoBehaviour
     // Kiểm tra và kích hoạt/thoát khỏi Burnout
     private void CheckBurnoutStatus()
     {
-        if (currentEmotion >= MAX_EMO || currentEmotion <= MIN_EMO)
+        if (currentEmotion >= MAX_ACTIVE_BURNOUT || currentEmotion <= MIN_ACTIVE_BURNOUT)
         {
             if (!isBurnedOut)
             {
                 isBurnedOut = true;
                 // Nếu >= 10, là Burnout Tích cực
-                isPositiveBurnout = (currentEmotion >= MAX_EMO); 
+                isPositiveBurnout = (currentEmotion >= MAX_ACTIVE_BURNOUT); 
                 Debug.Log($"!!! BURNOUT KÍCH HOẠT !!! Loại: {(isPositiveBurnout ? "Tích cực (+10)" : "Tiêu cực (-10)")}");
             }
         }

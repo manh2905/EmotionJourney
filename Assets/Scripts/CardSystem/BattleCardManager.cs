@@ -117,7 +117,7 @@ public class BattleCardManager : MonoBehaviour
 
         for (int i = 0; i < cardsNeeded; i++)
         {
-            var cardEntry = cardDatabase.GetRandomCard();
+            var cardEntry = cardDatabase.GetRandomUnlockedCard();
             if (cardEntry.data != null)
             {
                 SpawnCard(cardEntry);

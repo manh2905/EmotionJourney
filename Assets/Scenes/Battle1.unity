@@ -2336,6 +2336,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: cardDB
+      value: 
+      objectReference: {fileID: 11400000, guid: 9fbea4cfc077ff74d9817e3185ef8a82, type: 2}
+    - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
       propertyPath: battleUI
       value: 
       objectReference: {fileID: 1442290368706617422}
@@ -2363,6 +2367,14 @@ PrefabInstance:
       propertyPath: backgroundMusic
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: levelRewards.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: 'levelRewards.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e4a4a7babdfbab458a61445056cabeb, type: 2}
     - target: {fileID: 8549480380106308009, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
       propertyPath: playerStats
       value: 

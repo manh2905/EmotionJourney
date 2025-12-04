@@ -219,14 +219,14 @@ public class BattleManager : MonoBehaviour
         if (playerWon)
         {
             int level = BattleLoader.currentLevel;  // level hiện tại
-            RewardData reward = GetRewardForLevel(level);
+            //RewardData reward = GetRewardForLevel(level);
 
-            if (reward != null)
-            {
-                CardUnlockManager.Instance.UnlockCards(reward.rewardCards);
+            //if (reward != null)
+            //{
+            //    CardUnlockManager.Instance.UnlockCards(reward.rewardCards);
 
-                Debug.Log($"<color=cyan>Mở khóa {reward.rewardCards.Count} lá cho Level {level}</color>");
-            }
+            //    Debug.Log($"<color=cyan>Mở khóa {reward.rewardCards.Count} lá cho Level {level}</color>");
+            //}
             Debug.Log("Bạn đã thắng!");
 
             battleUI?.ShowVictory();

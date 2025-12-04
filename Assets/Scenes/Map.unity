@@ -3235,6 +3235,13 @@ MonoBehaviour:
   - {fileID: 1017034320}
   - {fileID: 1736463755}
   cardDB: {fileID: 11400000, guid: 9fbea4cfc077ff74d9817e3185ef8a82, type: 2}
+  rewardList:
+  - {fileID: 11400000, guid: 8e4a4a7babdfbab458a61445056cabeb, type: 2}
+  - {fileID: 11400000, guid: df679ea593d964b4cbe071fceaf3817a, type: 2}
+  - {fileID: 11400000, guid: aa4ea7440fcd49445a7cabada9fb79a1, type: 2}
+  - {fileID: 11400000, guid: 1e935e3b1a915ba40992175f915ac3e6, type: 2}
+  - {fileID: 11400000, guid: dc8f567a06afcb842b5887a1210b716e, type: 2}
+  - {fileID: 11400000, guid: 94d65ec249e3d884bb3539de4d31648f, type: 2}
 --- !u!1 &1534898530
 GameObject:
   m_ObjectHideFlags: 0

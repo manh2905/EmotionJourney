@@ -87,6 +87,7 @@ public class BattleManager : MonoBehaviour
         if (currentMonster.IsDead()) return;
 
         Debug.Log("───▶ START PLAYER TURN");
+        MessageLogSystem.Instance.ClearLog();
 
         isPlayerTurn = true;
         playerStats.SetDodgeChance(0f);
@@ -161,7 +162,7 @@ public class BattleManager : MonoBehaviour
         Debug.Log("───▶ END PLAYER TURN");
 
         // Delay trước khi quái tấn công
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
 
         // Monster Attack
         yield return StartCoroutine(MonsterAttackCoroutine());

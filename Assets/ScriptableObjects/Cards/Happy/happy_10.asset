@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: happy_10
   emotionType: 3
-  emotionValue: 2
+  emotionValue: 3
   damageValue: 10
   staminaCost: 0

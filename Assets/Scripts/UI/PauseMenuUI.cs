@@ -12,7 +12,11 @@ public class PauseMenuUI : MonoBehaviour
     public Button resumeButton;
     public Button soundButton;
     public Button mapButton;
+    public Button guideButton;
     public Button exitButton;
+    
+    [Header("Guide Panel")]
+    public GameObject guidePanel;
     
     [Header("Sound Button Sprites (Optional)")]
     public Sprite soundOnSprite;
@@ -69,6 +73,15 @@ public class PauseMenuUI : MonoBehaviour
         else
         {
             Debug.LogWarning("⚠️ PauseMenuUI: Map button not assigned!");
+        }
+        
+        if (guideButton != null)
+        {
+            guideButton.onClick.AddListener(OnGuideClicked);
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ PauseMenuUI: Guide button not assigned!");
         }
         
         if (exitButton != null)
@@ -173,6 +186,43 @@ public class PauseMenuUI : MonoBehaviour
     }
 
     /// <summary>
+    /// Xử lý khi nhấn Guide
+    /// </summary>
+    private void OnGuideClicked()
+    {
+        Debug.Log("📖 Opening Guide...");
+        
+        if (guidePanel != null)
+        {
+            guidePanel.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ Guide panel not assigned!");
+        }
+    }
+    
+    // Method đơn giản để close guide panel - dùng cho Button onClick
+    public void CloseGuidePanel()
+    {
+        if (guidePanel != null)
+            guidePanel.SetActive(false);
+    }
+    
+    /// <summary>
+    /// Đóng Guide Panel (được gọi từ close button trong guide panel)
+    /// </summary>
+    public void CloseGuide()
+    {
+        Debug.Log("📖 Closing Guide...");
+        
+        if (guidePanel != null)
+        {
+            guidePanel.SetActive(false);
+        }
+    }
+    
+    /// <summary>
     /// Xử lý khi nhấn Exit (về main menu)
     /// </summary>
     private void OnExitClicked()
@@ -197,6 +247,9 @@ public class PauseMenuUI : MonoBehaviour
         
         if (mapButton != null)
             mapButton.onClick.RemoveListener(OnMapClicked);
+        
+        if (guideButton != null)
+            guideButton.onClick.RemoveListener(OnGuideClicked);
         
         if (exitButton != null)
             exitButton.onClick.RemoveListener(OnExitClicked);

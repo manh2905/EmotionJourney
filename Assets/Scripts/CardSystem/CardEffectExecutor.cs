@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-// Class tĩnh, chỉ chứa hàm thực thi hiệu ứng
 public static class CardEffectExecutor
 {
     public static void ExecuteEffects(
@@ -14,24 +13,32 @@ public static class CardEffectExecutor
         int fearRiskLeft = 0;
         int discardCard = 0;
         float totalDamage = 0f;
-        float damageMultiplier = 1f; // Bored → ×0.85
+        float damageMultiplier = 1f;
         int cardIndex = 0;
+
+        //MessageLogSystem.Instance.AddMessage("Bat dau xu ly " + cards.Count + " la");
 
         foreach (CardData card in cards)
         {
-            Debug.Log($"<color=yellow>▶ Xử lý lá: {card.cardName} (slot {cardIndex + 1})</color>");
+            //MessageLogSystem.Instance.AddMessage("Xu ly la: " + card.cardName);
 
-            if( discardCard != 0 )
+            // Lá bị bỏ do hiệu ứng Scared
+            if (discardCard == 2)
+            {
+                MessageLogSystem.Instance.AddMessage("Hai lá sau bị loại do Sợ hãi");               
+            }
+            if (discardCard != 0)
             {
                 discardCard--;
                 continue;
             }
-            
+
+            // Scared gây lỗi ngẫu nhiên
             if (fearRiskLeft > 0)
             {
                 if (Random.value < 0.5f)
                 {
-                    Debug.Log($"<color=red>✖ Lá {card.cardName} bị lỗi do Sợ Hãi!</color>");
+                    MessageLogSystem.Instance.AddMessage("Lá " + card.cardName + " bị lỗi do Sợ Hãi");
                     fearRiskLeft--;
                     cardIndex++;
                     continue;
@@ -39,8 +46,7 @@ public static class CardEffectExecutor
                 fearRiskLeft--;
             }
 
-            // CẬP NHẬT EMOMETER
-            
+            // Cập nhật emotion
             emometer.ShiftEmotion(card.emotionValue);
 
             bool isPositiveCard = (card.emotionType == EmotionType.Funny || card.emotionType == EmotionType.Happy);
@@ -49,130 +55,92 @@ public static class CardEffectExecutor
             bool positiveBurnout = (emometer.isBurnedOut && emometer.isPositiveBurnout && isPositiveCard);
             bool negativeBurnout = (emometer.isBurnedOut && !emometer.isPositiveBurnout && isNegativeCard);
 
-            // Damage gốc của lá
             float dmg = card.damageValue;
 
-           
-            // HIỆU ỨNG THEO TỪNG LOẠI CẢM XÚC
-           
+            // Xử lý hiệu ứng emotion
             switch (card.emotionType)
             {
-                // FUNNY — Heal +1 Emotion
                 case EmotionType.Funny:
                     if (positiveBurnout)
                     {
-                        Debug.Log("<color=red>Burnout +10 → Heal bị vô hiệu!</color>");
+                        //MessageLogSystem.Instance.AddMessage("Vui vẻ bị burnout, heal bị vô hiệu");
                     }
                     else
                     {
                         playerStats.Heal(playerStats.data.maxHP * 0.10f);
-                        Debug.Log("<color=green>Heal 10% HP</color>");
+                        //MessageLogSystem.Instance.AddMessage("Vui vẻ: heal 10% HP");
                     }
                     break;
 
-                // BORED — -15% tổng damage
                 case EmotionType.Bored:
                     if (negativeBurnout)
                     {
-                        damageMultiplier *= 0.70f; // debuff x2 = -30%
-                        Debug.Log("<color=red>Bored ×2 debuff → tổng damage ×0.70</color>");
+                        damageMultiplier *= 0.70f;
+                        //MessageLogSystem.Instance.AddMessage("Buồn bã bị burnout giảm 30% dame");
                     }
                     else
                     {
-                        damageMultiplier *= 0.85f; // -15%
-                        Debug.Log("<color=orange>Bored → tổng damage ×0.85</color>");
+                        damageMultiplier *= 0.85f;
+                        //MessageLogSystem.Instance.AddMessage("Buồn bã giảm 15% dame");
                     }
                     break;
 
-                // SCARED — +50% dodge + rủi ro 2 lá sau
                 case EmotionType.Scared:
+                    if (negativeBurnout)
                     {
-                        if (negativeBurnout)
+                        if (Random.value < 0.5f)
                         {
-                            Debug.Log("<color=red>Burnout -10 → Scared debuff mạnh</color>");
-                            if (Random.value < 0.5f)
-                            {
-                                // Né tăng 100% thay vì 50%
-                                playerStats.SetDodgeChance(100f);
-                                Debug.Log("<color=cyan>Scared (Burnout) → +100% Dodge</color>");
-                            }
-                            else
-                            {
-                                // Rủi ro bỏ qua luôn 2 lá sau
-                                discardCard = 2;
-                                Debug.Log("<color=red>Scared (Burnout) → 2 lá kế tiếp bị lỗi</color>");
-                            }
+                            playerStats.SetDodgeChance(100f);
+                            MessageLogSystem.Instance.AddMessage("Sợ hãi tăng 100% né đòn");
                         }
                         else
                         {
-                            // CHẾ ĐỘ BÌNH THƯỜNG → 50% né hoặc 50% rủi ro 2 lá
-                            if (Random.value < 0.5f)
-                            {
-                                playerStats.SetDodgeChance(50f);
-                                Debug.Log("<color=cyan>Scared → +50% Dodge</color>");
-                            }
-                            else
-                            {
-                                fearRiskLeft = 2;
-                                Debug.Log("<color=red>Scared → 2 lá kế tiếp có thể bị lỗi</color>");
-                            }
+                            discardCard = 2;
+                            //MessageLogSystem.Instance.AddMessage("Sợ hãi 2 lá sau bị loại");
                         }
-
-                        break;
-                    }
-
-
-                // HAPPY — 0 stamina +2 positive
-                case EmotionType.Happy:
-                    Debug.Log("<color=#00FFAA>Happy → không tốn stamina, +2 Emotion</color>");
-                    break;
-
-                // ANGRY — damage ×1.5 + mất 5% HP
-                case EmotionType.Angry:
-                    if (negativeBurnout)
-                    {
-                        dmg *= 1.5f;
-                        float hpLoss = playerStats.data.maxHP * 0.1f;
-                        playerStats.TakeDamageByAngry(hpLoss);
-                        Debug.Log($"<color=red>Angry → damage ×1.5, mất {hpLoss} HP</color>");
-                        break;
                     }
                     else
                     {
-                        dmg *= 1.5f;
-                        float hpLoss = playerStats.data.maxHP * 0.05f;
-                        playerStats.TakeDamageByAngry(hpLoss);
-                        Debug.Log($"<color=red>Angry → damage ×1.5, mất {hpLoss} HP</color>");
-                        break;
+                        if (Random.value < 0.5f)
+                        {
+                            playerStats.SetDodgeChance(50f);
+                            MessageLogSystem.Instance.AddMessage("Sợ hãi tăng 50% né đòn");
+                        }
+                        else
+                        {
+                            fearRiskLeft = 2;
+                            //MessageLogSystem.Instance.AddMessage("Sợ hãi 2 lá sau có khả năng lỗi");
+                        }
                     }
-                    
+                    break;
+
+                case EmotionType.Happy:
+                    //MessageLogSystem.Instance.AddMessage("Happy: khong ton stamina");
+                    break;
+
+                case EmotionType.Angry:
+                    float hpLoss = playerStats.data.maxHP * (negativeBurnout ? 0.10f : 0.05f);
+                    dmg *= 1.5f;
+                    playerStats.TakeDamageByAngry(hpLoss);
+                    //MessageLogSystem.Instance.AddMessage("Angry: damage x1.5, mat " + hpLoss + " HP");
+                    break;
             }
 
-            // BURNOUT GIẢM DAMAGE
-            
             if (positiveBurnout || negativeBurnout)
             {
                 dmg *= 0.5f;
-                Debug.Log("<color=orange>⚠ Burnout → Damage lá ×0.5</color>");
+                //MessageLogSystem.Instance.AddMessage("Burnout: damage la x0.5");
             }
 
-            // CỘNG DAME VÀO TỔNG
-           
             totalDamage += dmg;
-
             cardIndex++;
         }
 
-        
         float finalDamage = totalDamage * damageMultiplier;
 
-        Debug.Log($"<color=lime> Tổng damage = ({totalDamage}) × {damageMultiplier} = {Mathf.RoundToInt(finalDamage)}</color>");
+        MessageLogSystem.Instance.AddMessage("Tổng dame gây ra: " + Mathf.RoundToInt(finalDamage));
 
-        playerStats.Attack(Mathf.RoundToInt(totalDamage));
-
-
-
-        // Apply damage
-        currentMonster.TakeDamage(Mathf.RoundToInt(totalDamage));
+        playerStats.Attack(Mathf.RoundToInt(finalDamage));
+        currentMonster.TakeDamage(Mathf.RoundToInt(finalDamage));
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a730deb885c2094e9d7b2204520888f, type: 3}
   m_Name: a9
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: a9
+  cardName: angry_9
   emotionType: 4
   emotionValue: -2
   damageValue: 9

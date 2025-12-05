@@ -218,9 +218,11 @@ public class BattleCardManager : MonoBehaviour
             }
             else
             {
+                MessageLogSystem.Instance.ShowTemporaryMessage("Sợ hãi phải đặt đầu tiên");
                 Debug.LogWarning("❌ Lá Sợ Hãi chỉ được đặt tại vị trí đầu tiên!");
                 draftManager.RefundCardStamina(card.cardData);
                 card.ReturnToHand(handZone);
+                
                 return;
             }
         }

@@ -24,6 +24,10 @@ public class EmometerSystem : MonoBehaviour
     
     public EmotionChangedEvent OnEmotionChanged = new EmotionChangedEvent();
 
+    private void Start()
+    {
+        OnEmotionChanged.AddListener(HandleBurnoutUI);
+    }
     public void Initialize()
     {
         currentEmotion = 0;
@@ -70,4 +74,19 @@ public class EmometerSystem : MonoBehaviour
             Debug.Log("Burnout kết thúc. Quay về Cân bằng.");
         }
     }
+
+    private void HandleBurnoutUI(int currentEmotion, bool isBurnout, bool isPositive)
+    {
+        if (!isBurnout)
+        {
+            BurnoutIndicator.Instance.HideBurnout();
+            return;
+        }
+
+        if (isPositive)
+            BurnoutIndicator.Instance.ShowPositiveBurnout();
+        else
+            BurnoutIndicator.Instance.ShowNegativeBurnout();
+    }
+
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   monsterName: Boss6
   maxHP: 20
-  damage: 90
-  mana: 3
-  specialAttackDamage: 120
+  damage: 20
+  mana: 1
+  specialAttackDamage: 50
   deathAnimationTime: 1

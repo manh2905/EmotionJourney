@@ -9,6 +9,7 @@ public class MonsterBehaviour : MonoBehaviour
     public float currentHP;
     public int currentMana;
     public int turnCounter;
+    public bool haveSpecialATK = false;
 
     private void Start()
     {
@@ -120,8 +121,15 @@ public class MonsterBehaviour : MonoBehaviour
     // Đòn đánh đặc biệt
     private float SpecialAttack()
     {
-        animator.SetTrigger("attackTrigger");
-        animator.SetTrigger("specialTrigger");
+        if (haveSpecialATK)
+        {
+            animator.SetTrigger("specialTrigger");
+        }
+        else
+        {
+            animator.SetTrigger("attackTrigger");
+        }
+        
 
         Debug.Log($"{data.monsterName} tung đòn đặc biệt!!!");
         

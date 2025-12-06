@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a037dd85c8dad45af78d33a39129ef, type: 3}
   m_Name: RewardLV3
   m_EditorClassIdentifier: Assembly-CSharp::RewardData
-  level: 2
+  level: 3
   rewardCards:
   - {fileID: 11400000, guid: a0d307831ea56a24496cdb528df9e85f, type: 2}
   - {fileID: 11400000, guid: 26f1265ccd8f971459745c51e5dcfeb6, type: 2}

@@ -42,6 +42,14 @@ public class PauseMenuUI : MonoBehaviour
         // Hide panel initially
         HideMenu();
         
+        // Đảm bảo Guide Panel cũng được ẩn khi khởi tạo
+        // Tránh việc Guide Panel hiện lên trước Pause Menu khi nhấn ESC
+        if (guidePanel != null)
+        {
+            guidePanel.SetActive(false);
+            Debug.Log("✅ Guide Panel hidden on initialization");
+        }
+        
         Debug.Log("✅ PauseMenuUI Awake complete");
     }
 
@@ -123,6 +131,14 @@ public class PauseMenuUI : MonoBehaviour
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
+        
+        // Đảm bảo Guide Panel cũng được ẩn khi đóng Pause Menu
+        // Tránh trường hợp Guide Panel vẫn hiển thị sau khi thoát Pause Menu
+        if (guidePanel != null && guidePanel.activeSelf)
+        {
+            guidePanel.SetActive(false);
+            Debug.Log("📖 Guide Panel closed with Pause Menu");
+        }
         
         Debug.Log("▶️ Pause Menu hidden");
     }

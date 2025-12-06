@@ -60,9 +60,16 @@ MonoBehaviour:
   staminaSystem: {fileID: 998939582813919981}
   emometerSystem: {fileID: 8346625895011263597}
   draftManager: {fileID: 1377406502300210006}
+  cardManager: {fileID: 748424401050416693}
+  levelRewards:
+  - {fileID: 11400000, guid: 8e4a4a7babdfbab458a61445056cabeb, type: 2}
+  cardDB: {fileID: 11400000, guid: 9fbea4cfc077ff74d9817e3185ef8a82, type: 2}
   playerStats: {fileID: 0}
   currentMonster: {fileID: 0}
   battleUI: {fileID: 0}
+  backgroundMusic: {fileID: 0}
+  playerAttackSound: {fileID: 0}
+  monsterAttackSound: {fileID: 0}
 --- !u!114 &8395223963359338736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,7 +140,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3445482895067656374}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a439920fb3f152a4ca0dc2a39e69711b, type: 3}
   m_Name: 
@@ -150,7 +157,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3445482895067656374}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7be4c0e57896eb0479d6e41f61437798, type: 3}
   m_Name: 
@@ -179,11 +186,14 @@ MonoBehaviour:
   playerHPUI: {fileID: 0}
   monsterHPUI: {fileID: 0}
   staminaUI: {fileID: 0}
+  monsterStaminaUI: {fileID: 0}
   emotionUI: {fileID: 0}
   battlePanel: {fileID: 0}
   victoryPanel: {fileID: 0}
   defeatPanel: {fileID: 0}
   draftPanel: {fileID: 0}
+  victoryScreenUI: {fileID: 0}
+  defeatScreenUI: {fileID: 0}
   monsterNameText: {fileID: 0}
   monsterSprite: {fileID: 0}
   turnStatusText: {fileID: 0}
@@ -295,3 +305,4 @@ MonoBehaviour:
   cardDatabase: {fileID: 11400000, guid: 9fbea4cfc077ff74d9817e3185ef8a82, type: 2}
   draftManager: {fileID: 1377406502300210006}
   confirmButton: {fileID: 0}
+  cardClickSound: {fileID: 8300000, guid: 2017ade997342934da87cd1320262ca2, type: 3}

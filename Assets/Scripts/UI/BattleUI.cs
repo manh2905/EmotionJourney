@@ -19,6 +19,7 @@ public class BattleUI : MonoBehaviour
     public HPUI playerHPUI;                     // HP bar của player
     public HPUI monsterHPUI;                    // HP bar của monster (optional)
     public StaminaUI staminaUI;
+    public StaminaUI monsterStaminaUI;      // Mana UI của monster (StaminaUI recycled)
     public EmotionUI emotionUI;
 
     [Header("UI Panels")]
@@ -223,6 +224,13 @@ public class BattleUI : MonoBehaviour
                 monsterHPUI.SetMaxHP(currentMonster.GetMaxHP());
                 monsterHPUI.UpdateHP(currentMonster.GetCurrentHP(), currentMonster.GetMaxHP());
             }
+
+            // Update monster Mana (reusing StaminaUI)
+            if (monsterStaminaUI != null)
+            {
+                monsterStaminaUI.Initialize(currentMonster.GetMaxMana());
+                monsterStaminaUI.UpdateStamina(currentMonster.GetCurrentMana(), currentMonster.GetMaxMana());
+            }
             Debug.Log("✅ Monster UI initialized");
         }
         else
@@ -247,6 +255,12 @@ public class BattleUI : MonoBehaviour
         if (monsterHPUI != null && currentMonster != null)
         {
             monsterHPUI.UpdateHP(currentMonster.GetCurrentHP(), currentMonster.GetMaxHP());
+        }
+
+        // Update Monster Mana (TODO: Convert to event)
+        if (monsterStaminaUI != null && currentMonster != null)
+        {
+            monsterStaminaUI.UpdateStamina(currentMonster.GetCurrentMana(), currentMonster.GetMaxMana());
         }
     }
 

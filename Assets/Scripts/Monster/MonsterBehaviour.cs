@@ -73,6 +73,22 @@ public class MonsterBehaviour : MonoBehaviour
 
     // ========================================================
 
+    /// <summary>
+    /// Lấy Mana hiện tại của Monster (cho UI)
+    /// </summary>
+    public int GetCurrentMana()
+    {
+        return currentMana;
+    }
+
+    /// <summary>
+    /// Lấy Max Mana của Monster (cho UI)
+    /// </summary>
+    public int GetMaxMana()
+    {
+        return data != null ? data.mana : 0;
+    }
+
 
     // Hàm tấn công chính
     public float  Attack()

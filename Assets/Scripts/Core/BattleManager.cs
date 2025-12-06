@@ -91,7 +91,7 @@ public class BattleManager : MonoBehaviour
 
         isPlayerTurn = true;
         playerStats.SetDodgeChance(0f);
-        Debug.Log(playerStats.data.defaultDodgeChance);
+        
         // 1️⃣ Reset Stamina
         staminaSystem.ResetStamina();
 
@@ -217,6 +217,8 @@ public class BattleManager : MonoBehaviour
     // ==========================
     private IEnumerator EndBattleRoutine(bool playerWon)
     {
+        yield return new WaitForSeconds(1.8f);
+
         if (playerWon)
         {
             int level = BattleLoader.currentLevel;  // level hiện tại
@@ -228,17 +230,17 @@ public class BattleManager : MonoBehaviour
 
             //    Debug.Log($"<color=cyan>Mở khóa {reward.rewardCards.Count} lá cho Level {level}</color>");
             //}
-            Debug.Log("Bạn đã thắng!");
+           
 
             battleUI?.ShowVictory();
 
             MapController.UnlockNextLevel(level);
 
             // Show victory screen (VictoryScreenUI will handle transition to Map)
-            Debug.Log("🔵 BattleManager: Calling battleUI.ShowVictory()...");
+            
             if (battleUI == null)
             {
-                Debug.LogError("❌❌❌ BattleUI is NULL in BattleManager!");
+                Debug.LogError(" BattleUI is NULL in BattleManager!");
             }
             else
             {
@@ -267,17 +269,17 @@ public class BattleManager : MonoBehaviour
 
 
     // lấy danh sách phần thưởng
-    private RewardData GetRewardForLevel(int level)
-    {
-        foreach (var reward in levelRewards)
-        {
-            if (reward.level == level)
-                return reward;
-        }
+    //private RewardData GetRewardForLevel(int level)
+    //{
+    //    foreach (var reward in levelRewards)
+    //    {
+    //        if (reward.level == level)
+    //            return reward;
+    //    }
 
-        Debug.LogWarning("⚠ Không tìm thấy phần thưởng cho Level: " + level);
-        return null;
-    }
+    //    Debug.LogWarning("⚠ Không tìm thấy phần thưởng cho Level: " + level);
+    //    return null;
+    //}
 
 
 }

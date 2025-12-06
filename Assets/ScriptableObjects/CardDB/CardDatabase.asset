@@ -133,9 +133,6 @@ MonoBehaviour:
   - id: s10
     data: {fileID: 11400000, guid: 8269718eb6d2a74408385dfcbadb50b5, type: 2}
     art: {fileID: -3293024053092630213, guid: 383534e5949cd1d46a4fc35747f31864, type: 3}
-  - id: h10
-    data: {fileID: 11400000, guid: f98e903d66cb262488005c7654aa7fc5, type: 2}
-    art: {fileID: -2796194559426230059, guid: 122dd136d5e091c4484a0115a5b434a6, type: 3}
   - id: f1
     data: {fileID: 11400000, guid: c69a5adf95e7cdc4bb62167965536343, type: 2}
     art: {fileID: 8268575134184682817, guid: fe1ae6f17ebb6c34da188434f382959d, type: 3}

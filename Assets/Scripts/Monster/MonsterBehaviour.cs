@@ -9,6 +9,7 @@ public class MonsterBehaviour : MonoBehaviour
     public float currentHP;
     public int currentMana;
     public int turnCounter;
+    public bool haveSpecialATK = false;
 
     private void Start()
     {
@@ -73,6 +74,22 @@ public class MonsterBehaviour : MonoBehaviour
 
     // ========================================================
 
+    /// <summary>
+    /// Lấy Mana hiện tại của Monster (cho UI)
+    /// </summary>
+    public int GetCurrentMana()
+    {
+        return currentMana;
+    }
+
+    /// <summary>
+    /// Lấy Max Mana của Monster (cho UI)
+    /// </summary>
+    public int GetMaxMana()
+    {
+        return data != null ? data.mana : 0;
+    }
+
 
     // Hàm tấn công chính
     public float  Attack()
@@ -104,8 +121,15 @@ public class MonsterBehaviour : MonoBehaviour
     // Đòn đánh đặc biệt
     private float SpecialAttack()
     {
-        animator.SetTrigger("attackTrigger");
-        animator.SetTrigger("specialTrigger");
+        if (haveSpecialATK)
+        {
+            animator.SetTrigger("specialTrigger");
+        }
+        else
+        {
+            animator.SetTrigger("attackTrigger");
+        }
+        
 
         Debug.Log($"{data.monsterName} tung đòn đặc biệt!!!");
         

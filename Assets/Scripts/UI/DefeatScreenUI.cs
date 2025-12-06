@@ -71,7 +71,7 @@ public class DefeatScreenUI : MonoBehaviour
         // Display default defeat text
         if (defeatMessageText != null)
         {
-            defeatMessageText.text = "THẤT BẠI!";
+            defeatMessageText.text = "DEFEAT!";
             Debug.Log($"✅ Defeat message set: {defeatMessageText.text}");
         }
         else

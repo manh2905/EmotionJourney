@@ -21,7 +21,7 @@ public class GuideUI : MonoBehaviour
     {
         if (guideTitle != null)
         {
-            guideTitle.text = "HƯỚNG DẪN CHƠI";
+            guideTitle.text = "GUIDE";
         }
 
         if (guideContent != null)

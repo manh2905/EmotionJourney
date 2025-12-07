@@ -1591,7 +1591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a439920fb3f152a4ca0dc2a39e69711b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBehaviour
-  data: {fileID: 11400000, guid: 5c928083b64644844a39648c9a578cdb, type: 2}
+  data: {fileID: 11400000, guid: 934f64da30f843a4f8c2251f8bcfe050, type: 2}
   animator: {fileID: 0}
   OnHPChanged:
     m_PersistentCalls:
@@ -8536,6 +8536,34 @@ PrefabInstance:
       propertyPath: 'levelRewards.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 8e4a4a7babdfbab458a61445056cabeb, type: 2}
+    - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: playerDataPerLevel.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: 'playerDataPerLevel.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a9f402cc0f72a6e40852a0a5833c7fb7, type: 2}
+    - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: 'playerDataPerLevel.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: b229b210da14fa042a9f65ca66c2ae44, type: 2}
+    - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: 'playerDataPerLevel.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f962ba5f54e41ea458718144e9d5e3cb, type: 2}
+    - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: 'playerDataPerLevel.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d7e2901afd8eaa24eaacd8e4f5c24e42, type: 2}
+    - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: 'playerDataPerLevel.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c928083b64644844a39648c9a578cdb, type: 2}
+    - target: {fileID: 7992846646418956870, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
+      propertyPath: 'playerDataPerLevel.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 934f64da30f843a4f8c2251f8bcfe050, type: 2}
     - target: {fileID: 8549480380106308009, guid: 259eedc7236e51540983c838fbf52d3e, type: 3}
       propertyPath: playerStats
       value: 

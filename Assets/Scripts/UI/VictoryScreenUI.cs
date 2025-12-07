@@ -116,7 +116,7 @@ public class VictoryScreenUI : MonoBehaviour
     /// </summary>
     public static string GenerateRewardMessage(int level)
     {
-        int hpbonus = 50;
+        int hpbonus = 20;
         int staminabonus = 1;
         int cardsbonus = 5;
         

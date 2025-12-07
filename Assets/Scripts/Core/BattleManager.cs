@@ -14,6 +14,9 @@ public class BattleManager : MonoBehaviour
     public List<RewardData> levelRewards;
     public CardDatabase cardDB; // nếu cần lookup
 
+    [Header("Level-Based Data")]
+    public PlayerData[] playerDataPerLevel; // Array chứa PlayerData cho từng level (index 0 = level 1)
+
     [Header("Combatants")]
     public PlayerBehaviour playerStats;
     public MonsterBehaviour currentMonster;
@@ -71,11 +74,48 @@ public class BattleManager : MonoBehaviour
     // ==========================
     public void StartBattle()
     {
+        // Apply level-specific data
+        ApplyLevelData();
+        
         //deckSystem.InitializeDeck();
         emometerSystem.Initialize();
         battleUI?.Initialize();
 
         StartPlayerTurn();
+    }
+
+    // ==========================
+    // APPLY LEVEL-SPECIFIC DATA
+    // ==========================
+    private void ApplyLevelData()
+    {
+        int currentLevel = BattleLoader.currentLevel;
+        
+        // Validate level range
+        if (currentLevel < 1 || currentLevel > playerDataPerLevel.Length)
+        {
+            Debug.LogWarning($"⚠️ Invalid level {currentLevel}! Using default PlayerData.");
+            return;
+        }
+        
+        // Get PlayerData for this level (array is 0-indexed, level is 1-indexed)
+        PlayerData levelData = playerDataPerLevel[currentLevel - 1];
+        
+        if (levelData == null)
+        {
+            Debug.LogWarning($"⚠️ PlayerData for level {currentLevel} is NULL!");
+            return;
+        }
+        
+        // Apply to PlayerBehaviour
+        playerStats.data = levelData;
+        
+        // Apply to StaminaSystem
+        if (staminaSystem != null)
+        {
+            staminaSystem.maxStamina = levelData.maxStamina;
+            Debug.Log($"✅ Applied Level {currentLevel} Data - Max Stamina: {levelData.maxStamina}, Max HP: {levelData.maxHP}");
+        }
     }
 
     // ==========================

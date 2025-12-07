@@ -8,12 +8,24 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
 
+    [Header("Background Music")]
+    [SerializeField] private AudioClip backgroundMusic;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            
+            // Tự động phát nhạc nền khi khởi tạo
+            if (backgroundMusic != null && musicSource != null)
+            {
+                musicSource.clip = backgroundMusic;
+                musicSource.loop = true;
+                musicSource.Play();
+                Debug.Log($"🎵 Background music started: {backgroundMusic.name}");
+            }
         }
         else
         {

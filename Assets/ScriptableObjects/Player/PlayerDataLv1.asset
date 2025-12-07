@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: PlayerDataLv1
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   playerName: Hero
-  maxHP: 100
+  maxHP: 80
   baseDamage: 0
-  maxStamina: 3
+  maxStamina: 4
   defaultDodgeChance: 0
   emotionMin: -10
   emotionMax: 10

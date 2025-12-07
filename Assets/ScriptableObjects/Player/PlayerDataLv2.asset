@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
   playerName: Hero
   maxHP: 100
-  baseDamage: 10
-  maxStamina: 3
-  defaultDodgeChance: 50
+  baseDamage: 0
+  maxStamina: 5
+  defaultDodgeChance: 0
   emotionMin: -10
   emotionMax: 10
   emotionSafeMin: -5
   emotionSafeMax: 5
+  delayAnimationTime: 0.3
+  deathAnimationTime: 0.8

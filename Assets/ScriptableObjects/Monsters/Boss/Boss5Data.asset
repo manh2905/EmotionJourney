@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Boss5Data
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   monsterName: Boss5
-  maxHP: 20
-  damage: 40
+  maxHP: 180
+  damage: 18
   mana: 4
-  specialAttackDamage: 60
+  specialAttackDamage: 36
   deathAnimationTime: 0.8
